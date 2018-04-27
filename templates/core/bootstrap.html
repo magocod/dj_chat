@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="unefa virtual, portal principal ">
+<meta name="author" content="coordinacion educacion a distancia">
+
+<!-- PWA -->
+<meta name="theme-color" content="#4285f4">
+<link rel="manifest" href="{% static 'manifest.json' %}">
+
+<!-- CSS extras-->
+{% block extracss %}
+  
+{% endblock %}
+
+
+
+<!-- titulo pagina -->
+<title>{% block title %} UNEFA-VIRTUAL{% endblock %}</title>
+
+<!-- Bootstrap CSS -->
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+<!-- Custom Fonts -->
+<link href="{% static 'icon/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+<!--<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
+<link href="{% static 'stylish/css/letras.min.css' %}" rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+<!--<link href="{% static 'icon/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">-->
+
+<!-- Custom CSS -->
+<link type="text/css" href="{% static 'stylish/css/stylish-portfolio.min.css' %}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+<!-- Magic CSS -->
+<link href="{% static 'plugin/magic/magic.min.css' %}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+<!-- Animate CSS-->
+<link href="{% static 'plugin/animate/animate.min.css' %}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+<link rel="shortcut icon" href="{%  static 'favicon.png' %}">
+
+{% block async %}
+  
+{% endblock %}
+
+</head>
+
+<body id="page-top">
+
+<!-- bloques-->
+{% block content %}
+  
+{% endblock %}
+
+
+<!-- JS -->
+<script src="{% static 'plugin/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'plugin/popper/popper.min.js' %}"></script>
+<!-- Bootstrap JS -->
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Plugin JavaScript -->
+<script src="{% static 'plugin/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts  -->
+<script src="{% static 'stylish/js/stylish-portfolio.min.js' %}"></script>
+<!-- textillate -->
+<script src="{% static 'plugin/textillate/jquery.lettering.min.js' %}"></script>
+<script src="{% static 'plugin/textillate/jquery.textillate.min.js' %}"></script>
+
+<!-- javascripts extras -->
+{% block extrajs %}
+  
+{% endblock %}
+
+
+</body>
+
+</html>

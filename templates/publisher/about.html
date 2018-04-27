@@ -1,0 +1,83 @@
+{% load static %}
+
+<!-- About -->
+
+    <section class="content-section" id="about">
+      <div class="container text-center text-white">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h2 class="t_rool">Coordinacion de educacion a distancia</h2>
+            <p>
+              <em class="t_fade">(Eslogan) "Sólo aquellos que se arriesgan a ir muy lejos,pueden llegar a saber lo lejos que pueden ir" - T.S. Elliot</em>
+              
+            </p>
+            <a class="magic_4 btn btn-dark btn-xl js-scroll-trigger" href="#info-coordination">Mas informacion</a>
+            <a class="magic_5 btn btn-dark btn-xl js-scroll-trigger" href="#portfolio">Servicios</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="content-section text-white text-center" id="info-coordination">
+      <div class="container">
+        <div class="content-section-heading">
+          <h3 class="text-white mb-0 t_rool">Conocenos</h3>
+          <h4 class="mb-5 t_rool">(frase ejemplo) Que ofrece la coordinacion a distancia</h2>
+        </div>
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+            <span class=" mx-auto mb-3" data-toggle="modal" data-target="#modalobjetivo">
+            
+              <img class="magic_3" src="{% static 'icon/png/objetivo-min.png' %}" alt="objetivo">
+              
+            </span>
+            <h4>
+              <br>
+              <strong>Objetivo</strong>
+            </h4>
+            <p class="text-faded mb-0">(frase)</p>
+            
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-5 mb-lg-0" data-toggle="modal" data-target="#modalmision">
+            
+            <img class="magic_3" src="{% static 'icon/png/mision-min.png' %}" alt="mision">
+
+            <h4>
+              <br>
+              <strong>Mision</strong>
+            </h4>
+            <p class="text-faded mb-0">(frase)</p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-5 mb-md-0" data-toggle="modal" data-target="#modalmision">
+           
+            <img class="magic_3" src="{% static 'icon/png/vision-min.png' %}" alt="vision">
+
+            <h4>
+              <br>
+              <strong>Vision</strong>
+            </h4>
+            <p class="text-faded mb-0">(frase)</p>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            
+            <img class="magic_3" src="{% static 'icon/png/micro-min.png' %}" alt="micro">
+
+            <h4>
+              <br>
+              <strong><a class="text-white js-scroll-trigger" href="#services">Micros Informativos</a></strong>
+            </h4>
+            <p class="text-faded mb-0">(frase)</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- vista parcial modales -->
+      {% include 'publisher/modal/about.html' %} 
+
+    </section>

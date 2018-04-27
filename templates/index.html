@@ -1,0 +1,75 @@
+{% extends 'core/bootstrap.html' %}
+{% load static %}
+
+<!-- CSS extras-->
+{% block extracss %}
+
+<style type="text/css">
+
+.bg-principal{background-image:url("{% static 'images/jpg/bg-masthead-min.jpg' %}");background-size:cover;)}.bg-secundario{background-image:url("{% static 'images/jpg/bg-callout.jpg' %}");background-size:cover;)}
+
+</style>
+
+{% block async %}
+
+<!-- service worker-->
+<script async type="text/javascript">
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+             .register('{% static 'sw.js' %}')
+             .then(function() { console.log('Service Worker Registered'); });
+}
+</script>
+  
+{% endblock %}
+
+  
+{% endblock %}
+
+{% block content %}
+
+<!--vistas parciales-->
+
+{% include 'publisher/sidebar.html' %}
+
+{% include 'publisher/header.html' %}
+
+<main>
+
+{% include 'publisher/about.html' %}
+
+{% include 'publisher/micro.html' %}
+
+{% include 'publisher/services.html' %}
+
+{% include 'publisher/buttons.html' %}
+
+{% include 'publisher/normative.html' %}
+
+</main>
+
+<!-- Scroll to Top Button-->
+<a class="bg-light rounded text-dark scroll-to-top rounded js-scroll-trigger" href="#page-top">
+    <i class="fa fa-angle-up"></i>
+</a>
+
+{% include 'publisher/footer.html' %}
+
+
+{% endblock %}
+
+{% block extrajs %}
+ 
+<script type="text/javascript">
+
+      $(".magic_1").hover(function(){$(this).addClass("magictime boingInUp")}),setTimeout(function(){$(".magic_2").addClass("magictime foolishIn")},500),setInterval(function(){$(".magic_3").toggleClass("magictime twisterInDown"),$(".magic_4").toggleClass("magictime spaceInLeft"),$(".magic_5").toggleClass("magictime spaceInRight"),$(".magic_6").toggleClass("magictime vanishIn")},2500),$(".t_rool").textillate({minDisplayTime:5e3,in:{effect:"rollIn"},out:{effect:"bounce"},loop:!0}),$(".t_fade").textillate({minDisplayTime:5e3,in:{effect:"fadeInLeftBig"},out:{effect:"bounce"},loop:!0}),$(".t_shake").textillate({minDisplayTime:5e3,in:{effect:"shake"},out:{effect:"bounce"},loop:!0});
+      
+
+</script>
+
+{% endblock %}
+
+
+
+
