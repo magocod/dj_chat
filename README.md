@@ -1,6 +1,6 @@
 ## Django Portal
 
-> Portal simple html y javascript, pruebas con service worker
+> Simple portal with html and javascript, backend with django, tests with service worker
 
 ## FRONT-END
 
@@ -17,21 +17,25 @@
 * Magic 1.2.0
 * Textillate 0.41
 
-## instrucciones
+## Javascript -  Libraries
 
-instalar entorno virtual python e instalar librerias con pip
+* Workbox 3.1.0 -> https://developers.google.com/web/tools/workbox/
+
+## Instructions
+
+install python virtual environment and install libraries with pip
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Ejecutar servidor de desarrollo
+Run development server
 
 ```bash
 python manage.py runserver
 ```
 
-Ingresar a la direccion
+Enter the address
 
 ```bash
 http://localhost:8000
