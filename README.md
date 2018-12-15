@@ -9,7 +9,7 @@
 
 ## BACK-END
 
-* Django 2.0.4 -> https://www.djangoproject.com/
+* Django 2.1.4 -> https://www.djangoproject.com/
 
 ## Javascript - Plugins
 
