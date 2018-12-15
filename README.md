@@ -5,7 +5,7 @@
 ## FRONT-END
 
 * Bootstrap 4.1.0 -> https://getbootstrap.com/
-* Plantilla -> https://blackrockdigital.github.io/startbootstrap-stylish-portfolio/
+* Template -> https://blackrockdigital.github.io/startbootstrap-stylish-portfolio/
 
 ## BACK-END
 
