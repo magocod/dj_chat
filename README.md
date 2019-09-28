@@ -2,24 +2,9 @@
 
 > Simple portal with html and javascript, backend with django, tests with service worker
 
-## FRONT-END
+## Framework
 
-* Bootstrap 4.1.0 -> https://getbootstrap.com/
-* Template -> https://blackrockdigital.github.io/startbootstrap-stylish-portfolio/
-
-## BACK-END
-
-* Django 2.1.4 -> https://www.djangoproject.com/
-
-## Javascript - Plugins
-
-* Jquery 3.2.1
-* Magic 1.2.0
-* Textillate 0.41
-
-## Javascript -  Libraries
-
-* Workbox 3.1.0 -> https://developers.google.com/web/tools/workbox/
+* Django 2.2.5 -> https://www.djangoproject.com/
 
 ## Instructions
 
