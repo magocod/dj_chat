@@ -1,0 +1,3 @@
+pylint module (require __init__.py)
+pylint file.py
+pylint file.py --load-plugins pylint_django
