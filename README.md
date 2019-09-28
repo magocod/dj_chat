@@ -1,6 +1,6 @@
-## Django Portal
+## Django Chat
 
-> Simple portal with html and javascript, backend with django, tests with service worker
+> django channels tests
 
 ## Framework
 
