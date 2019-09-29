@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     # local Django
     'chat',
+    'user',
 ]
 
 MIDDLEWARE = [

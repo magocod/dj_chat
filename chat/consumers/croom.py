@@ -3,59 +3,30 @@
 """
 
 # standard library
-import asyncio
-import functools
 import json
 from typing import Any, Dict, List, Tuple, Union
 
 # third-party
-from channels.auth import get_user, login
+# from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from rest_framework.authtoken.models import Token
 
 # Django
 from django.utils import timezone
-from django.contrib.auth.models import AnonymousUser, User
+# from django.contrib.auth.models import AnonymousUser, User
 
 # local Django
 from chat.models import Room
-
-
-@database_sync_to_async
-def user_token(token_key: str):
-  try:
-    tk = Token.objects.get(key= token_key)
-    return User.objects.get(id= tk.user_id)
-  except Token.DoesNotExist:
-    return False
-  except User.DoesNotExist:
-    return False
-
-def user_active(func):
-    """
-    Verificar existencia de usuario
-    """
-    @functools.wraps(func)
-    def wrapper(self, *args, **kwargs):
-        # optener atributo cls
-        scope = getattr(self, 'scope', {'user': {'id': None}})
-        # print(func)
-        print('dec id: ', scope['user'].id)
-        # print(scope['user'])
-        if scope['user'].id != None:
-            return func(self, *args, **kwargs)
-        else:
-            return asyncio.sleep(1)
-    return wrapper
+from user.decorators import user_active, token_required
 
 class RoomConsumer(AsyncWebsocketConsumer):
     """
     ...
     """
     room_group_name: str = 'rooms'
+    error_event: str = 'error_room'
     valid_operations: Tuple[str] = ('c', 'r', 'u', 'd')
-    valid_properties: Tuple[str] = ('method', 'values')
+    valid_properties: Tuple[str] = ('method', 'values', 'token')
 
     async def connect(self):
         """
@@ -65,7 +36,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        print(self.scope["user"])
+        # print(self.scope["headers"])
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -77,22 +48,27 @@ class RoomConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
+    @token_required
     async def receive(self, text_data: str):
         """
         Receive message from WebSocket
         """
-        print(self.scope["user"].id)
-        print(type(self.scope["user"]))
-        if self.scope["user"].id == None:
-            print('usuario asignar')
-            # login the user to this session.
-            user = await user_token('2e4157c9706829e91505b63cc4bdba3ee8702604')
-            self.scope['user'] = user
-            # await login(self.scope, user)
-        else:
-            print('usuario asignado')
-
         request: Dict[str, Any] = self.validate_request(text_data)
+        # print(self.scope["user"].id)
+        # print(type(self.scope["user"]))
+        # if self.scope["user"].id == None:
+        #     print('usuario asignar')
+        #     # login the user to this session.
+        #     user = await user_token(request['token'])
+        #     if user == None:
+        #         await self.error_room({
+        #             'code': 401,
+        #             'details': 'user or token no exist',
+        #         })
+        #     else:
+        #         self.scope['user'] = user
+        # else:
+        #     print('usuario asignado')
         # print(request)
         if 'errors' in request:
             await self.send(text_data=json.dumps(request))
@@ -137,6 +113,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
                     # print(result)
                     await self.send(text_data=json.dumps(rooms))
                 else:
+                    # await self.send(text_data=json.dumps({
+                    #     'method': request['method'],
+                    #     'data': rooms,
+                    # }))
                     await self.channel_layer.group_send(
                         self.room_group_name,
                         {
@@ -175,6 +155,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
             'timestamp': event['timestamp'], 
         }))
 
+    @user_active
     async def room_remove(self, event: Dict[str, Any]):
         """
         Receive message from room group
@@ -223,6 +204,18 @@ class RoomConsumer(AsyncWebsocketConsumer):
             ).delete()
         except Exception as e:
             return {'errors': {'exception': str(e)}}
+
+    async def error_room(self, event: Dict[str, Any]):
+        """
+        Receive message from room group
+        """
+        # print(event['type'])
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'code': event['code'],
+            'details': event['details'],
+        }))
 
     def validate_request(self, text_data: str) -> Dict[str, Any]:
         """
