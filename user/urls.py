@@ -6,7 +6,7 @@ Rutas User
 from django.urls import path
 
 # local Django
-from apps.user.views import vauth, vuser
+from user.views import vauth, vuser
 
 urlpatterns = [
     # auth

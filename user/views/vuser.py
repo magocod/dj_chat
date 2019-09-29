@@ -16,7 +16,7 @@ from django.http import Http404
 from django.contrib.auth.models import User
 
 # local Django
-from apps.user.serializers import UserSerializer, UserRegisterSerializer, UserHeavySerializer
+from user.serializers import UserSerializer, UserRegisterSerializer, UserHeavySerializer
 
 class VUserList(APIView):
     """

@@ -14,8 +14,8 @@ from django.test import TestCase
 
 # local Django
 from django.contrib.auth.models import User
-from apps.user.serializers import UserHeavySerializer
-from apps.tests.auth import create_user
+from user.serializers import UserHeavySerializer
+from user.auth import create_user
 
 class CRUDTest(TestCase):
     """

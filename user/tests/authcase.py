@@ -13,7 +13,7 @@ from rest_framework.test import APIClient
 from django.test import TestCase
 
 # local Django
-from apps.tests.auth import create_user
+from user.auth import create_user
 
 class CRUDTest(TestCase):
     """

@@ -15,7 +15,7 @@ from django.http import Http404
 from django.contrib.auth.models import User
 
 # local Django
-from apps.user.serializers import AuthTokenSerializer, EmailSerializer
+from user.serializers import AuthTokenSerializer, EmailSerializer
 
 class CustomAuthToken(ObtainAuthToken):
     """
