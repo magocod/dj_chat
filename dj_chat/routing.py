@@ -3,14 +3,16 @@ Rutas websockets
 """
 
 # Django
-# from django.conf import settings
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import OriginValidator
 
+# local Django
+from chat.routing import websocket_urlpatterns as wschat
+
 
 # concatenar rutas
-WS_URLS = []
+WS_URLS = wschat
 
 application = ProtocolTypeRouter({
     "websocket": OriginValidator(

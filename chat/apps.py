@@ -6,10 +6,10 @@ from django.apps import AppConfig
 
 
 class ChatConfig(AppConfig):
-	"""
-	...
-	"""
-    name = 'chat'
+    """
+    ...
+    """
+    name: str = 'chat'
 
     def ready(self):
-    	import chat.database.signals
+        import chat.db.signals # noqa

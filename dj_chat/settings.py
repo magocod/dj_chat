@@ -168,6 +168,12 @@ DATABASES = {
     },
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    },
+}
+
 """
 MEDIA && STATIC FILES
 https://docs.djangoproject.com/en/2.2/howto/static-files/
