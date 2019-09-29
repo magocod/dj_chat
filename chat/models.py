@@ -11,7 +11,7 @@ class Room(models.Model):
     ...
     """
     name = models.CharField(max_length=50, unique=True)
-    updated = models.DateTimeField(default = timezone.now)
+    updated = models.DateTimeField(default=timezone.now)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -22,7 +22,7 @@ class Message(models.Model):
     ...
     """
     text = models.TextField()
-    updated = models.DateTimeField(default = timezone.now)
+    updated = models.DateTimeField(default=timezone.now)
     timestamp = models.DateTimeField(auto_now_add=True)
     room = models.ForeignKey(Room, related_name='messages', on_delete=models.CASCADE)
 

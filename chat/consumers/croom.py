@@ -168,6 +168,18 @@ class RoomConsumer(AsyncWebsocketConsumer):
             'details': event['details'],
         }))
 
+    async def error_room(self, event: Dict[str, Any]):
+        """
+        Receive message from room group
+        """
+        # print(event['type'])
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'code': event['code'],
+            'details': event['details'],
+        }))
+
     @database_sync_to_async
     def list_room(self) -> Union[Dict[str, str], Room]:
         """
@@ -186,7 +198,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         try:
             room, created = Room.objects.update_or_create(
                 name=values['name'],
-                # defaults={'updated': timezone.now()},
+                defaults={'updated': timezone.now()},
             )
             return room
         except Exception as e:
@@ -200,22 +212,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         try:
             return Room.objects.filter(
-                pk__in= values['pk_list'],
+                pk__in=values['pk_list'],
             ).delete()
         except Exception as e:
             return {'errors': {'exception': str(e)}}
-
-    async def error_room(self, event: Dict[str, Any]):
-        """
-        Receive message from room group
-        """
-        # print(event['type'])
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'code': event['code'],
-            'details': event['details'],
-        }))
 
     def validate_request(self, text_data: str) -> Dict[str, Any]:
         """

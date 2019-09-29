@@ -20,7 +20,7 @@ def RoomUpdated(sender, instance, **kwargs):
     """
     group_name: str = 'rooms'
     channel_layer = channels.layers.get_channel_layer()
-    print(instance)
+    # print(instance)
 
     async_to_sync(channel_layer.group_send)(
         group_name,
@@ -53,43 +53,3 @@ def RoomDeleted(sender, instance, **kwargs):
             'timestamp': str(instance.timestamp),
         }
     )
-
-# @receiver(post_save, sender = Message)
-# def MessageUpdate(sender, instance, **kwargs):
-#     """
-#     ...
-#     """
-#     group_name: str = 'chats'
-#     channel_layer = channels.layers.get_channel_layer()
-
-#     async_to_sync(channel_layer.group_send)(
-#         group_name,
-#         {
-#             'type': 'chat_message',
-#             'method': 'update',
-#             'id': instance.id,
-#             'text': instance.text,
-#             'room': instance.room_id,
-#             'timestamp': str(instance.updated),
-#         }
-#     )
-
-# @receiver(post_delete, sender = Message)
-# def MessageDeleted(sender, instance, **kwargs):
-#     """
-#     ...
-#     """
-#     group_name: str = 'chats'
-#     channel_layer = channels.layers.get_channel_layer()
-
-#     async_to_sync(channel_layer.group_send)(
-#         group_name,
-#         {
-#             'type': 'chat_message',
-#             'method': 'delete',
-#             'id': instance.id,
-#             'text': instance.text,
-#             'room': instance.room_id,
-#             'timestamp': str(instance.updated),
-#         }
-#     )
