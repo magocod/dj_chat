@@ -188,6 +188,13 @@ https://docs.djangoproject.com/en/2.2/howto/static-files/
 #     os.path.join(BASE_DIR, 'static'),
 # )
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 # # Media files (JPG, PNG, PDF, ...)
 # # ...
 
@@ -200,13 +207,13 @@ https://docs.djangoproject.com/en/2.2/howto/static-files/
 HEROKU APP
 """
 
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+# STATIC_URL = '/static/'
 
-# # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_ROOT, 'static'),
-]
+# # # Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = [
+#     os.path.join(PROJECT_ROOT, 'static'),
+# ]
 
 IS_CI = os.environ.get('IS_CI', False)
 if not IS_CI:
