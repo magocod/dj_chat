@@ -251,7 +251,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     async def error_message(self, event: Dict[str, Any]):
         """
-        Receive message from room group
+        Notificar error
+        nota: requerido para decorador token_required
         """
         # print(event['type'])
 
