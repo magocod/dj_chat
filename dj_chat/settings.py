@@ -181,17 +181,25 @@ https://docs.djangoproject.com/en/2.2/howto/static-files/
 """
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_URL = '/static/'
+# # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
-# Media files (JPG, PNG, PDF, ...)
-# ...
+# # Media files (JPG, PNG, PDF, ...)
+# # ...
 
-# ruta
-MEDIA_URL = '/media/'
-# ruta base directorio de archivos
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# # ruta
+# MEDIA_URL = '/media/'
+# # ruta base directorio de archivos
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+"""
+HEROKU APP
+"""
+
+IS_CI = os.environ.get('IS_CI', False)
+if not IS_CI:
+    django_heroku.settings(locals())
