@@ -1,1 +1,1 @@
-web: daphne realtime.asgi:application --port $PORT --bind 0.0.0.0
+web: daphne dj_chat.asgi:application --port $PORT --bind 0.0.0.0
