@@ -26,7 +26,7 @@ def admin_client():
     Iniciar cliente pruebas (superusuario)
     """
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6d30')
+    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6120')
     return client
 
 @pytest.fixture
