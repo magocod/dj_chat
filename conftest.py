@@ -18,7 +18,6 @@ def django_db_setup(django_db_setup, django_db_blocker):
     """
     with django_db_blocker.unblock():
         call_command('default_db')
-        call_command('example_db')
 
 
 @pytest.fixture
@@ -31,21 +30,12 @@ def admin_client():
     return client
 
 @pytest.fixture
-def seller_client():
+def user_client():
     """
     Iniciar cliente pruebas (vendedor)
     """
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6120')
-    return client
-
-@pytest.fixture
-def manager_client():
-    """
-    Iniciar cliente pruebas (encargado)
-    """
-    client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6140')
+    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6130')
     return client
 
 @pytest.fixture

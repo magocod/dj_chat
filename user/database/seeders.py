@@ -13,14 +13,24 @@ from django.contrib.auth.models import User
 
 USERS: Tuple[Dict[str, Any]] = (
     {
-        'username': 'GENERIC',
-        'email': 'generic@django.com',
+        'username': 'generic_admin',
+        'email': 'admin@django.com',
         'password': '123',
-        'first_name': 'Generic',
+        'first_name': 'admin',
         'last_name': 'Generic',
         'staff': True,
         'super': True,
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+    },
+    {
+        'username': 'generic_user',
+        'email': 'user@django.com',
+        'password': '123',
+        'first_name': 'auser',
+        'last_name': 'Generic',
+        'staff': False,
+        'super': False,
+        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
     },
 )
 
@@ -40,4 +50,5 @@ def user_list():
         user.is_superuser = values['super']
         user.save()
         Token.objects.create(key=values['token'], user_id=user.id)
-        # print('USERS CREATED')
+    
+    print('users created')

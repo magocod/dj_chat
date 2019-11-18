@@ -18,9 +18,10 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 # urls api
+from user.urls import urlpatterns as user_urls
 
 # concatenar rutas
-API_URLS = []
+API_URLS = user_urls
 
 urlpatterns = [
     # web
