@@ -11,6 +11,10 @@
 
 * Django-rest-framework -> 3.10.3 https://www.django-rest-framework.org/
 
+## Tests
+
+* Pytest -> 5.3.0 https://docs.pytest.org/en/latest/
+
 ## Instructions
 
 install python virtual environment and install libraries with pip
