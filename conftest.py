@@ -39,6 +39,15 @@ def user_client():
     return client
 
 @pytest.fixture
+def staff_client():
+    """
+    Iniciar cliente pruebas (superusuario)
+    """
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6150')
+    return client
+
+@pytest.fixture
 def public_client():
     """
     Iniciar cliente pruebas (no autenticado)

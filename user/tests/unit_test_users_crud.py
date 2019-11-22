@@ -110,5 +110,5 @@ class CRUDTest(TestCase):
         """
         ...
         """
-        response = self.client.delete('/api/user/' + str(1) + '/')
+        response = self.client.delete('/api/user/' + str(2) + '/')
         self.assertEqual(response.status_code, 204)

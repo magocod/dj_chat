@@ -46,7 +46,7 @@ class CustomAuthToken(ObtainAuthToken):
             'id': user.id,
         }, status=status.HTTP_200_OK)
 
-class VEmail(APIView):
+class EmailView(APIView):
     """
     ...
     """
@@ -75,7 +75,7 @@ class VEmail(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class VLogout(APIView):
+class LogoutView(APIView):
     """
     ...
     """
