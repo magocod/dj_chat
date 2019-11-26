@@ -54,22 +54,6 @@ class RoomConsumer(AsyncWebsocketConsumer):
         Receive message from WebSocket
         """
         request: Dict[str, Any] = self.validate_request(text_data)
-        # print(self.scope["user"].id)
-        # print(type(self.scope["user"]))
-        # if self.scope["user"].id == None:
-        #     print('usuario asignar')
-        #     # login the user to this session.
-        #     user = await user_token(request['token'])
-        #     if user == None:
-        #         await self.error_room({
-        #             'code': 401,
-        #             'details': 'user or token no exist',
-        #         })
-        #     else:
-        #         self.scope['user'] = user
-        # else:
-        #     print('usuario asignado')
-        # print(request)
         if 'errors' in request:
             await self.send(text_data=json.dumps(request))
         else:
