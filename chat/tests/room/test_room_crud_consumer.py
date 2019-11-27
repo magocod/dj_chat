@@ -23,10 +23,29 @@ pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_crud
-async def test_room_create():
+async def test_consumer_create_room():
     """
     ...
     """
-    count: int = await count_db(Room)
+    start_rooms: int = await count_db(Room)
 
-    assert count == 0
+    communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
+    connected, subprotocol = await communicator.connect()
+    assert connected
+
+    # Test sending json
+    request = {
+        'method': 'c',
+        'values': { 'name': 'YSON' },
+        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+    }
+    await communicator.send_json_to(request)
+
+    response = await communicator.receive_json_from()
+    assert response == 'yeah'
+    
+    final_rooms: int = await count_db(Room)
+
+    assert start_rooms + 1 == final_rooms
+    # Close
+    await communicator.disconnect()

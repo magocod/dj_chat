@@ -17,6 +17,8 @@ from django.utils import timezone
 
 # local Django
 from chat.models import Room
+from chat.serializers import RequestSerializer, RoomSerializer
+
 from user.decorators import user_active, token_required
 
 class RoomConsumer(AsyncWebsocketConsumer):
@@ -24,9 +26,6 @@ class RoomConsumer(AsyncWebsocketConsumer):
     ...
     """
     room_group_name: str = 'rooms'
-    error_event: str = 'error_room'
-    valid_operations: Tuple[str] = ('c', 'r', 'u', 'd')
-    valid_properties: Tuple[str] = ('method', 'values', 'token')
 
     async def connect(self):
         """
@@ -58,21 +57,19 @@ class RoomConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps(request))
         else:
             if request['method'] == 'c' or request['method'] == 'u':
-                room: Union[Dict[str, str], Room] = await self.update_room(request['values'])
+                room: Any = await self.update_room(request['values'])
                 # print(room)
                 if isinstance(room, dict):
                     # print(request)
                     await self.send(text_data=json.dumps(room))
                 else:
+                    serializer = RoomSerializer(room)
                     await self.channel_layer.group_send(
                         self.room_group_name,
                         {
                             'type': 'room_event',
                             'method': request['method'],
-                            'id': room.id,
-                            'name': room.name,
-                            'updated': str(room.updated),
-                            'timestamp': str(room.timestamp),
+                            'room': serializer.data,
                         }
                     )
             elif request['method'] == 'd':
@@ -97,18 +94,18 @@ class RoomConsumer(AsyncWebsocketConsumer):
                     # print(result)
                     await self.send(text_data=json.dumps(rooms))
                 else:
-                    # await self.send(text_data=json.dumps({
-                    #     'method': request['method'],
-                    #     'data': rooms,
-                    # }))
-                    await self.channel_layer.group_send(
-                        self.room_group_name,
-                        {
-                            'type': 'room_list',
-                            'method': 'r',
-                            'list': rooms,
-                        }
-                    )
+                    await self.send(text_data=json.dumps({
+                        'method': request['method'],
+                        'data': rooms,
+                    }))
+                    # await self.channel_layer.group_send(
+                    #     self.room_group_name,
+                    #     {
+                    #         'type': 'room_list',
+                    #         'method': 'r',
+                    #         'list': rooms,
+                    #     }
+                    # )
 
     @user_active
     async def room_list(self, event: Dict[str, Any]):
@@ -128,15 +125,12 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         Receive message from room group
         """
-        # print(event['type'])
+        print(event)
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'method': event['method'],
-            'id' : event['id'],
-            'name': event['name'],
-            'updated': event['updated'],
-            'timestamp': event['timestamp'], 
+            'room': event['room'],
         }))
 
     @user_active
@@ -149,19 +143,6 @@ class RoomConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'method': event['method'],
-            'details': event['details'],
-        }))
-
-    async def error_room(self, event: Dict[str, Any]):
-        """
-        Notificar error
-        nota: requerido para decorador token_required
-        """
-        # print(event['type'])
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'code': event['code'],
             'details': event['details'],
         }))
 
@@ -210,15 +191,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
             text_data_json: Dict['str', Any] = json.loads(text_data)
             # print(text_data_json)
             # validar propiedades
-            if tuple(text_data_json.keys()) == self.valid_properties:
-                if text_data_json['method'] in self.valid_operations:
-                    return text_data_json
-                else:
-                    return {'errors': {'invalid_method': text_data_json['method']}}
-            else:
-                return {
-                    'errors': {'invalid_content': text_data_json},
-                    'required': self.valid_properties,
-                }
+            serializer = RequestSerializer(data=text_data_json)
+            if serializer.is_valid():
+                return serializer.data
+
+            return response.errors
+            
         except Exception as e:
             return {'errors': {'invalid_json': str(e)}}
