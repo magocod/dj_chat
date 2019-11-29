@@ -198,4 +198,4 @@ class RoomConsumer(AsyncWebsocketConsumer):
             return response.errors
             
         except Exception as e:
-            return {'errors': {'invalid_json': str(e)}}
+            return {'errors': str(e) }

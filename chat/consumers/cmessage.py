@@ -323,4 +323,4 @@ class MessageConsumer(AsyncWebsocketConsumer):
                     'required': self.valid_properties,
                 }
         except Exception as e:
-            return {'errors': {'invalid_json': str(e)}}
+            return {'errors': str(e)}
