@@ -13,10 +13,9 @@ from django.db.models.signals import post_save, post_delete
 # local Django
 from chat.models import Room
 from chat.serializers import RoomSerializer
-from chat.consumers.croom import RoomConsumer
 
 @receiver(post_save, sender=Room)
-def RoomUpdated(sender, instance, **kwargs):
+def room_upsert(sender, instance, **kwargs):
     """
     ...
     """
@@ -28,27 +27,25 @@ def RoomUpdated(sender, instance, **kwargs):
         group_name,
         {
             'type': 'room_event',
-            'method': 'u',
-            'room': serializer.data,
+            'method': 'U',
+            'data': serializer.data,
         }
     )
 
 @receiver(post_delete, sender=Room)
-def RoomDeleted(sender, instance, **kwargs):
+def room_deleted(sender, instance, **kwargs):
     """
     ...
     """
     group_name: str = 'rooms'
-    channel_layer = channels.layers.get_channel_layer()
+    channel_layer = get_channel_layer()
+    serializer = RoomSerializer(instance)
 
     async_to_sync(channel_layer.group_send)(
         group_name,
         {
             'type': 'room_event',
-            'method': 'd',
-            'id': instance.id,
-            'name': instance.name,
-            'updated': str(instance.updated),
-            'timestamp': str(instance.timestamp),
+            'method': 'D',
+            'data': serializer.data,
         }
     )

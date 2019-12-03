@@ -17,7 +17,7 @@ from django.utils import timezone
 
 # local Django
 from chat.models import Room
-from chat.serializers import RequestSerializer, RoomSerializer
+from chat.serializers import RequestSerializer, RoomSerializer, RoomHeavySerializer
 
 from user.decorators import user_active, token_required
 
@@ -53,26 +53,25 @@ class RoomConsumer(AsyncWebsocketConsumer):
         Receive message from WebSocket
         """
         request: Dict[str, Any] = self.validate_request(text_data)
+        # print(request)
         if 'errors' in request:
             await self.send(text_data=json.dumps(request))
         else:
-            if request['method'] == 'c' or request['method'] == 'u':
-                room: Any = await self.update_room(request['values'])
-                # print(room)
-                if isinstance(room, dict):
-                    # print(request)
-                    await self.send(text_data=json.dumps(room))
+            if request['method'] == 'U':
+                response = await self.upsert_room(request['values'])
+                # print(response)
+                if 'errors' in response:
+                    await self.send(text_data=json.dumps(response))
                 else:
-                    serializer = RoomSerializer(room)
                     await self.channel_layer.group_send(
                         self.room_group_name,
                         {
                             'type': 'room_event',
                             'method': request['method'],
-                            'room': serializer.data,
+                            'data': None,
                         }
                     )
-            elif request['method'] == 'd':
+            elif request['method'] == 'D':
                 result: Union[Dict[str, str], Tuple[Any]] = await self.delete_room(
                     request['values']
                 )
@@ -83,9 +82,9 @@ class RoomConsumer(AsyncWebsocketConsumer):
                     await self.channel_layer.group_send(
                         self.room_group_name,
                         {
-                            'type': 'room_remove',
+                            'type': 'room_event',
                             'method': request['method'],
-                            'details': result,
+                            'data': result,
                         }
                     )
             else:
@@ -117,7 +116,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'method': event['method'],
-            'data': event['list'],
+            'data': event['data'],
         }))
 
     @user_active
@@ -130,24 +129,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'method': event['method'],
-            'room': event['room'],
-        }))
-
-    @user_active
-    async def room_remove(self, event: Dict[str, Any]):
-        """
-        Receive message from room group
-        """
-        # print(event['type'])
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'method': event['method'],
-            'details': event['details'],
+            'data': event['data'],
         }))
 
     @database_sync_to_async
-    def list_room(self) -> Union[Dict[str, str], Room]:
+    def list_room(self) -> Union[Dict[str, str], Tuple[Any]]:
         """
         listar room
         """
@@ -157,16 +143,19 @@ class RoomConsumer(AsyncWebsocketConsumer):
             return {'errors': {'exception': str(e)}}
 
     @database_sync_to_async
-    def update_room(self, values: Dict[str, Any]) -> Union[Dict[str, str], Room]:
+    def upsert_room(self, values: Dict[str, Any]) -> Dict[str, str]:
         """
-        Crear room o retornar error
+        Crear o actualizar room, 
+        retornar exception
         """
         try:
-            room, created = Room.objects.update_or_create(
+            room, _ = Room.objects.update_or_create(
                 name=values['name'],
                 defaults={'updated': timezone.now()},
             )
-            return room
+            # print(room.id)
+            serializer = RoomHeavySerializer(room)
+            return serializer.data
         except Exception as e:
             return {'errors': {'exception': str(e)}}
 
@@ -195,7 +184,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
             if serializer.is_valid():
                 return serializer.data
 
-            return response.errors
+            return serializer.errors
             
         except Exception as e:
             return {'errors': str(e) }

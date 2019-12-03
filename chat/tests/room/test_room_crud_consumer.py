@@ -15,7 +15,7 @@ from channels.testing import WebsocketCommunicator
 from chat.models import Room
 from chat.consumers.croom import RoomConsumer
 
-from tests.db import count_db
+from tests.db import async_count_db
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
@@ -27,7 +27,7 @@ async def test_consumer_create_room():
     """
     ...
     """
-    start_rooms: int = await count_db(Room)
+    start_rooms: int = await async_count_db(Room)
 
     communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
     connected, subprotocol = await communicator.connect()
@@ -35,7 +35,7 @@ async def test_consumer_create_room():
 
     # Test sending json
     request = {
-        'method': 'c',
+        'method': 'U',
         'values': { 'name': 'YSON' },
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     }
@@ -44,7 +44,7 @@ async def test_consumer_create_room():
     response = await communicator.receive_json_from()
     assert response == 'yeah'
     
-    final_rooms: int = await count_db(Room)
+    final_rooms: int = await async_count_db(Room)
 
     assert start_rooms + 1 == final_rooms
     # Close
