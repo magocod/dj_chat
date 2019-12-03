@@ -12,7 +12,7 @@ from django.db.models.signals import post_save, post_delete
 
 # local Django
 from chat.models import Room
-from chat.serializers import RoomSerializer
+from chat.serializers import RoomHeavySerializer
 
 @receiver(post_save, sender=Room)
 def room_upsert(sender, instance, **kwargs):
@@ -21,8 +21,8 @@ def room_upsert(sender, instance, **kwargs):
     """
     group_name: str = 'rooms'
     channel_layer = get_channel_layer()
-    serializer = RoomSerializer(instance)
-    print(serializer.data)
+    serializer = RoomHeavySerializer(instance)
+    # print(serializer.data)
 
     async_to_sync(channel_layer.group_send)(
         group_name,
@@ -40,7 +40,7 @@ def room_deleted(sender, instance, **kwargs):
     """
     group_name: str = 'rooms'
     channel_layer = get_channel_layer()
-    serializer = RoomSerializer(instance)
+    serializer = RoomHeavySerializer(instance)
 
     async_to_sync(channel_layer.group_send)(
         group_name,
