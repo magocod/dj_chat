@@ -22,6 +22,7 @@ def room_upsert(sender, instance, **kwargs):
     group_name: str = 'rooms'
     channel_layer = get_channel_layer()
     serializer = RoomSerializer(instance)
+    print(serializer.data)
 
     async_to_sync(channel_layer.group_send)(
         group_name,
