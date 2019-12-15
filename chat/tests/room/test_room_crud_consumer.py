@@ -124,7 +124,7 @@ async def test_consumer_delete_room():
     
 
     response = await communicator.receive_json_from()
-    assert response == 'yeah'
+    # assert response == 'yeah'
 
     # assert response == {
     #     'count': 2,
