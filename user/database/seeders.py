@@ -3,13 +3,12 @@ Importador usuarios
 """
 
 # standard library
-from typing import Tuple, Dict, Any
-
-# third-party
-from rest_framework.authtoken.models import Token
+from typing import Any, Dict, Tuple
 
 # Django
 from django.contrib.auth.models import User
+# third-party
+from rest_framework.authtoken.models import Token
 
 USERS: Tuple[Dict[str, Any]] = (
     {

@@ -7,18 +7,16 @@ from typing import Any, Dict
 
 # third-party
 import pytest
-
 # Django
 # from channels.testing import HttpCommunicator
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
 
+from chat.consumers.croom import RoomConsumer
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
-from chat.consumers.croom import RoomConsumer
-
-from tests.db import async_count_db, async_bulk_create_model
+from tests.db import async_bulk_create_model, async_count_db
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]

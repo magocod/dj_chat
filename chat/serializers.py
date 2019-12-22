@@ -4,12 +4,12 @@
 
 # Django
 from django.utils import timezone
-
 # third-party
 from rest_framework import serializers
 
 # local Django
 from chat.models import Room
+
 
 class RequestSerializer(serializers.Serializer):
     """

@@ -10,16 +10,17 @@ from typing import Any, Dict, List, Tuple, Union
 # from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-
 # Django
 from django.utils import timezone
-# from django.contrib.auth.models import AnonymousUser, User
 
 # local Django
 from chat.models import Room
 from chat.serializers import RequestSerializer, RoomHeavySerializer
+from user.decorators import token_required, user_active
 
-from user.decorators import user_active, token_required
+# from django.contrib.auth.models import AnonymousUser, User
+
+
 
 List_or_Dict = Union[Dict[str, str], List[Dict[str, Any]]]
 

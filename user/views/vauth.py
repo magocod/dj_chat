@@ -2,20 +2,20 @@
 Vistas autenticacion de usuarios
 """
 
-# third-party
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-
+from django.contrib.auth.models import User
 # Django
 from django.http import Http404
-from django.contrib.auth.models import User
+# third-party
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 # local Django
 from user.serializers import AuthTokenSerializer, EmailSerializer
+
 
 class CustomAuthToken(ObtainAuthToken):
     """

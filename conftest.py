@@ -4,11 +4,9 @@ Ajustes pruebas
 
 # third-party
 import pytest
-
-from rest_framework.test import APIClient
-
 # Django
 from django.core.management import call_command
+from rest_framework.test import APIClient
 
 
 @pytest.fixture(scope='session')

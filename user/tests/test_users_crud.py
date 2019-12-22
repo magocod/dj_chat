@@ -4,13 +4,13 @@ Prueba creacion de usuarios
 
 # standard library
 # import json
-from typing import Dict, Any
+from typing import Any, Dict
 
 # third-party
 import pytest
-
 # local Django
 from django.contrib.auth.models import User
+
 from user.serializers import UserHeavySerializer
 
 # permitir acceso a db

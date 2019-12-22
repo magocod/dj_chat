@@ -2,9 +2,10 @@
 ...
 """
 
+from django.contrib.auth.models import AnonymousUser
 # Django
 from django.db import close_old_connections
-from django.contrib.auth.models import AnonymousUser
+
 
 class TokenAuthMiddleware:
     """

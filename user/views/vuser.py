@@ -5,18 +5,19 @@ Edicion de usuarios
 # standard library
 from typing import Union
 
+from django.contrib.auth.models import User
+# Django
+from django.http import Http404
 # third-party
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# Django
-from django.http import Http404
-from django.contrib.auth.models import User
-
 # local Django
-from user.serializers import UserSerializer, UserRegisterSerializer, UserHeavySerializer
+from user.serializers import (UserHeavySerializer, UserRegisterSerializer,
+                              UserSerializer)
+
 
 class UserListView(APIView):
     """

@@ -11,7 +11,6 @@ from channels.security.websocket import OriginValidator
 from chat.routing import websocket_urlpatterns as wschat
 from user.middleware import TokenAuthMiddleware
 
-
 # concatenar rutas
 WS_URLS = wschat
 

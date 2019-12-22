@@ -10,15 +10,16 @@ from typing import Any, Dict, List, Tuple, Union
 # from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-
 # Django
 from django.utils import timezone
-# from django.contrib.auth.models import AnonymousUser, User
 
+from chat.consumers.utils import get_room_or_error
 # local Django
 from chat.models import Message, Room
-from chat.consumers.utils import get_room_or_error
-from user.decorators import user_active, token_required
+from user.decorators import token_required, user_active
+
+# from django.contrib.auth.models import AnonymousUser, User
+
 
 class MessageConsumer(AsyncWebsocketConsumer):
     """

@@ -1,5 +1,6 @@
 ## Django Chat
 
+> Python 3.8
 > django channels tests
 
 ## Framework

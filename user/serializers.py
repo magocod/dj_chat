@@ -3,15 +3,16 @@ Serilizadores Usuarios
 """
 
 # standard library
-from typing import Tuple, Dict, Any
-
-# third-party
-from rest_framework import serializers
-# from rest_framework.exceptions import APIException
+from typing import Any, Dict, Tuple
 
 # Django
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Group, Permission, User
+# third-party
+from rest_framework import serializers
+
+# from rest_framework.exceptions import APIException
+
 
 class GroupSerializer(serializers.ModelSerializer):
     """
