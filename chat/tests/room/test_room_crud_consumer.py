@@ -16,7 +16,11 @@ from chat.consumers.croom import RoomConsumer
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
-from tests.db import async_bulk_create_model, async_count_db
+from tests.db import (
+    async_create_model,
+    async_bulk_create_model,
+    async_count_db,
+)
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
@@ -65,6 +69,40 @@ async def test_consumer_create_room():
     final_rooms: int = await async_count_db(Room)
 
     assert start_rooms + 1 == final_rooms
+    # Close
+    await communicator.disconnect()
+
+
+@pytest.mark.asyncio
+@pytest.mark.rooms_crud
+async def test_consumer_update_room():
+    """
+    ...
+    """
+    init_room = await async_create_model(Room, name='YSONS')
+    init_serializer = RoomHeavySerializer(init_room).data
+    start_rooms: int = await async_count_db(Room)
+
+    communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
+    connected, _ = await communicator.connect()
+    assert connected
+
+    # Test sending json
+    request = {
+        'method': 'U',
+        'values': {'name': 'YSONS'},
+        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+    }
+    await communicator.send_json_to(request)
+
+    response = await communicator.receive_json_from()
+    assert response == await create_event_message(
+        id=response['data']['id'],
+        operation='U',
+    )
+    assert response['data'] != init_serializer
+
+    assert start_rooms == await async_count_db(Room)
     # Close
     await communicator.disconnect()
 

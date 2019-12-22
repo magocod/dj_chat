@@ -11,6 +11,7 @@ from typing import Any, Dict, List, Union
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 # Django
+from django.db import IntegrityError
 from django.utils import timezone
 
 # local Django
@@ -156,6 +157,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
             )
             serializer = RoomHeavySerializer(room)
             return serializer.data
+        except IntegrityError as e:
+            room = Room.objects.get(name=values['name'])
+            room.updated = timezone.now()
+            room.save()
+            return RoomHeavySerializer(room).data
         except Exception as e:
             return {'errors': {'exception': str(e)}}
 
