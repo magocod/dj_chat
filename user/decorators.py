@@ -68,7 +68,7 @@ def token_required(func):
             return await func(self, text_data, *args, **kwargs)
         else:
             text_data_json: Dict['str', Any] = json.loads(text_data)
-            channel_name = getattr(self, 'channel_name')
+            # channel_name = getattr(self, 'channel_name')
             # print(channel_name)
             # channel_layer = None
 
@@ -112,7 +112,7 @@ def token_admin_required(func):
             return await func(self, text_data, *args, **kwargs)
         else:
             text_data_json: Dict['str', Any] = json.loads(text_data)
-            channel_name = getattr(self, 'channel_name')
+            # channel_name = getattr(self, 'channel_name')
             # print(channel_name)
             # channel_layer = None
 

@@ -4,8 +4,6 @@
 
 # third-party
 import pytest
-# Django
-# from channels.testing import HttpCommunicator
 from channels.testing import WebsocketCommunicator
 
 # local Django

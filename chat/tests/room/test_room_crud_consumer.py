@@ -7,8 +7,6 @@ from typing import Any, Dict
 
 # third-party
 import pytest
-# Django
-# from channels.testing import HttpCommunicator
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
 
@@ -18,7 +16,6 @@ from chat.models import Room
 from chat.serializers import RoomHeavySerializer
 from tests.db import (
     async_create_model,
-    async_bulk_create_model,
     async_count_db,
 )
 
@@ -142,13 +139,6 @@ async def test_consumer_delete_room():
     each elimination triggers signal
     that is sent to all active consumers
     """
-
-    instances = [
-        Room(name=f'name_{number}')
-        for number in range(4)
-    ]
-    await async_bulk_create_model(Room, instances)
-
     start_rooms: int = await async_count_db(Room)
 
     communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
@@ -158,16 +148,16 @@ async def test_consumer_delete_room():
     # Test sending json
     request = {
         'method': 'D',
-        'values': {'pk_list': [1, 3]},
+        'values': {'pk_list': [3, 4]},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     }
 
     deleted_signal_1 = await create_event_message(
-        id=1,
+        id=3,
         operation='D',
     )
     deleted_signal_2 = await create_event_message(
-        id=3,
+        id=4,
         operation='D',
     )
 
@@ -190,7 +180,7 @@ async def test_consumer_delete_room():
         'method': 'D',
         'data': {
             'count': 2,
-            'pk_list': [1, 3],
+            'pk_list': [3, 4],
         },
     }
 

@@ -76,7 +76,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
                         {
                             'type': 'room_event',
                             'method': request['method'],
-                            'data': None,
+                            'data': response,
                         }
                     )
             elif request['method'] == 'D':
@@ -103,19 +103,6 @@ class RoomConsumer(AsyncWebsocketConsumer):
                         'method': request['method'],
                         'data': response,
                     }))
-
-    @user_active
-    async def room_list(self, event: Dict[str, Any]):
-        """
-        Receive message from room group
-        """
-        # print(event['type'])
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'method': event['method'],
-            'data': event['data'],
-        }))
 
     @user_active
     async def room_event(self, event: Dict[str, Any]):
@@ -157,7 +144,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
             )
             serializer = RoomHeavySerializer(room)
             return serializer.data
-        except IntegrityError as e:
+        except IntegrityError:
             room = Room.objects.get(name=values['name'])
             room.updated = timezone.now()
             room.save()

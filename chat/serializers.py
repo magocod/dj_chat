@@ -18,11 +18,25 @@ class RequestSerializer(serializers.Serializer):
     OPERATIONS = (
         ('U', 'UPSERT'),
         ('D', 'DELETE'),
-        ('L', 'LIST'),
+        ('R', 'READ'),
     )
     method = serializers.ChoiceField(choices=OPERATIONS)
     token = serializers.CharField(max_length=40)
     values = serializers.JSONField()
+
+
+class RequestMessageSerializer(RequestSerializer):
+    """
+    ...
+    """
+    OPERATIONS = (
+        ('U', 'UPSERT'),
+        ('D', 'DELETE'),
+        ('R', 'READ'),
+        ('E', 'EXIT'),
+        ('J', 'JOIN'),
+    )
+    method = serializers.ChoiceField(choices=OPERATIONS)
 
 
 class RoomSerializer(serializers.Serializer):
@@ -35,6 +49,20 @@ class RoomSerializer(serializers.Serializer):
 
 
 class RoomHeavySerializer(serializers.ModelSerializer):
+    """
+    ...
+    """
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        """
+        ...
+        """
+        model = Room
+        fields = ['id', 'name', 'updated', 'timestamp']
+
+
+class MessageHeavySerializer(serializers.ModelSerializer):
     """
     ...
     """
