@@ -46,6 +46,7 @@ class CustomAuthToken(ObtainAuthToken):
             'id': user.id,
         }, status=status.HTTP_200_OK)
 
+
 class EmailView(APIView):
     """
     ...
@@ -61,8 +62,6 @@ class EmailView(APIView):
             return User.objects.get(email=user_email)
         except User.DoesNotExist:
             raise Http404
-        except:
-            raise Http404
 
     def post(self, request, format=None):
         """
@@ -74,6 +73,7 @@ class EmailView(APIView):
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     """

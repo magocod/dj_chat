@@ -24,8 +24,12 @@ def admin_client():
     Iniciar cliente pruebas (superusuario)
     """
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6120')
+    client.credentials(
+        HTTP_AUTHORIZATION='Token '
+        + '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+    )
     return client
+
 
 @pytest.fixture
 def user_client():
@@ -33,8 +37,12 @@ def user_client():
     Iniciar cliente pruebas (vendedor)
     """
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6130')
+    client.credentials(
+        HTTP_AUTHORIZATION='Token '
+        + '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
+    )
     return client
+
 
 @pytest.fixture
 def staff_client():
@@ -42,8 +50,12 @@ def staff_client():
     Iniciar cliente pruebas (superusuario)
     """
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION='Token ' + '20fd382ed9407b31e1d5f928b5574bb4bffe6150')
+    client.credentials(
+        HTTP_AUTHORIZATION='Token '
+        + '20fd382ed9407b31e1d5f928b5574bb4bffe6150',
+    )
     return client
+
 
 @pytest.fixture
 def public_client():

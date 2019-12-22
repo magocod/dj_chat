@@ -13,6 +13,7 @@ from chat.models import Room
 
 result = Union[Dict[str, Any], Room]
 
+
 @database_sync_to_async
 def get_room_or_error(room_id: int) -> Awaitable[result]:
     """

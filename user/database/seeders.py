@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 # third-party
 from rest_framework.authtoken.models import Token
 
+
 USERS: Tuple[Dict[str, Any]] = (
     {
         'username': 'generic_admin',
@@ -63,6 +64,7 @@ USERS: Tuple[Dict[str, Any]] = (
     },
 )
 
+
 def user_list():
     """
     migrar en db usuarios con un token
@@ -79,5 +81,5 @@ def user_list():
         user.is_superuser = values['super']
         user.save()
         Token.objects.create(key=values['token'], user_id=user.id)
-    
+
     print('users created')

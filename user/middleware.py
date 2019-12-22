@@ -18,7 +18,8 @@ class TokenAuthMiddleware:
 
     def __call__(self, scope):
 
-        # Close old database connections to prevent usage of timed out connections
+        # Close old database connections to
+        # prevent usage of timed out connections
         close_old_connections()
 
         # Look up user from query string (you should also do things like

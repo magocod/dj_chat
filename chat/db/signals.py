@@ -33,6 +33,7 @@ def room_upsert(sender, instance, **kwargs):
         }
     )
 
+
 @receiver(post_delete, sender=Room)
 def room_deleted(sender, instance, **kwargs):
     """

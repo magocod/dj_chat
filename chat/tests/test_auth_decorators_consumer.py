@@ -14,6 +14,7 @@ from chat.consumers.croom import RoomConsumer
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
 
+
 @pytest.mark.asyncio
 @pytest.mark.auth_decorator
 async def test_consumer_valid_token():
@@ -33,6 +34,7 @@ async def test_consumer_valid_token():
     # assert response == request
     # Close
     await communicator.disconnect()
+
 
 @pytest.mark.asyncio
 @pytest.mark.auth_decorator
@@ -54,6 +56,7 @@ async def test_consumer_no_token():
     }
     # Close
     await communicator.disconnect()
+
 
 @pytest.mark.asyncio
 @pytest.mark.auth_decorator

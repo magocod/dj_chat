@@ -22,6 +22,7 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields: Tuple[str] = ('url', 'name')
 
+
 class PermissionSerializer(serializers.ModelSerializer):
     """
     ...
@@ -30,13 +31,18 @@ class PermissionSerializer(serializers.ModelSerializer):
         model = Permission
         fields: Tuple[str] = ('id', 'content_type_id', 'codename', 'name')
 
+
 class UserSerializer(serializers.ModelSerializer):
     """
     ...
     """
     class Meta:
         model = User
-        fields: Tuple[str] = ('id', 'username', 'email', 'first_name', 'last_name', 'is_staff')
+        fields: Tuple[str] = (
+            'id', 'username', 'email',
+            'first_name', 'last_name', 'is_staff',
+        )
+
 
 class UserHeavySerializer(serializers.ModelSerializer):
     """
@@ -51,6 +57,7 @@ class UserHeavySerializer(serializers.ModelSerializer):
             'last_name', 'is_staff', 'date_joined',
             'user_permissions', 'is_superuser',
         )
+
 
 class UserRegisterSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -82,6 +89,7 @@ class EmailSerializer(serializers.Serializer):
     """
     email = serializers.EmailField()
 
+
 class AuthTokenSerializer(serializers.Serializer):
     """
     ...
@@ -99,7 +107,7 @@ class AuthTokenSerializer(serializers.Serializer):
         if email and password:
             try:
                 userdata = User.objects.get(email__exact=email)
-            except:
+            except Exception:
                 msg = ('User no exist.')
                 # raise APIException(msg)
                 raise serializers.ValidationError(msg, code='authorization')
@@ -112,12 +120,18 @@ class AuthTokenSerializer(serializers.Serializer):
             else:
                 if not userdata.is_active:
                     msg = ('User account is disabled.')
-                    raise serializers.ValidationError(msg, code='authorization')
+                    raise serializers.ValidationError(
+                        msg,
+                        code='authorization',
+                    )
                     # raise APIException(msg)
                 else:
                     msg = ('Unable to log in with provided credentials.')
                     # raise APIException(msg, status.HTTP_400_BAD_REQUEST)
-                    raise serializers.ValidationError(msg, code='authorization')
+                    raise serializers.ValidationError(
+                        msg,
+                        code='authorization',
+                    )
         else:
             msg = ('Must include "email" and "password".')
             # raise APIException(msg)

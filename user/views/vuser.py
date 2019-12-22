@@ -41,7 +41,10 @@ class UserListView(APIView):
         """
         ...
         """
-        response = self.serializer(User.objects.all().order_by('id'), many=True)
+        response = self.serializer(
+            User.objects.all().order_by('id'),
+            many=True,
+        )
         return Response(response.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
@@ -53,8 +56,9 @@ class UserListView(APIView):
             iduser: int = response.save()
             res = self.serialize_user(pk=iduser)
             return Response(res, status=status.HTTP_201_CREATED)
-        else:
-            return Response(response.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(response.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserDetailView(APIView):
     """
@@ -90,8 +94,8 @@ class UserDetailView(APIView):
             result = response.save()
             res = UserHeavySerializer(result)
             return Response(res.data, status=status.HTTP_200_OK)
-        else:
-            return Response(response.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(response.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk: Union[int, str], format=None):
         """
@@ -100,13 +104,23 @@ class UserDetailView(APIView):
         user = self.get_object(pk)
 
         if user.id == request.user.id:
-            return Response("can't delete himself", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "can't delete himself",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        if user.is_superuser == True:
-            return Response('super users cannot be deleted', status=status.HTTP_400_BAD_REQUEST)
+        if user.is_superuser:
+            return Response(
+                'super users cannot be deleted',
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        if user.is_staff == True and request.user.is_superuser != True:
-            return Response('user cannot delete administrators', status=status.HTTP_400_BAD_REQUEST)
+        if user.is_staff:
+            if not request.user.is_superuser:
+                return Response(
+                    'user cannot delete administrators',
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Tuple, Union
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 # Django
-from django.utils import timezone
+# from django.utils import timezone
 
 from chat.consumers.utils import get_room_or_error
 # local Django
@@ -43,7 +43,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         for room_id in list(self.rooms):
             try:
                 await self.leave_room(room_id)
-            except:
+            except Exception:
                 pass
 
     @token_required
@@ -56,7 +56,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps(request))
         else:
             if request['method'] == 'c':
-                message: Union[Dict[str, str], Room] = await self.create_message(request['values'])
+                message = await self.create_message(request['values'])
                 # print(message)
                 if isinstance(message, dict):
                     # print(request)
@@ -75,7 +75,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
                         }
                     )
             elif request['method'] == 'd':
-                result: Union[Dict[str, str], bool] = await self.delete_message(
+                result = await self.delete_message(
                     request['values']
                 )
                 if isinstance(result, dict):
@@ -131,7 +131,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'method': event['method'],
-            'id' : event['id'],
+            'id': event['id'],
             'text': event['text'],
             'updated': event['updated'],
             'timestamp': event['timestamp'],
@@ -146,7 +146,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'method': event['method'],
-            'details' : event['details'],
+            'details': event['details'],
         }))
 
     @user_active
@@ -280,7 +280,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             return {'errors': {'exception': str(e)}}
 
     @database_sync_to_async
-    def create_message(self, values: Dict[str, Any]) -> Union[Dict[str, str], Message]:
+    def create_message(self, values: Dict[str, Any]):
         """
         Crear message o retornar error
         """
@@ -316,12 +316,16 @@ class MessageConsumer(AsyncWebsocketConsumer):
             if tuple(text_data_json.keys()) == self.valid_properties:
                 if text_data_json['method'] in self.valid_operations:
                     return text_data_json
-                else:
-                    return {'errors': {'invalid_method': text_data_json['method']}}
-            else:
+
                 return {
-                    'errors': {'invalid_content': text_data_json},
-                    'required': self.valid_properties,
+                    'errors': {
+                        'invalid_method': text_data_json['method']
+                    }
                 }
+
+            return {
+                'errors': {'invalid_content': text_data_json},
+                'required': self.valid_properties,
+            }
         except Exception as e:
             return {'errors': str(e)}

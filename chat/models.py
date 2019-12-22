@@ -18,6 +18,7 @@ class Room(models.Model):
     def __str__(self):
         return self.name
 
+
 class Message(models.Model):
     """
     ...
@@ -25,7 +26,11 @@ class Message(models.Model):
     text = models.TextField()
     updated = models.DateTimeField(default=timezone.now)
     timestamp = models.DateTimeField(auto_now_add=True)
-    room = models.ForeignKey(Room, related_name='messages', on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        Room,
+        related_name='messages',
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return '%s %s' % (self.text, self.room)

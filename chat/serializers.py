@@ -24,6 +24,7 @@ class RequestSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=40)
     values = serializers.JSONField()
 
+
 class RoomSerializer(serializers.Serializer):
     """
     ...
@@ -31,6 +32,7 @@ class RoomSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50)
     updated = serializers.DateTimeField(default=timezone.now)
     timestamp = serializers.DateTimeField(default=timezone.now)
+
 
 class RoomHeavySerializer(serializers.ModelSerializer):
     """

@@ -24,6 +24,7 @@ def test_search_email(public_client):
     response = public_client.post('/api/email/', data)
     assert response.status_code == 200
 
+
 @pytest.mark.users_authentication
 def test_email_does_not_exist(public_client):
     """
@@ -34,6 +35,7 @@ def test_email_does_not_exist(public_client):
     }
     response = public_client.post('/api/email/', data)
     assert response.status_code == 404
+
 
 @pytest.mark.users_authentication
 def test_request_token(public_client):
@@ -47,6 +49,7 @@ def test_request_token(public_client):
     response = public_client.post('/api/token-auth/', data)
     assert response.status_code == 200
 
+
 @pytest.mark.users_authentication
 def test_logout(admin_client):
     """
@@ -54,6 +57,7 @@ def test_logout(admin_client):
     """
     response = admin_client.post('/api/user/logout/')
     assert response.status_code == 200
+
 
 @pytest.mark.users_authentication
 def test_repeat_logout(public_client):

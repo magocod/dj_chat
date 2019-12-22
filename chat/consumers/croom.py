@@ -4,7 +4,7 @@
 
 # standard library
 import json
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Union
 
 # third-party
 # from channels.auth import get_user, login
@@ -21,8 +21,8 @@ from user.decorators import token_required, user_active
 # from django.contrib.auth.models import AnonymousUser, User
 
 
-
 List_or_Dict = Union[Dict[str, str], List[Dict[str, Any]]]
+
 
 class RoomConsumer(AsyncWebsocketConsumer):
     """
@@ -61,10 +61,14 @@ class RoomConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps(request))
         else:
             if request['method'] == 'U':
-                response: Dict[str, Any] = await self.upsert_room(request['values'])
+                response: Dict[str, Any] = await self.upsert_room(
+                    request['values']
+                )
                 # print(response)
                 if 'errors' in response:
-                    await self.send(text_data=json.dumps(response))
+                    await self.send(
+                        text_data=json.dumps(response)
+                    )
                 else:
                     await self.channel_layer.group_send(
                         self.room_group_name,
@@ -142,7 +146,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def upsert_room(self, values: Dict[str, Any]) -> Dict[str, str]:
         """
-        Crear o actualizar room, 
+        Crear o actualizar room,
         retornar exception
         """
         try:
@@ -184,6 +188,5 @@ class RoomConsumer(AsyncWebsocketConsumer):
                 return serializer.data
 
             return serializer.errors
-            
         except Exception as e:
-            return {'errors': str(e) }
+            return {'errors': str(e)}

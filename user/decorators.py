@@ -10,7 +10,7 @@ from typing import Any, Dict, Union
 
 # third-party
 from channels.db import database_sync_to_async
-from channels.layers import get_channel_layer
+# from channels.layers import get_channel_layer
 # Django
 from django.contrib.auth.models import AnonymousUser, User
 from rest_framework.authtoken.models import Token
@@ -29,6 +29,7 @@ def user_token(token_key: str):
     except User.DoesNotExist:
         return None
 
+
 def user_active(func):
     """
     Verificar existencia de usuario
@@ -40,12 +41,13 @@ def user_active(func):
         if 'user' in scope:
             user = scope['user']
 
-        if user.id != None:
+        if user.id is not None:
             return await func(self, *args, **kwargs)
         else:
             # print('usuario no activo')
             return await asyncio.sleep(1)
     return wrapper
+
 
 def token_required(func):
     """
@@ -62,13 +64,13 @@ def token_required(func):
             user = scope['user']
 
         print('request dec id: ', user.id)
-        if user.id != None:
+        if user.id is not None:
             return await func(self, text_data, *args, **kwargs)
         else:
             text_data_json: Dict['str', Any] = json.loads(text_data)
             channel_name = getattr(self, 'channel_name')
             print(channel_name)
-            channel_layer = None
+            # channel_layer = None
 
             if 'token' not in text_data_json:
                 return await self.send(text_data=json.dumps({
@@ -77,7 +79,7 @@ def token_required(func):
                 }))
 
             user: Union[User, None] = await user_token(text_data_json['token'])
-            if user != None:
+            if user is not None:
                 # asignar atributo cls
                 scope['user'] = user
                 setattr(self, 'scope', scope)
@@ -87,8 +89,9 @@ def token_required(func):
                     'code': 401,
                     'details': 'user or token no exist',
                 }))
-                
+
     return wrapper
+
 
 def token_admin_required(func):
     """
@@ -105,13 +108,13 @@ def token_admin_required(func):
         if 'user' in scope:
             user = scope['user']
 
-        if user.id != None:
+        if user.id is not None:
             return await func(self, text_data, *args, **kwargs)
         else:
             text_data_json: Dict['str', Any] = json.loads(text_data)
             channel_name = getattr(self, 'channel_name')
             print(channel_name)
-            channel_layer = None
+            # channel_layer = None
 
             if 'token' not in text_data_json:
                 return await self.send(text_data=json.dumps({
@@ -120,9 +123,9 @@ def token_admin_required(func):
                 }))
 
             user: Union[User, None] = await user_token(text_data_json['token'])
-            if user != None:
+            if user is not None:
 
-                if user.is_staff == False:
+                if user.is_staff is not False:
                     return await self.send(text_data=json.dumps({
                         'code': 401,
                         'details': 'user does not have permissions',
