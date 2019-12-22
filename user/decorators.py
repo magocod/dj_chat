@@ -63,13 +63,13 @@ def token_required(func):
         if 'user' in scope:
             user = scope['user']
 
-        print('request dec id: ', user.id)
+        # print('request dec id: ', user.id)
         if user.id is not None:
             return await func(self, text_data, *args, **kwargs)
         else:
             text_data_json: Dict['str', Any] = json.loads(text_data)
             channel_name = getattr(self, 'channel_name')
-            print(channel_name)
+            # print(channel_name)
             # channel_layer = None
 
             if 'token' not in text_data_json:
@@ -103,7 +103,7 @@ def token_admin_required(func):
     @functools.wraps(func)
     async def wrapper(self, text_data: str, *args, **kwargs):
         scope = getattr(self, 'scope')
-        print('request dec id: ', scope['user'].id)
+        # print('request dec id: ', scope['user'].id)
         user = AnonymousUser()
         if 'user' in scope:
             user = scope['user']
@@ -113,7 +113,7 @@ def token_admin_required(func):
         else:
             text_data_json: Dict['str', Any] = json.loads(text_data)
             channel_name = getattr(self, 'channel_name')
-            print(channel_name)
+            # print(channel_name)
             # channel_layer = None
 
             if 'token' not in text_data_json:

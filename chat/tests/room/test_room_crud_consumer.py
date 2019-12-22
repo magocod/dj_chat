@@ -24,6 +24,10 @@ pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
 
 @database_sync_to_async
 def create_event_message(id: int, operation: str) -> Dict[str, Any]:
+    """
+    retrieve an element of db
+    serialize and return it as a sockect response
+    """
     room = Room.objects.get(id=id)
     serializer = RoomHeavySerializer(room)
     return {
@@ -41,7 +45,7 @@ async def test_consumer_create_room():
     start_rooms: int = await async_count_db(Room)
 
     communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
-    connected, subprotocol = await communicator.connect()
+    connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
@@ -53,7 +57,10 @@ async def test_consumer_create_room():
     await communicator.send_json_to(request)
 
     response = await communicator.receive_json_from()
-    assert response == await create_event_message(response['data']['id'], 'U')
+    assert response == await create_event_message(
+        id=response['data']['id'],
+        operation='U',
+    )
 
     final_rooms: int = await async_count_db(Room)
 
@@ -71,7 +78,7 @@ async def test_consumer_create_room_error_params():
     start_rooms: int = await async_count_db(Room)
 
     communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
-    connected, subprotocol = await communicator.connect()
+    connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
@@ -94,7 +101,8 @@ async def test_consumer_create_room_error_params():
 @pytest.mark.rooms_crud
 async def test_consumer_delete_room():
     """
-    ...
+    each elimination triggers signal
+    that is sent to all active consumers
     """
 
     instances = [
@@ -106,7 +114,7 @@ async def test_consumer_delete_room():
     start_rooms: int = await async_count_db(Room)
 
     communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
-    connected, subprotocol = await communicator.connect()
+    connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
@@ -115,27 +123,38 @@ async def test_consumer_delete_room():
         'values': {'pk_list': [1, 3]},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     }
+
+    deleted_signal_1 = await create_event_message(
+        id=1,
+        operation='D',
+    )
+    deleted_signal_2 = await create_event_message(
+        id=3,
+        operation='D',
+    )
+
+    # 2 signals and the answer
     await communicator.send_json_to(request)
 
-    await communicator.receive_json_from()
-    # signal_1 = await communicator.receive_json_from()
-    # assert signal_1 == 'yeah'
+    # await communicator.receive_json_from()
+    signal_1 = await communicator.receive_json_from()
+    assert signal_1 == deleted_signal_1 or signal_1 == deleted_signal_2
 
-    await communicator.receive_json_from()
-    # signal_2 = await communicator.receive_json_from()
-    # assert signal_2 == 'yeah'
+    # await communicator.receive_json_from()
+    signal_2 = await communicator.receive_json_from()
+    assert signal_2 == deleted_signal_1 or signal_2 == deleted_signal_2
 
-    await communicator.receive_json_from()
-    # response = await communicator.receive_json_from()
+    # await communicator.receive_json_from()
+    response = await communicator.receive_json_from()
     # assert response == 'yeah'
     # print(response)
-    # assert response == {
-    #     'method': 'D',
-    #     'data': {
-    #         'count': 2,
-    #         'pk_list': [1, 2],
-    #     },
-    # }
+    assert response == {
+        'method': 'D',
+        'data': {
+            'count': 2,
+            'pk_list': [1, 3],
+        },
+    }
 
     assert start_rooms - 2 == await async_count_db(Room)
     # Close
