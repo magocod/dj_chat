@@ -8,7 +8,7 @@ from django.utils import timezone
 from rest_framework import serializers
 
 # local Django
-from chat.models import Room
+from chat.models import Message, Room
 
 
 class RequestSerializer(serializers.Serializer):
@@ -30,7 +30,7 @@ class RequestMessageSerializer(RequestSerializer):
     ...
     """
     OPERATIONS = (
-        ('U', 'UPSERT'),
+        ('C', 'CREATE'),
         ('D', 'DELETE'),
         ('R', 'READ'),
         ('E', 'EXIT'),
@@ -72,5 +72,5 @@ class MessageHeavySerializer(serializers.ModelSerializer):
         """
         ...
         """
-        model = Room
-        fields = ['id', 'name', 'updated', 'timestamp']
+        model = Message
+        fields = ['id', 'text', 'room_id', 'updated', 'timestamp']

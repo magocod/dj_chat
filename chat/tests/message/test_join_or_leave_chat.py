@@ -17,7 +17,7 @@ from channels.testing import WebsocketCommunicator
 from chat.consumers.cmessage import MessageConsumer
 
 # permitir acceso a db
-pytestmark = [pytest.mark.django_db, pytest.mark.message_consumers]
+pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 
 @pytest.mark.asyncio

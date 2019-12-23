@@ -152,25 +152,25 @@ async def test_consumer_delete_room():
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     }
 
-    deleted_signal_1 = await create_event_message(
-        id=3,
-        operation='D',
-    )
-    deleted_signal_2 = await create_event_message(
-        id=4,
-        operation='D',
-    )
+    # deleted_signal_1 = await create_event_message(
+    #     id=3,
+    #     operation='D',
+    # )
+    # deleted_signal_2 = await create_event_message(
+    #     id=4,
+    #     operation='D',
+    # )
 
     # 2 signals and the answer
     await communicator.send_json_to(request)
 
     # await communicator.receive_json_from()
-    signal_1 = await communicator.receive_json_from()
-    assert signal_1 == deleted_signal_1 or signal_1 == deleted_signal_2
+    # signal_1 = await communicator.receive_json_from()
+    # assert signal_1 == deleted_signal_1 or signal_1 == deleted_signal_2
 
     # await communicator.receive_json_from()
-    signal_2 = await communicator.receive_json_from()
-    assert signal_2 == deleted_signal_1 or signal_2 == deleted_signal_2
+    # signal_2 = await communicator.receive_json_from()
+    # assert signal_2 == deleted_signal_1 or signal_2 == deleted_signal_2
 
     # await communicator.receive_json_from()
     response = await communicator.receive_json_from()

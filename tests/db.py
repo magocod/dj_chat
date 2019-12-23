@@ -14,6 +14,14 @@ def async_count_db(model):
 
 
 @database_sync_to_async
+def async_count_filter_db(model, **kwargs):
+    """
+    ...
+    """
+    return model.objects.filter(**kwargs).count()
+
+
+@database_sync_to_async
 def async_create_model(model, **kwargs):
     """
     ...

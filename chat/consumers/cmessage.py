@@ -53,6 +53,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         if 'errors' in request:
             await self.send(text_data=json.dumps(request))
         else:
+            # print(request)
             if request['method'] == 'C':
                 response = await self.create_message(request['values'])
                 # print(response)
@@ -72,11 +73,12 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 response = await self.delete_message(
                     request['values']
                 )
+                print(response)
                 if 'errors' in response:
                     await self.send(text_data=json.dumps(response))
                 else:
                     await self.channel_layer.group_send(
-                        str(request['values']['room_id']),
+                        str(response['room_id']),
                         {
                             'type': 'message_event',
                             'method': request['method'],
@@ -223,7 +225,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 text=values['text'],
                 room_id=values['room_id'],
             )
-            return MessageHeavySerializer(message).data
+            serializer = MessageHeavySerializer(message)
+            return serializer.data
         except Exception as e:
             return {'errors': {'exception': str(e)}}
 
@@ -236,9 +239,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
             message = Message.objects.get(
                 pk=values['message_id'],
             )
-            serializer = MessageHeavySerializer(message).data
+            message_id: int = message.id
+            data = MessageHeavySerializer(message).data
             message.delete()
-            return serializer.data
+            data['id'] = message_id
+            return data
         except Exception as e:
             return {'errors': {'exception': str(e)}}
 
@@ -253,6 +258,6 @@ class MessageConsumer(AsyncWebsocketConsumer):
             if serializer.is_valid():
                 return serializer.data
 
-            return serializer.errors
+            return {'errors': serializer.errors}
         except Exception as e:
             return {'errors': str(e)}
