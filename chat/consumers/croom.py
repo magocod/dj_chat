@@ -96,7 +96,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
                     )
             else:
                 response: List_or_Dict = await self.list_room()
-                if isinstance(response, dict):
+                if 'errors' in response:
                     await self.send(text_data=json.dumps(response))
                 else:
                     await self.send(text_data=json.dumps({
@@ -180,6 +180,6 @@ class RoomConsumer(AsyncWebsocketConsumer):
             if serializer.is_valid():
                 return serializer.data
 
-            return serializer.errors
+            return {'errors': serializer.errors }
         except Exception as e:
             return {'errors': str(e)}

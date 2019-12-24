@@ -17,6 +17,7 @@ from tests.db import (
     # async_create_model,
     async_count_db,
     async_count_filter_db,
+    async_delete_models,
 )
 from tests.response import create_event_message
 
@@ -72,6 +73,7 @@ async def test_consumer_create_message_in_room():
     )
 
     # Close
+    await async_delete_models(Message, id=response['data']['id'])
     await communicator.disconnect()
 
 

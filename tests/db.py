@@ -38,8 +38,26 @@ def async_bulk_create_model(model, instances):
 
 
 @database_sync_to_async
-def async_get_model(model, **kwargs):
+def async_get_model(model, many=False, **kwargs):
     """
     ...
     """
+    if many:
+        return model.objects.all()
     return model.objects.get(**kwargs)
+
+
+@database_sync_to_async
+def async_filter_models(model, **kwargs):
+    """
+    ...
+    """
+    return model.objects.filter(**kwargs)
+
+
+@database_sync_to_async
+def async_delete_models(model, **kwargs):
+    """
+    ...
+    """
+    return model.objects.filter(**kwargs).delete()
