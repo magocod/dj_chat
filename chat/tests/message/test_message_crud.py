@@ -9,8 +9,8 @@
 import pytest
 from channels.testing import WebsocketCommunicator
 
-from chat.consumers.cmessage import MessageConsumer
 # local Django
+from chat.consumers.cmessage import MessageConsumer
 from chat.models import Message
 from chat.serializers import MessageHeavySerializer
 from tests.db import (
@@ -47,7 +47,6 @@ async def test_consumer_create_message_in_room():
         'values': {'room_id': 3},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
-    await communicator.receive_json_from()
 
     await communicator.send_json_to({
         'method': 'C',
@@ -57,8 +56,15 @@ async def test_consumer_create_message_in_room():
         },
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
-    # await communicator.receive_json_from()
+
+    await communicator.receive_json_from()
+    # notify_user = await communicator.receive_json_from()
+    await communicator.receive_json_from()
+    # notify_group = await communicator.receive_json_from()
     response = await communicator.receive_json_from()
+    # print('1', notify_user)
+    # print('2', notify_group)
+    # print('3', response)
     assert response == await create_event_message(
         id=response['data']['id'],
         operation='C',
@@ -75,6 +81,37 @@ async def test_consumer_create_message_in_room():
     # Close
     await async_delete_models(Message, id=response['data']['id'])
     await communicator.disconnect()
+
+
+@pytest.mark.asyncio
+@pytest.mark.messages_crud
+async def test_consumer_create_message_in_non_existent_room():
+    """
+    ...
+    """
+    start_messages_count: int = await async_count_db(Message)
+
+    communicator_n = WebsocketCommunicator(MessageConsumer, '/ws/chat/')
+    connected, _ = await communicator_n.connect()
+    assert connected
+
+    await communicator_n.send_json_to({
+        'method': 'C',
+        'values': {
+            'text': 'hello',
+            'room_id': 100,
+        },
+        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+    })
+    # await communicator_n.receive_json_from()
+    response = await communicator_n.receive_json_from()
+    # assert response == 'y'
+    assert 'errors' in response
+
+    assert start_messages_count == await async_count_db(Message)
+
+    # Close
+    await communicator_n.disconnect()
 
 
 @pytest.mark.asyncio
@@ -99,13 +136,12 @@ async def test_consumer_delete_message_in_room():
     connected, _ = await communicator.connect()
     assert connected
 
-    # join chat room 3
+    # join chat room
     await communicator.send_json_to({
         'method': 'J',
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
-    await communicator.receive_json_from()
 
     await communicator.send_json_to({
         'method': 'D',
@@ -114,7 +150,11 @@ async def test_consumer_delete_message_in_room():
         },
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
-    # await communicator.receive_json_from()
+
+    # join group notify user
+    await communicator.receive_json_from()
+    # join group motify group
+    await communicator.receive_json_from()
     assert expected_response == await communicator.receive_json_from()
 
     assert start_messages_count - 1 == await async_count_db(Message)
@@ -125,3 +165,33 @@ async def test_consumer_delete_message_in_room():
 
     # Close
     await communicator.disconnect()
+
+
+@pytest.mark.asyncio
+@pytest.mark.messages_crud
+async def test_consumer_delete_message_that_does_not_exist():
+    """
+    ...
+    """
+    start_messages_count: int = await async_count_db(Message)
+
+    communicator_n = WebsocketCommunicator(MessageConsumer, '/ws/chat/')
+    connected, _ = await communicator_n.connect()
+    assert connected
+
+    await communicator_n.send_json_to({
+        'method': 'D',
+        'values': {
+            'message_id': 100,
+        },
+        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+    })
+    # await communicator_n.receive_json_from()
+    response = await communicator_n.receive_json_from()
+    # assert response == 'y'
+    assert 'errors' in response
+
+    assert start_messages_count == await async_count_db(Message)
+
+    # Close
+    await communicator_n.disconnect()

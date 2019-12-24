@@ -22,6 +22,6 @@ def get_room_or_error(room_id: int) -> Awaitable[result]:
     try:
         room = Room.objects.get(pk=room_id)
     except Room.DoesNotExist:
-        return {'errors': 'room_no_exist'}
+        return {'errors': f'room_do_es_not_exist: {room_id}'}
 
     return room

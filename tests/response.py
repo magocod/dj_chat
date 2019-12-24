@@ -25,8 +25,22 @@ def create_event_list_message(model, serializer):
     retrieve an element of db
     serialize and return it as a sockect response
     """
-    instance = model.objects.all()
-    serializer_instance = serializer(instance, many=True)
+    instances = model.objects.all()
+    serializer_instance = serializer(instances, many=True)
+    return {
+        'method': 'R',
+        'data': serializer_instance.data,
+    }
+
+
+@database_sync_to_async
+def create_event_filter_list_message(model, serializer, **kwargs):
+    """
+    retrieve an element of db
+    serialize and return it as a sockect response
+    """
+    instances = model.objects.filter(**kwargs)
+    serializer_instance = serializer(instances, many=True)
     return {
         'method': 'R',
         'data': serializer_instance.data,

@@ -180,6 +180,6 @@ class RoomConsumer(AsyncWebsocketConsumer):
             if serializer.is_valid():
                 return serializer.data
 
-            return {'errors': serializer.errors }
+            return {'errors': serializer.errors}
         except Exception as e:
             return {'errors': str(e)}

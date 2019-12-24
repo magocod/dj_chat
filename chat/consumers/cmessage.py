@@ -15,7 +15,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from chat.consumers.utils import get_room_or_error
 # local Django
-from chat.models import Message
+from chat.models import Message, Room
 from chat.serializers import RequestMessageSerializer, MessageHeavySerializer
 from user.decorators import token_required, user_active
 
@@ -122,16 +122,6 @@ class MessageConsumer(AsyncWebsocketConsumer):
             # print(room)
             await self.send(text_data=json.dumps(room))
         else:
-            # notify users
-            await self.channel_layer.group_send(
-                str(room_id),
-                {
-                    'type': 'chat_join',
-                    'room_id': room_id,
-                    'username': self.scope['user'].username,
-                    'method': 'J',
-                }
-            )
             # Store that we're in the room
             self.rooms.add(room_id)
             # Add them to the group so they get room messages
@@ -143,10 +133,20 @@ class MessageConsumer(AsyncWebsocketConsumer):
             await self.send(
                 text_data=json.dumps(
                     {
-                        'join': str(room.id),
+                        'join': room.id,
                         'name': room.name,
                     }
                 )
+            )
+            # notify users
+            await self.channel_layer.group_send(
+                str(room_id),
+                {
+                    'type': 'chat_join',
+                    'room_id': room_id,
+                    'username': self.scope['user'].username,
+                    'method': 'J',
+                }
             )
 
     @user_active
@@ -159,6 +159,21 @@ class MessageConsumer(AsyncWebsocketConsumer):
             # print(room)
             await self.send(text_data=json.dumps(room))
         else:
+            # Remove that we're in the room
+            self.rooms.discard(room_id)
+            # Remove them from the group so they no longer get room messages
+            await self.channel_layer.group_discard(
+                str(room_id),
+                self.channel_name,
+            )
+            # Instruct their client to finish closing the room
+            await self.send(
+                text_data=json.dumps(
+                    {
+                        'leave': room.id,
+                    }
+                )
+            )
             # notify users
             await self.channel_layer.group_send(
                 str(room_id),
@@ -169,21 +184,6 @@ class MessageConsumer(AsyncWebsocketConsumer):
                     'method': 'E',
                 }
             )
-        # Remove that we're in the room
-        self.rooms.discard(room_id)
-        # Remove them from the group so they no longer get room messages
-        await self.channel_layer.group_discard(
-            str(room_id),
-            self.channel_name,
-        )
-        # Instruct their client to finish closing the room
-        await self.send(
-            text_data=json.dumps(
-                {
-                    'leave': str(room.id),
-                }
-            )
-        )
 
     async def chat_join(self, event: Dict[str, Any]):
         """
@@ -208,10 +208,13 @@ class MessageConsumer(AsyncWebsocketConsumer):
         listar room
         """
         try:
-            return MessageHeavySerializer(
+            # verify that there is a room
+            Room.objects.get(id=room_id)
+            messages = MessageHeavySerializer(
                 Message.objects.filter(room_id=room_id).order_by('id'),
                 many=True,
             ).data
+            return messages
         except Exception as e:
             return {'errors': {'exception': str(e)}}
 

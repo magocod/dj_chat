@@ -2,21 +2,14 @@
 ...
 """
 
-# standard library
-from typing import Any, Dict
-
 # third-party
 import pytest
-from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
 
 from chat.consumers.croom import RoomConsumer
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
-from tests.db import (
-    async_count_db,
-)
 from tests.response import create_event_list_message
 
 # permitir acceso a db
@@ -25,7 +18,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_list
-async def test_consumer_list_room():
+async def test_consumer_room_list():
     """
     ...
     """
@@ -53,7 +46,7 @@ async def test_consumer_list_room():
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_list
-async def test_consumer_invalid_operation():
+async def test_consumer_room_invalid_operation():
     """
     ...
     """

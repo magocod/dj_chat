@@ -37,8 +37,17 @@ async def test_consumer_join_room():
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
 
-    response = await communicator_1.receive_json_from()
-    assert response == {'join': '1', 'name': 'name_0'}
+    response_user = await communicator_1.receive_json_from()
+    assert response_user == {'join': 1, 'name': 'name_0'}
+
+    response_group = await communicator_1.receive_json_from()
+    assert response_group == {
+        'method': 'J',
+        'data': {
+            'room': 1,
+            'username': 'generic_admin',  # nombre usuario del token
+        },
+    }
 
     # Close
     await communicator_1.disconnect()
@@ -56,19 +65,12 @@ async def test_consumer_leave_room():
 
     # Test sending json
     await communicator_1.send_json_to({
-        'method': 'J',
-        'values': {'room_id': 1},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
-    await communicator_1.receive_json_from()
-
-    await communicator_1.send_json_to({
         'method': 'E',
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
-    response = await communicator_1.receive_json_from()
-    assert response == {'leave': '1'}
+    response_user = await communicator_1.receive_json_from()
+    assert response_user == {'leave': 1}
 
     # Close
     await communicator_1.disconnect()
@@ -107,6 +109,9 @@ async def test_notify_users_of_new_members_entering_the_room():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
+    # notify user
+    await communicator_in_room.receive_json_from()
+    # notify user group
     await communicator_in_room.receive_json_from()
 
     await communicator_entering.send_json_to({
@@ -114,6 +119,9 @@ async def test_notify_users_of_new_members_entering_the_room():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
     })
+        # notify user
+    await communicator_entering.receive_json_from()
+    # notify user group
     await communicator_entering.receive_json_from()
 
     response = await communicator_in_room.receive_json_from()
@@ -152,6 +160,21 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
+    # notify user
+    await communicator_in_room.receive_json_from()
+    # notify user group
+    await communicator_in_room.receive_json_from()
+
+    await communicator_coming_out.send_json_to({
+        'method': 'J',
+        'values': {'room_id': 1},
+        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
+    })
+    # notify user
+    await communicator_coming_out.receive_json_from()
+    # notify user group
+    await communicator_coming_out.receive_json_from()
+    # join communicator_coming_out
     await communicator_in_room.receive_json_from()
 
     await communicator_coming_out.send_json_to({
@@ -159,6 +182,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
     })
+    # notify user
     await communicator_coming_out.receive_json_from()
 
     response = await communicator_in_room.receive_json_from()
@@ -197,6 +221,9 @@ async def test_notify_users_of_users_disconnected_by_force():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
+    # notify user
+    await communicator_in_room.receive_json_from()
+    # notify user group
     await communicator_in_room.receive_json_from()
 
     await communicator_force_exit.send_json_to({
@@ -204,9 +231,11 @@ async def test_notify_users_of_users_disconnected_by_force():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
     })
+    # notify user
     await communicator_force_exit.receive_json_from()
-
-    # join user
+    # notify user group
+    await communicator_force_exit.receive_json_from()
+    # join comunicator_force_exit
     await communicator_in_room.receive_json_from()
     # force exit
     await communicator_force_exit.disconnect()
