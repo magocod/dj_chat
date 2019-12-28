@@ -91,7 +91,8 @@ async def test_request_room_messages_that_do_not_exist():
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
     })
 
-    response = await communicator.receive_json_from()
+    await communicator.receive_json_from()
+    # response = await communicator.receive_json_from()
     # assert response == 'y'
 
     # Close

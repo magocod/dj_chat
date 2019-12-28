@@ -119,7 +119,7 @@ async def test_notify_users_of_new_members_entering_the_room():
         'values': {'room_id': 1},
         'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
     })
-        # notify user
+    # notify user
     await communicator_entering.receive_json_from()
     # notify user group
     await communicator_entering.receive_json_from()
