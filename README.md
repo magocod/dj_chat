@@ -3,6 +3,12 @@
 > Python 3.8
 > django channels tests
 
+## Tox env
+
+* Python 3.7
+* Python 3.8
+* Python lint flake8 (py3.8)
+
 ## Framework
 
 * Django 3.0.0 -> https://www.djangoproject.com/
