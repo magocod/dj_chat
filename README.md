@@ -1,5 +1,6 @@
 ## Django Chat
 
+> Demo url: https://djchat.herokuapp.com/
 > Python 3.8
 > django channels tests
 
