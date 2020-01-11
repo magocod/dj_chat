@@ -14,7 +14,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # local Django
-from user.serializers import AuthTokenSerializer, EmailSerializer
+from user.serializers import (
+    AuthTokenSerializer,
+    EmailSerializer,
+    UserHeavySerializer
+)
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -33,17 +37,11 @@ class CustomAuthToken(ObtainAuthToken):
         )
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        user_serializer = UserHeavySerializer(user)
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
-            'staff_status': user.is_staff,
-            'super_user': user.is_superuser,
-            'email': user.email,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'username': user.username,
-            'date_joined': user.date_joined,
-            'id': user.id,
+            'user': user_serializer.data
         }, status=status.HTTP_200_OK)
 
 
