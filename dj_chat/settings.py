@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third-party
     'channels',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     # local Django
@@ -62,6 +63,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # third-party
+    'corsheaders.middleware.CorsMiddleware',
+    # Django
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

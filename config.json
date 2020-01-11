@@ -7,9 +7,9 @@
     		"localhost:8000"
 		],
 		"CORS_ORIGIN_WHITELIST": [
-			"localhost",
-	    	"localhost:8000",
-	    	"localhost:8080"
+	    	"http://127.0.0.1:4200",
+	    	"https://ngchat-cbfe2.web.app",
+	    	"https://ngchat-cbfe2.firebaseapp.com"
 		]
 	}
 }
