@@ -5,7 +5,7 @@
 		"ALLOWED_HOSTS": [
 	    	"localhost",
     		"localhost:8000",
-    		"https://djchat.herokuapp.com/"
+    		"https://djchat.herokuapp.com"
 		],
 		"CORS_ORIGIN_WHITELIST": [
 				"http://localhost",
