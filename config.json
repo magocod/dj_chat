@@ -11,6 +11,7 @@
 				"http://localhost",
 	    	"http://localhost:4200",
 	    	"http://localhost:8000",
+	    	"http://localhost:8100",
 	    	"https://ngchat-cbfe2.web.app",
 	    	"https://ngchat-cbfe2.firebaseapp.com"
 		]
