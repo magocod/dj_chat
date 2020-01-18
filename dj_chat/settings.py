@@ -17,6 +17,7 @@ import os
 import sys
 
 import django_heroku
+import dj_database_url
 
 if sys.platform == 'win32':
     asyncio.set_event_loop_policy(
@@ -240,3 +241,4 @@ HEROKU APP
 IS_CI = os.environ.get('IS_CI', False)
 if not IS_CI:
     django_heroku.settings(locals())
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
