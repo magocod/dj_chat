@@ -241,4 +241,8 @@ HEROKU APP
 IS_CI = os.environ.get('IS_CI', False)
 if not IS_CI:
     django_heroku.settings(locals())
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+    if not DEBUG:
+        DATABASES['default'] = dj_database_url.config(
+            conn_max_age=600,
+            ssl_require=True
+        )
