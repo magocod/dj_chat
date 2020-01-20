@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ENV = None
 
-with open(os.path.join(BASE_DIR, 'config.json')) as json_file:
+with open(os.path.join(BASE_DIR, 'django.config.json')) as json_file:
     ENV = json.load(json_file)
 
 

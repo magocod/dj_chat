@@ -27,7 +27,7 @@ if sys.platform == 'win32':
         asyncio.WindowsSelectorEventLoopPolicy(),
     )
 
-with open('config.json') as json_file:
+with open('django.config.json') as json_file:
     ENV = json.load(json_file)
 
 
