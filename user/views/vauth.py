@@ -2,16 +2,20 @@
 Vistas autenticacion de usuarios
 """
 
-from django.contrib.auth.models import User
-# Django
-from django.http import Http404
 # third-party
+import jwt
+
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+# Django
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.http import Http404
 
 # local Django
 from user.serializers import (
@@ -38,11 +42,41 @@ class CustomAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         user_serializer = UserHeavySerializer(user)
-        token, created = Token.objects.get_or_create(user=user)
+        token, _ = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
             'user': user_serializer.data
         }, status=status.HTTP_200_OK)
+
+
+class AuthJwtHS256Token(ObtainAuthToken):
+    """
+    ...
+    """
+    serializer_class = AuthTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        """
+        ...
+        """
+        serializer = self.serializer_class(
+            data=request.data,
+            context={'request': request},
+        )
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        user_serializer = UserHeavySerializer(user)
+        token, _ = Token.objects.get_or_create(user=user)
+        key = settings.KEY_HS256
+        encoded_jwt = jwt.encode(
+            {
+                'token': token.key,
+                'user': user_serializer.data
+            },
+            key,
+            algorithm='HS256'
+        )
+        return Response(encoded_jwt, status=status.HTTP_200_OK)
 
 
 class EmailView(APIView):

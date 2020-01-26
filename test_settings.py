@@ -34,6 +34,8 @@ with open('django.config.json') as json_file:
 # SECURITY WARNING keep the secret key used in production secret
 SECRET_KEY = ENV['APP']['SECRET_KEY']
 
+KEY_HS256 = ENV['APP']['JWT']['HS256']
+
 # SECURITY WARNING don't run with debug turned on in production
 DEBUG = ENV['APP']['DEBUG']
 

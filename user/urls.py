@@ -16,6 +16,11 @@ urlpatterns = [
         name='api_token_auth',
     ),
     path(
+        'jwt-auth/',
+        vauth.AuthJwtHS256Token.as_view(),
+        name='api_jwt_hs_token_auth',
+    ),
+    path(
         'email/',
         vauth.EmailView.as_view(),
         name='api_email_check',
