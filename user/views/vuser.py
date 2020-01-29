@@ -10,11 +10,12 @@ from django.contrib.auth.models import User
 from django.http import Http404
 # third-party
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
+# from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # local Django
+from user.permissions import IsSuperUser
 from user.serializers import (UserHeavySerializer, UserRegisterSerializer,
                               UserSerializer)
 
@@ -23,7 +24,7 @@ class UserListView(APIView):
     """
     ...
     """
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsSuperUser,)
     serializer = UserHeavySerializer
 
     def serialize_user(self, pk):
@@ -64,7 +65,7 @@ class UserDetailView(APIView):
     """
     ...
     """
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsSuperUser,)
     serializer = UserSerializer
 
     def get_object(self, pk_user: Union[int, str]):
