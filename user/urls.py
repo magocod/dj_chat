@@ -34,7 +34,7 @@ urlpatterns = [
         name='user_detail',
     ),
     path(
-        'user/passord/',
+        'user/password/',
         vuser.UserModifyPasswordView.as_view(),
         name='user_modify_password'
     ),
