@@ -6,31 +6,46 @@ Rutas User
 from django.urls import path
 
 # local Django
-from user.views import vauth, vuser
+from user.views import vauth, vuser, vuserprofile
 
 urlpatterns = [
     # auth
     path(
         'token-auth/',
         vauth.CustomAuthToken.as_view(),
-        name='api_token_auth',
+        name='user_token_auth',
     ),
     path(
         'jwt-auth/',
         vauth.AuthJwtHS256Token.as_view(),
-        name='api_jwt_hs_token_auth',
+        name='user_jwt_hs_token_auth',
     ),
     path(
         'email/',
         vauth.EmailView.as_view(),
-        name='api_email_check',
+        name='user_email_check',
     ),
-    path('user/logout/', vauth.LogoutView.as_view(), name='api_users_logout'),
+    path('user/logout/', vauth.LogoutView.as_view(), name='users_logout'),
     # user
-    path('users/', vuser.UserListView.as_view(), name='api_users'),
+    path('users/', vuser.UserListView.as_view(), name='list_users'),
     path(
         'user/<int:pk>/',
         vuser.UserDetailView.as_view(),
-        name='api_user_detail',
+        name='user_detail',
     ),
+    path(
+        'user/passord/',
+        vuser.UserModifyPasswordView.as_view(),
+        name='user_modify_password'
+    ),
+    path(
+        'user/profile',
+        vuserprofile.UserProfileView.as_view(),
+        name='user_update_profile'
+    ),
+    path(
+        'user/reset_password/',
+        vuserprofile.UserPasswordResetView.as_view(),
+        name='user_reset_password'
+    )
 ]

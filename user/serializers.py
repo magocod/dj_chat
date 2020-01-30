@@ -90,6 +90,22 @@ class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 
+class PasswordSerializer(serializers.Serializer):
+    """
+    modify a user's password by id
+    """
+    user_id = serializers.IntegerField()
+    password = serializers.CharField(max_length=30)
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    """
+    the user modifies his password
+    """
+    old_password = serializers.CharField(max_length=30)
+    new_password = serializers.CharField(max_length=30)
+
+
 class AuthTokenSerializer(serializers.Serializer):
     """
     ...

@@ -16,8 +16,12 @@ from rest_framework.views import APIView
 
 # local Django
 from user.permissions import IsSuperUser
-from user.serializers import (UserHeavySerializer, UserRegisterSerializer,
-                              UserSerializer)
+from user.serializers import (
+    UserHeavySerializer,
+    UserRegisterSerializer,
+    UserSerializer,
+    PasswordSerializer
+)
 
 
 class UserListView(APIView):
@@ -125,3 +129,44 @@ class UserDetailView(APIView):
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserModifyPasswordView(APIView):
+    """
+    Modify User Password
+    """
+    permission_classes = (IsSuperUser,)
+    serializer = PasswordSerializer
+
+    def get_object(self, pk):
+        """
+        ...
+        """
+        try:
+            return User.objects.get(pk=pk)
+        except Exception as e:
+            print(e)
+            raise Http404
+
+    def post(self, request, format=None):
+        """
+        ...
+        """
+        response = self.serializer(data=request.data)
+        if response.is_valid():
+            user = self.get_object(response.data['user_id'])
+
+            if user.is_superuser is True:
+                return Response(
+                    'editing of superuser passwords is not allowed',
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            user.set_password(response.data['password'])
+            user.save()
+            return Response(status=status.HTTP_200_OK)
+
+        return Response(
+            response.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
