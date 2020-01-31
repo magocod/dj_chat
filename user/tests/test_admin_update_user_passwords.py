@@ -80,7 +80,7 @@ def test_do_not_allow_to_update_the_password_of_a_superuser(admin_client):
 
 
 @pytest.mark.auth_update_password
-def test_edit_the_user_password_that_does_not_exist_or_was_deleted(admin_client):
+def test_edit_the_user_password_that_does_not_exist(admin_client):
     """
     ...
     """

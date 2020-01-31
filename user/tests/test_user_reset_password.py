@@ -66,3 +66,25 @@ def test_old_error_wrong_password(admin_client):
     )
 
     assert user is None
+
+
+@pytest.mark.auth_reset_password
+def test_incorrect_user_parameters_to_reset_the_password(admin_client):
+    """
+    ...
+    """
+    response = admin_client.post(
+        '/api/user/reset_password/',
+        {
+            'old_password': '1234',
+            'password': '1234'
+        }
+    )
+    assert response.status_code == 400
+
+    user = authenticate(
+        username=SUPER_USER['username'],
+        password='1234',
+    )
+
+    assert user is None
