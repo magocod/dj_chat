@@ -60,10 +60,26 @@ def test_logout(admin_client):
 
 
 @pytest.mark.users_authentication
+def test_logout(admin_client):
+    """
+    ...
+    """
+    response = admin_client.post('/api/user/logout/')
+    assert response.status_code == 200
+
+
+@pytest.mark.users_authentication
 def test_repeat_logout(public_client):
     """
     ...
     """
     public_client.post('/api/user/logout/')
     response = public_client.post('/api/user/logout/')
+    assert response.status_code == 401
+
+
+@pytest.mark.users_authentication
+def test_logout_invalid_token(false_client):
+    false_client.post('/api/user/logout/')
+    response = false_client.post('/api/user/logout/')
     assert response.status_code == 401

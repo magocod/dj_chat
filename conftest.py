@@ -22,7 +22,7 @@ def django_db_setup(django_db_setup, django_db_blocker):
 @pytest.fixture
 def admin_client():
     """
-    Iniciar cliente pruebas (superusuario)
+    super user
     """
     client = APIClient()
     client.credentials(
@@ -35,7 +35,7 @@ def admin_client():
 @pytest.fixture
 def user_client():
     """
-    Iniciar cliente pruebas (vendedor)
+    basic user
     """
     client = APIClient()
     client.credentials(
@@ -48,7 +48,7 @@ def user_client():
 @pytest.fixture
 def staff_client():
     """
-    Iniciar cliente pruebas (superusuario)
+    basic admin user
     """
     client = APIClient()
     client.credentials(
@@ -59,9 +59,22 @@ def staff_client():
 
 
 @pytest.fixture
+def false_client():
+    """
+    user invalid token
+    """
+    client = APIClient()
+    client.credentials(
+        HTTP_AUTHORIZATION='Token '
+        + '123',
+    )
+    return client
+
+
+@pytest.fixture
 def public_client():
     """
-    Iniciar cliente pruebas (no autenticado)
+    user not authenticated
     """
     client = APIClient()
     return client
