@@ -57,6 +57,10 @@ class JWTAuthMiddleware():
         self.inner = inner
 
     def __call__(self, scope):
+        # Close old database connections to
+        # prevent usage of timed out connections
+        close_old_connections()
+
         path = scope['path']
         pathlist = path.split('/')
         # print(path)
