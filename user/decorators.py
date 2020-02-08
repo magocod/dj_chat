@@ -24,9 +24,7 @@ def user_token(token_key: str):
     try:
         tk = Token.objects.get(key=token_key)
         return User.objects.get(id=tk.user_id)
-    except Token.DoesNotExist:
-        return None
-    except User.DoesNotExist:
+    except Exception:
         return None
 
 

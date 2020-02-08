@@ -9,6 +9,9 @@ from typing import Dict
 # third-party
 import pytest
 
+# Django
+from django.contrib.auth.models import User
+
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
 
@@ -51,7 +54,37 @@ def test_success_request_token(public_client):
 
 
 @pytest.mark.users_authentication
-def test_failed_request_token(public_client):
+def test_error_credentials(public_client):
+    """
+    ...
+    """
+    data: Dict[str, str] = {
+        'e': 'notexist@django.com',
+        'pass': '123',
+    }
+    response = public_client.post('/api/token-auth/', data)
+    assert response.status_code == 400
+
+
+@pytest.mark.users_authentication
+def test_error_user_account_is_disabled(public_client):
+    """
+    ...
+    """
+    User.objects.filter(id=1).update(is_active=False)
+    data: Dict[str, str] = {
+        'email': 'admin@django.com',
+        'password': '123',
+    }
+    response = public_client.post('/api/token-auth/', data)
+    assert response.status_code == 400
+    assert response.data[
+        'non_field_errors'
+    ][0] == 'User account is disabled.'
+
+
+@pytest.mark.users_authentication
+def test_error_user_not_exist(public_client):
     """
     ...
     """
@@ -61,6 +94,26 @@ def test_failed_request_token(public_client):
     }
     response = public_client.post('/api/token-auth/', data)
     assert response.status_code == 400
+    assert response.data[
+        'non_field_errors'
+    ][0] == 'User no exist.'
+
+
+@pytest.mark.users_authentication
+def test_error_invalid_password(public_client):
+    """
+    ...
+    """
+    data: Dict[str, str] = {
+        'email': 'admin@django.com',
+        'password': 'novalid',
+    }
+    response = public_client.post('/api/token-auth/', data)
+    assert response.status_code == 400
+    # print(response.data)
+    assert response.data[
+        'non_field_errors'
+    ][0] == 'Unable to log in with provided credentials.'
 
 
 @pytest.mark.users_authentication

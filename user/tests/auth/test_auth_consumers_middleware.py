@@ -51,8 +51,13 @@ async def test_request_auth_token_url():
         f'/ws/auth/jwt/{VALID_ENCODED}/'
     )
     connected, _ = await communicator.connect()
-
     assert connected
+
+    # Test sending json
+    await communicator.send_json_to({
+        'data': 'data',
+    })
+    await communicator.receive_json_from()
 
     # Close
     await communicator.disconnect()

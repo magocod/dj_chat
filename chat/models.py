@@ -33,4 +33,4 @@ class Message(models.Model):
     )
 
     def __str__(self):
-        return '%s %s' % (self.text, self.room)
+        return f'{self.text}-{self.room}'

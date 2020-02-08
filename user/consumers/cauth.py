@@ -36,4 +36,4 @@ class AuthConsumer(AsyncWebsocketConsumer):
         """
         Receive message from WebSocket
         """
-        await self.send(data=text_data)
+        await self.send(text_data=text_data)
