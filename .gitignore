@@ -3,4 +3,5 @@
 *.tox
 *.idea
 .coverage
+htmlcov
 db.sqlite3

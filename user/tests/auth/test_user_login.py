@@ -41,6 +41,18 @@ def test_email_does_not_exist(public_client):
 
 
 @pytest.mark.users_authentication
+def test_invalid_search_email_params(public_client):
+    """
+    ...
+    """
+    data: Dict[str, str] = {
+        'emails': 'novalid@django.com',
+    }
+    response = public_client.post('/api/email/', data)
+    assert response.status_code == 400
+
+
+@pytest.mark.users_authentication
 def test_success_request_token(public_client):
     """
     ...

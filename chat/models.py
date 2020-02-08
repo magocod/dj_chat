@@ -15,9 +15,6 @@ class Room(models.Model):
     updated = models.DateTimeField(default=timezone.now)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
-
 
 class Message(models.Model):
     """
@@ -31,6 +28,3 @@ class Message(models.Model):
         related_name='messages',
         on_delete=models.CASCADE,
     )
-
-    def __str__(self):
-        return f'{self.text}-{self.room}'

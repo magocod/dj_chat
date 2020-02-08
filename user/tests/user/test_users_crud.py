@@ -152,6 +152,22 @@ def test_update_user(admin_client):
 
 
 @pytest.mark.users_crud
+def test_error_params_update_user(admin_client):
+    """
+    ...
+    """
+    oldvalues = UserHeavySerializer(User.objects.get(id=1))
+    newdata: Dict[str, Any] = {
+        'usernames': 'NEW',
+        'first_namesss': 'new name',
+    }
+    response = admin_client.put('/api/user/' + str(1) + '/', newdata)
+    newvalues = UserHeavySerializer(User.objects.get(id=1))
+    assert response.status_code == 400
+    assert newvalues.data == oldvalues.data
+
+
+@pytest.mark.users_crud
 def test_delete_user(admin_client):
     """
     ...
