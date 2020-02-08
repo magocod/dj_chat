@@ -17,7 +17,7 @@
 
 * Django-rest-framework -> 3.11.0 https://www.django-rest-framework.org/
 
-## Tests (94% coverage)
+## Tests (96% coverage)
 
 * Pytest -> 5.3.0 https://docs.pytest.org/en/latest/
 

@@ -39,7 +39,7 @@ urlpatterns = [
         name='user_modify_password'
     ),
     path(
-        'user/profile',
+        'user/profile/',
         vuserprofile.UserProfileView.as_view(),
         name='user_update_profile'
     ),
