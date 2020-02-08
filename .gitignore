@@ -2,4 +2,5 @@
 *.egg-info
 *.tox
 *.idea
+.coverage
 db.sqlite3
