@@ -24,7 +24,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.auth_jwt_hs256
-def test_request_jwt(public_client):
+def test_success_request_jwt(public_client):
     """
     ...
     """
@@ -48,3 +48,16 @@ def test_request_jwt(public_client):
 
     assert decoded['token'] == token.key
     assert decoded['user'] == serialer.data
+
+
+@pytest.mark.auth_jwt_hs256
+def test_failed_request_jwt(public_client):
+    """
+    ...
+    """
+    data: Dict[str, str] = {
+        'email': 'noexist@django.com',
+        'password': '123',
+    }
+    response = public_client.post('/api/jwt-auth/', data)
+    assert response.status_code == 400

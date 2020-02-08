@@ -120,12 +120,12 @@ class UserDetailView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if user.is_staff:
-            if not request.user.is_superuser:
-                return Response(
-                    'user cannot delete administrators',
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+        # if user.is_staff:
+        #     if not request.user.is_superuser:
+        #         return Response(
+        #             'user cannot delete administrators',
+        #             status=status.HTTP_400_BAD_REQUEST,
+        #         )
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

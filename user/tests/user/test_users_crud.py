@@ -198,6 +198,8 @@ def test_delete_admin_user(admin_client, staff_client):
     """
     response = staff_client.delete('/api/user/' + str(5) + '/')
     assert response.status_code == 403
+    # response = staff_client.delete('/api/user/' + str(4) + '/')
+    # assert response.status_code == 403
     # assert response.data == 'user cannot delete administrators'
     response = admin_client.delete('/api/user/' + str(5) + '/')
     assert response.status_code == 204

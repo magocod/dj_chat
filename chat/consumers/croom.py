@@ -173,13 +173,15 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         validar contenido solicitud
         """
-        try:
-            text_data_json: Dict['str', Any] = json.loads(text_data)
-            # print(text_data_json)
-            serializer = RequestSerializer(data=text_data_json)
-            if serializer.is_valid():
-                return serializer.data
+        # try:
 
-            return {'errors': serializer.errors}
-        except Exception as e:
-            return {'errors': str(e)}
+        text_data_json: Dict['str', Any] = json.loads(text_data)
+        # print(text_data_json)
+        serializer = RequestSerializer(data=text_data_json)
+        if serializer.is_valid():
+            return serializer.data
+
+        return {'errors': serializer.errors}
+
+        # except Exception as e:
+        #     return {'errors': str(e)}

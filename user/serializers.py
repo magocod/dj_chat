@@ -7,20 +7,20 @@ from typing import Any, Dict, Tuple
 
 # Django
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import Permission, User
 # third-party
 from rest_framework import serializers
 
 # from rest_framework.exceptions import APIException
 
 
-class GroupSerializer(serializers.ModelSerializer):
-    """
-    ...
-    """
-    class Meta:
-        model = Group
-        fields: Tuple[str] = ('url', 'name')
+# class GroupSerializer(serializers.ModelSerializer):
+#     """
+#     ...
+#     """
+#     class Meta:
+#         model = Group
+#         fields: Tuple[str] = ('url', 'name')
 
 
 class PermissionSerializer(serializers.ModelSerializer):

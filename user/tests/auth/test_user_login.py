@@ -38,7 +38,7 @@ def test_email_does_not_exist(public_client):
 
 
 @pytest.mark.users_authentication
-def test_request_token(public_client):
+def test_success_request_token(public_client):
     """
     ...
     """
@@ -48,6 +48,19 @@ def test_request_token(public_client):
     }
     response = public_client.post('/api/token-auth/', data)
     assert response.status_code == 200
+
+
+@pytest.mark.users_authentication
+def test_failed_request_token(public_client):
+    """
+    ...
+    """
+    data: Dict[str, str] = {
+        'email': 'notexist@django.com',
+        'password': '123',
+    }
+    response = public_client.post('/api/token-auth/', data)
+    assert response.status_code == 400
 
 
 @pytest.mark.users_authentication
