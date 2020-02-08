@@ -17,7 +17,7 @@
 
 * Django-rest-framework -> https://www.django-rest-framework.org/
 
-## Tests (96% coverage)
+## Tests (98% coverage)
 
 * Pytest -> https://docs.pytest.org/en/latest/
 
