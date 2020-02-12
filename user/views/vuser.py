@@ -6,10 +6,13 @@ Edicion de usuarios
 from typing import Union
 
 from django.contrib.auth.models import User
+
 # Django
 from django.http import Http404
+
 # third-party
 from rest_framework import status
+
 # from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,7 +23,7 @@ from user.serializers import (
     UserHeavySerializer,
     UserRegisterSerializer,
     UserSerializer,
-    PasswordSerializer
+    PasswordSerializer,
 )
 
 
@@ -28,6 +31,7 @@ class UserListView(APIView):
     """
     ...
     """
+
     permission_classes = (IsSuperUser,)
     serializer = UserHeavySerializer
 
@@ -46,10 +50,7 @@ class UserListView(APIView):
         """
         ...
         """
-        response = self.serializer(
-            User.objects.all().order_by('id'),
-            many=True,
-        )
+        response = self.serializer(User.objects.all().order_by("id"), many=True,)
         return Response(response.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
@@ -69,6 +70,7 @@ class UserDetailView(APIView):
     """
     ...
     """
+
     permission_classes = (IsSuperUser,)
     serializer = UserSerializer
 
@@ -109,15 +111,11 @@ class UserDetailView(APIView):
         user = self.get_object(pk)
 
         if user.id == request.user.id:
-            return Response(
-                "can't delete himself",
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response("can't delete himself", status=status.HTTP_400_BAD_REQUEST,)
 
         if user.is_superuser:
             return Response(
-                'super users cannot be deleted',
-                status=status.HTTP_400_BAD_REQUEST,
+                "super users cannot be deleted", status=status.HTTP_400_BAD_REQUEST,
             )
 
         # if user.is_staff:
@@ -135,6 +133,7 @@ class UserModifyPasswordView(APIView):
     """
     Modify User Password
     """
+
     permission_classes = (IsSuperUser,)
     serializer = PasswordSerializer
 
@@ -154,19 +153,16 @@ class UserModifyPasswordView(APIView):
         """
         response = self.serializer(data=request.data)
         if response.is_valid():
-            user = self.get_object(response.data['user_id'])
+            user = self.get_object(response.data["user_id"])
 
             if user.is_superuser is True:
                 return Response(
-                    'editing of superuser passwords is not allowed',
+                    "editing of superuser passwords is not allowed",
                     status=status.HTTP_403_FORBIDDEN,
                 )
 
-            user.set_password(response.data['password'])
+            user.set_password(response.data["password"])
             user.save()
             return Response(status=status.HTTP_200_OK)
 
-        return Response(
-            response.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response(response.errors, status=status.HTTP_400_BAD_REQUEST)

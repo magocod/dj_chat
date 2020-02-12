@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import asyncio
 import json
+
 # standard library
 import os
 import sys
@@ -19,29 +20,27 @@ import sys
 import django_heroku
 import dj_database_url
 
-if sys.platform == 'win32':
-    asyncio.set_event_loop_policy(
-        asyncio.WindowsSelectorEventLoopPolicy(),
-    )
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy(),)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ENV = None
 
-with open(os.path.join(BASE_DIR, 'django.config.json')) as json_file:
+with open(os.path.join(BASE_DIR, "django.config.json")) as json_file:
     ENV = json.load(json_file)
 
 
 # SECURITY WARNING keep the secret key used in production secret
-SECRET_KEY = ENV['APP']['SECRET_KEY']
+SECRET_KEY = ENV["APP"]["SECRET_KEY"]
 
-KEY_HS256 = ENV['APP']['JWT']['HS256']
+KEY_HS256 = ENV["APP"]["JWT"]["HS256"]
 
 # SECURITY WARNING don't run with debug turned on in production
-DEBUG = ENV['APP']['DEBUG']
+DEBUG = ENV["APP"]["DEBUG"]
 
-ALLOWED_HOSTS = ENV['APP']['ALLOWED_HOSTS']
+ALLOWED_HOSTS = ENV["APP"]["ALLOWED_HOSTS"]
 
 # DJANGO_ALLOW_ASYNC_UNSAFE = True
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -52,85 +51,76 @@ APPLICATION DEFINITION
 
 INSTALLED_APPS = [
     # django
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     # third-party
-    'channels',
-    'corsheaders',
-    'rest_framework',
-    'rest_framework.authtoken',
+    "channels",
+    "corsheaders",
+    "rest_framework",
+    "rest_framework.authtoken",
     # local Django
-    'chat',
-    'user',
+    "chat",
+    "user",
 ]
 
 MIDDLEWARE = [
     # third-party
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     # Django
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'dj_chat.urls'
+ROOT_URLCONF = "dj_chat.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'dj_chat.wsgi.application'
-ASGI_APPLICATION = 'dj_chat.routing.application'
+WSGI_APPLICATION = "dj_chat.wsgi.application"
+ASGI_APPLICATION = "dj_chat.routing.application"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation' +
-        '.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation"
+        + ".UserAttributeSimilarityValidator",
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation' +
-        '.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation' +
-        '.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation' +
-        '.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation" + ".MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation" + ".CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation" + ".NumericPasswordValidator",},
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -145,41 +135,38 @@ API REST CONFIG
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = ENV['APP']['CORS_ORIGIN_WHITELIST']
+CORS_ORIGIN_WHITELIST = ENV["APP"]["CORS_ORIGIN_WHITELIST"]
 
 CORS_ALLOW_METHODS = (
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 )
 
 CORS_ALLOW_HEADERS = (
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'Access-Control-Allow-Origin'
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "Access-Control-Allow-Origin",
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination' +
-    '.PageNumberPagination',
-    'PAGE_SIZE': 2,
-    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination" + ".PageNumberPagination",
+    "PAGE_SIZE": 2,
+    "DEFAULT_METADATA_CLASS": "rest_framework.metadata.SimpleMetadata",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
 """
@@ -188,16 +175,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 """
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     },
 }
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-    },
+    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
 }
 
 """
@@ -213,12 +198,10 @@ https://docs.djangoproject.com/en/2.2/howto/static-files/
 #     os.path.join(BASE_DIR, 'static'),
 # )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # # Media files (JPG, PNG, PDF, ...)
 # # ...
@@ -240,11 +223,10 @@ HEROKU APP
 #     os.path.join(PROJECT_ROOT, 'static'),
 # ]
 
-IS_CI = os.environ.get('IS_CI', False)
+IS_CI = os.environ.get("IS_CI", False)
 if not IS_CI:
     django_heroku.settings(locals())
     if not DEBUG:
-        DATABASES['default'] = dj_database_url.config(
-            conn_max_age=600,
-            ssl_require=True
+        DATABASES["default"] = dj_database_url.config(
+            conn_max_age=600, ssl_require=True
         )

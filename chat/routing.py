@@ -10,6 +10,6 @@ from chat.consumers.cmessage import MessageConsumer
 from chat.consumers.croom import RoomConsumer
 
 websocket_urlpatterns = [
-    path('ws/chat/', MessageConsumer),
-    path('ws/rooms/', RoomConsumer),
+    path("ws/chat/", MessageConsumer),
+    path("ws/rooms/", RoomConsumer),
 ]

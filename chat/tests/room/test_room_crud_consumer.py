@@ -11,6 +11,7 @@ from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
 
 from chat.consumers.croom import RoomConsumer
+
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
@@ -32,8 +33,8 @@ def create_event_message(id: int, operation: str) -> Dict[str, Any]:
     room = Room.objects.get(id=id)
     serializer = RoomHeavySerializer(room)
     return {
-        'method': operation,
-        'data': serializer.data,
+        "method": operation,
+        "data": serializer.data,
     }
 
 
@@ -45,22 +46,21 @@ async def test_consumer_create_room():
     """
     start_rooms: int = await async_count_db(Room)
 
-    communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
+    communicator = WebsocketCommunicator(RoomConsumer, "/ws/rooms/")
     connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
     request = {
-        'method': 'U',
-        'values': {'name': 'YSON'},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+        "method": "U",
+        "values": {"name": "YSON"},
+        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
     }
     await communicator.send_json_to(request)
 
     response = await communicator.receive_json_from()
     assert response == await create_event_message(
-        id=response['data']['id'],
-        operation='U',
+        id=response["data"]["id"], operation="U",
     )
 
     final_rooms: int = await async_count_db(Room)
@@ -76,28 +76,27 @@ async def test_consumer_update_room():
     """
     ...
     """
-    init_room = await async_create_model(Room, name='YSONS')
+    init_room = await async_create_model(Room, name="YSONS")
     init_serializer = RoomHeavySerializer(init_room).data
     start_rooms: int = await async_count_db(Room)
 
-    communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
+    communicator = WebsocketCommunicator(RoomConsumer, "/ws/rooms/")
     connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
     request = {
-        'method': 'U',
-        'values': {'name': 'YSONS'},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+        "method": "U",
+        "values": {"name": "YSONS"},
+        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
     }
     await communicator.send_json_to(request)
 
     response = await communicator.receive_json_from()
     assert response == await create_event_message(
-        id=response['data']['id'],
-        operation='U',
+        id=response["data"]["id"], operation="U",
     )
-    assert response['data'] != init_serializer
+    assert response["data"] != init_serializer
 
     assert start_rooms == await async_count_db(Room)
     # Close
@@ -112,20 +111,20 @@ async def test_consumer_create_room_error_params():
     """
     start_rooms: int = await async_count_db(Room)
 
-    communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
+    communicator = WebsocketCommunicator(RoomConsumer, "/ws/rooms/")
     connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
     request = {
-        'method': 'U',
-        'values': {'names': 'YSON'},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+        "method": "U",
+        "values": {"names": "YSON"},
+        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
     }
     await communicator.send_json_to(request)
 
     response = await communicator.receive_json_from()
-    assert 'errors' in response
+    assert "errors" in response
 
     assert start_rooms == await async_count_db(Room)
     # Close
@@ -141,15 +140,15 @@ async def test_consumer_delete_room():
     """
     start_rooms: int = await async_count_db(Room)
 
-    communicator = WebsocketCommunicator(RoomConsumer, '/ws/rooms/')
+    communicator = WebsocketCommunicator(RoomConsumer, "/ws/rooms/")
     connected, _ = await communicator.connect()
     assert connected
 
     # Test sending json
     request = {
-        'method': 'D',
-        'values': {'pk_list': [3, 4]},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
+        "method": "D",
+        "values": {"pk_list": [3, 4]},
+        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
     }
 
     # deleted_signal_1 = await create_event_message(
@@ -177,11 +176,8 @@ async def test_consumer_delete_room():
     # assert response == 'yeah'
     # print(response)
     assert response == {
-        'method': 'D',
-        'data': {
-            'count': 2,
-            'pk_list': [3, 4],
-        },
+        "method": "D",
+        "data": {"count": 2, "pk_list": [3, 4],},
     }
 
     assert start_rooms - 2 == await async_count_db(Room)

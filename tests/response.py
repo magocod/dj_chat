@@ -14,8 +14,8 @@ def create_event_message(id: int, operation: str, model, serializer):
     instance = model.objects.get(id=id)
     serializer_instance = serializer(instance)
     return {
-        'method': operation,
-        'data': serializer_instance.data,
+        "method": operation,
+        "data": serializer_instance.data,
     }
 
 
@@ -28,8 +28,8 @@ def create_event_list_message(model, serializer):
     instances = model.objects.all()
     serializer_instance = serializer(instances, many=True)
     return {
-        'method': 'R',
-        'data': serializer_instance.data,
+        "method": "R",
+        "data": serializer_instance.data,
     }
 
 
@@ -42,6 +42,6 @@ def create_event_filter_list_message(model, serializer, **kwargs):
     instances = model.objects.filter(**kwargs)
     serializer_instance = serializer(instances, many=True)
     return {
-        'method': 'R',
-        'data': serializer_instance.data,
+        "method": "R",
+        "data": serializer_instance.data,
     }

@@ -8,6 +8,7 @@ from typing import Any, Dict
 
 # third-party
 import pytest
+
 # local Django
 from django.contrib.auth.models import User
 
@@ -25,14 +26,11 @@ def test_user_update_profile(admin_client):
     user_id: int = 1
     oldvalues = UserHeavySerializer(User.objects.get(id=user_id))
     newdata: Dict[str, Any] = {
-        'username': 'NEW',
-        'first_name': 'new name',
-        'last_name': 'new name2',
+        "username": "NEW",
+        "first_name": "new name",
+        "last_name": "new name2",
     }
-    response = admin_client.post(
-        '/api/user/profile/',
-        newdata
-    )
+    response = admin_client.post("/api/user/profile/", newdata)
     newvalues = UserHeavySerializer(User.objects.get(id=user_id))
     assert response.status_code == 200
     assert newvalues.data != oldvalues.data
@@ -47,13 +45,10 @@ def test_user_update_profile_invalid_params(admin_client):
     user_id: int = 1
     oldvalues = UserHeavySerializer(User.objects.get(id=user_id))
     newdata: Dict[str, Any] = {
-        'usernames': 'NEW',
-        'first_names': 'new name',
+        "usernames": "NEW",
+        "first_names": "new name",
     }
-    response = admin_client.post(
-        '/api/user/profile/',
-        newdata
-    )
+    response = admin_client.post("/api/user/profile/", newdata)
     newvalues = UserHeavySerializer(User.objects.get(id=user_id))
     assert response.status_code == 400
     assert newvalues.data == oldvalues.data

@@ -9,58 +9,47 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Room',
+            name="Room",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('name', models.CharField(max_length=50, unique=True)),
-                (
-                    'updated',
-                    models.DateTimeField(
-                        default=django.utils.timezone.now,
-                    ),
-                ),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ("name", models.CharField(max_length=50, unique=True)),
+                ("updated", models.DateTimeField(default=django.utils.timezone.now,),),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
-                    )
-                ),
-                ('text', models.TextField()),
-                (
-                    'updated',
-                    models.DateTimeField(
-                        default=django.utils.timezone.now,
+                        verbose_name="ID",
                     ),
                 ),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ("text", models.TextField()),
+                ("updated", models.DateTimeField(default=django.utils.timezone.now,),),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
                 (
-                    'room',
+                    "room",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='messages',
-                        to='chat.Room',
+                        related_name="messages",
+                        to="chat.Room",
                     ),
                 ),
             ],

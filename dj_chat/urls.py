@@ -25,8 +25,8 @@ API_URLS = user_urls
 
 urlpatterns = [
     # web
-    path('', TemplateView.as_view(template_name="index.html")),
-    path('admin/', admin.site.urls),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("admin/", admin.site.urls),
     # api
-    path('api/', include(API_URLS)),
+    path("api/", include(API_URLS)),
 ]

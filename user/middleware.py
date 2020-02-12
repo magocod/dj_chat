@@ -38,7 +38,7 @@ class AnonymousAuthMiddleware:
         close_old_connections()
 
         print(scope)
-        if 'user' in scope:
+        if "user" in scope:
             # print('user jwt')
             return self.inner(scope)
 
@@ -48,7 +48,7 @@ class AnonymousAuthMiddleware:
         return self.inner(dict(scope, user=user))
 
 
-class JWTAuthMiddleware():
+class JWTAuthMiddleware:
     """
     Token route authorization
     """
@@ -61,16 +61,13 @@ class JWTAuthMiddleware():
         # prevent usage of timed out connections
         close_old_connections()
 
-        path = scope['path']
-        pathlist = path.split('/')
+        path = scope["path"]
+        pathlist = path.split("/")
         # print(path)
         # print(pathlist)
-        if 'jwt' in pathlist:
+        if "jwt" in pathlist:
             # print('auth jwt')
-            return self.decode_jwt(
-                scope,
-                pathlist[len(pathlist) - 2]  # jwt token
-            )
+            return self.decode_jwt(scope, pathlist[len(pathlist) - 2])  # jwt token
 
         # print('auth anonymous')
         return self.inner(scope)
@@ -78,12 +75,8 @@ class JWTAuthMiddleware():
     def decode_jwt(self, scope, urltoken: str):
         # print(urltoken)
         try:
-            decoded = jwt.decode(
-                urltoken,
-                settings.KEY_HS256,
-                algorithms='HS256'
-            )
-            tk = Token.objects.get(key=decoded['token'])
+            decoded = jwt.decode(urltoken, settings.KEY_HS256, algorithms="HS256")
+            tk = Token.objects.get(key=decoded["token"])
             # print(tk.user)
             user = User.objects.get(id=tk.user_id)
             return self.inner(dict(scope, user=user))

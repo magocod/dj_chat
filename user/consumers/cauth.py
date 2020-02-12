@@ -10,16 +10,14 @@ class AuthConsumer(AsyncWebsocketConsumer):
     """
     ...
     """
-    room_group_name: str = 'users'
+
+    room_group_name: str = "users"
 
     async def connect(self):
         """
         Join room group
         """
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         # print(self.scope["headers"])
         await self.accept()
 
@@ -27,10 +25,7 @@ class AuthConsumer(AsyncWebsocketConsumer):
         """
         Leave room group
         """
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data: str):
         """

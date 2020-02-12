@@ -19,18 +19,14 @@ from user.middleware import AnonymousAuthMiddleware, JWTAuthMiddleware
 # concatenar rutas
 WS_URLS = wschat + wsauth
 
-application = ProtocolTypeRouter({
-    "websocket": OriginValidator(
-        # rutas y autenticion
-        JWTAuthMiddleware(
-            AnonymousAuthMiddleware(
-                URLRouter(
-                    WS_URLS,
-                ),
-            )
+application = ProtocolTypeRouter(
+    {
+        "websocket": OriginValidator(
+            # rutas y autenticion
+            JWTAuthMiddleware(AnonymousAuthMiddleware(URLRouter(WS_URLS,),)),
+            # origenes permitidos
+            # settings.CORS_ORIGIN_WHITELIST,
+            ["*"],
         ),
-        # origenes permitidos
-        # settings.CORS_ORIGIN_WHITELIST,
-        ['*'],
-    ),
-})
+    }
+)

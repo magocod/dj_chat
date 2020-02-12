@@ -7,15 +7,13 @@ note: canceled exception
 from channels.testing import WebsocketCommunicator
 
 TOKENS = (
-    '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    '20fd382ed9407b31e1d5f928b5574bb4bffe6130',
-    '20fd382ed9407b31e1d5f928b5574bb4bffe6140',
+    "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+    "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
+    "20fd382ed9407b31e1d5f928b5574bb4bffe6140",
 )
 
 
-async def generate_ws_comunicators(
-                                   fut, tokens, room: int,
-                                   consumer, route: str):
+async def generate_ws_comunicators(fut, tokens, room: int, consumer, route: str):
     """
     ...
     """

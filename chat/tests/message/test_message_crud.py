@@ -33,29 +33,29 @@ async def test_consumer_create_message_in_room():
     """
     start_messages_count: int = await async_count_db(Message)
     start_messages_count_room: int = await async_count_filter_db(
-        Message,
-        room_id=3,
+        Message, room_id=3,
     )
 
-    communicator = WebsocketCommunicator(MessageConsumer, '/ws/chat/')
+    communicator = WebsocketCommunicator(MessageConsumer, "/ws/chat/")
     connected, _ = await communicator.connect()
     assert connected
 
     # join chat room 3
-    await communicator.send_json_to({
-        'method': 'J',
-        'values': {'room_id': 3},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
+    await communicator.send_json_to(
+        {
+            "method": "J",
+            "values": {"room_id": 3},
+            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        }
+    )
 
-    await communicator.send_json_to({
-        'method': 'C',
-        'values': {
-            'text': 'hello',
-            'room_id': 3,
-        },
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
+    await communicator.send_json_to(
+        {
+            "method": "C",
+            "values": {"text": "hello", "room_id": 3,},
+            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        }
+    )
 
     await communicator.receive_json_from()
     # notify_user = await communicator.receive_json_from()
@@ -66,20 +66,19 @@ async def test_consumer_create_message_in_room():
     # print('2', notify_group)
     # print('3', response)
     assert response == await create_event_message(
-        id=response['data']['id'],
-        operation='C',
+        id=response["data"]["id"],
+        operation="C",
         model=Message,
         serializer=MessageHeavySerializer,
     )
 
     assert start_messages_count + 1 == await async_count_db(Message)
     assert start_messages_count_room + 1 == await async_count_filter_db(
-        Message,
-        room_id=3,
+        Message, room_id=3,
     )
 
     # Close
-    await async_delete_models(Message, id=response['data']['id'])
+    await async_delete_models(Message, id=response["data"]["id"])
     await communicator.disconnect()
 
 
@@ -91,22 +90,21 @@ async def test_consumer_create_message_in_non_existent_room():
     """
     start_messages_count: int = await async_count_db(Message)
 
-    communicator_n = WebsocketCommunicator(MessageConsumer, '/ws/chat/')
+    communicator_n = WebsocketCommunicator(MessageConsumer, "/ws/chat/")
     connected, _ = await communicator_n.connect()
     assert connected
 
-    await communicator_n.send_json_to({
-        'method': 'C',
-        'values': {
-            'text': 'hello',
-            'room_id': 100,
-        },
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
+    await communicator_n.send_json_to(
+        {
+            "method": "C",
+            "values": {"text": "hello", "room_id": 100,},
+            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        }
+    )
     # await communicator_n.receive_json_from()
     response = await communicator_n.receive_json_from()
     # assert response == 'y'
-    assert 'errors' in response
+    assert "errors" in response
 
     assert start_messages_count == await async_count_db(Message)
 
@@ -122,34 +120,32 @@ async def test_consumer_delete_message_in_room():
     """
     start_messages_count: int = await async_count_db(Message)
     start_messages_count_room: int = await async_count_filter_db(
-        Message,
-        room_id=1,
+        Message, room_id=1,
     )
     expected_response = await create_event_message(
-        id=1,
-        operation='D',
-        model=Message,
-        serializer=MessageHeavySerializer,
+        id=1, operation="D", model=Message, serializer=MessageHeavySerializer,
     )
 
-    communicator = WebsocketCommunicator(MessageConsumer, '/ws/chat/')
+    communicator = WebsocketCommunicator(MessageConsumer, "/ws/chat/")
     connected, _ = await communicator.connect()
     assert connected
 
     # join chat room
-    await communicator.send_json_to({
-        'method': 'J',
-        'values': {'room_id': 1},
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
+    await communicator.send_json_to(
+        {
+            "method": "J",
+            "values": {"room_id": 1},
+            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        }
+    )
 
-    await communicator.send_json_to({
-        'method': 'D',
-        'values': {
-            'message_id': 1,
-        },
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
+    await communicator.send_json_to(
+        {
+            "method": "D",
+            "values": {"message_id": 1,},
+            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        }
+    )
 
     # join group notify user
     await communicator.receive_json_from()
@@ -159,8 +155,7 @@ async def test_consumer_delete_message_in_room():
 
     assert start_messages_count - 1 == await async_count_db(Message)
     assert start_messages_count_room - 1 == await async_count_filter_db(
-        Message,
-        room_id=1,
+        Message, room_id=1,
     )
 
     # Close
@@ -175,21 +170,21 @@ async def test_consumer_delete_message_that_does_not_exist():
     """
     start_messages_count: int = await async_count_db(Message)
 
-    communicator_n = WebsocketCommunicator(MessageConsumer, '/ws/chat/')
+    communicator_n = WebsocketCommunicator(MessageConsumer, "/ws/chat/")
     connected, _ = await communicator_n.connect()
     assert connected
 
-    await communicator_n.send_json_to({
-        'method': 'D',
-        'values': {
-            'message_id': 100,
-        },
-        'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120',
-    })
+    await communicator_n.send_json_to(
+        {
+            "method": "D",
+            "values": {"message_id": 100,},
+            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        }
+    )
     # await communicator_n.receive_json_from()
     response = await communicator_n.receive_json_from()
     # assert response == 'y'
-    assert 'errors' in response
+    assert "errors" in response
 
     assert start_messages_count == await async_count_db(Message)
 

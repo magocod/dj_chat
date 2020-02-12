@@ -24,7 +24,7 @@ async def test_consumer_valid_token():
     connected, subprotocol = await communicator.connect()
     assert connected
     # Test sending text
-    request = {'token': '20fd382ed9407b31e1d5f928b5574bb4bffe6120'}
+    request = {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120"}
     # await communicator.send_to(text_data='')
     await communicator.send_json_to(request)
     # response = await communicator.receive_from()
@@ -45,12 +45,12 @@ async def test_consumer_no_token():
     connected, subprotocol = await communicator.connect()
     assert connected
     # Test sending text
-    request = {'no_token': '123'}
+    request = {"no_token": "123"}
     await communicator.send_json_to(request)
     response = await communicator.receive_json_from()
     assert response == {
-        'code': 401,
-        'details': 'Authentication credentials were not provided'
+        "code": 401,
+        "details": "Authentication credentials were not provided",
     }
     # Close
     await communicator.disconnect()
@@ -67,12 +67,9 @@ async def test_consumer_invalid_token():
     connected, subprotocol = await communicator.connect()
     assert connected
     # Test sending text
-    request = {'token': '123'}
+    request = {"token": "123"}
     await communicator.send_json_to(request)
     response = await communicator.receive_json_from()
-    assert response == {
-        'code': 401,
-        'details': 'user or token no exist'
-    }
+    assert response == {"code": 401, "details": "user or token no exist"}
     # Close
     await communicator.disconnect()

@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Union
 # from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+
 # Django
 from django.db import IntegrityError
 from django.utils import timezone
@@ -29,16 +30,14 @@ class RoomConsumer(AsyncWebsocketConsumer):
     """
     ...
     """
-    room_group_name: str = 'rooms'
+
+    room_group_name: str = "rooms"
 
     async def connect(self):
         """
         Join room group
         """
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         # print(self.scope["headers"])
         await self.accept()
 
@@ -46,10 +45,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         Leave room group
         """
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     @token_required
     async def receive(self, text_data: str):
@@ -58,51 +54,46 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         request: Dict[str, Any] = self.validate_request(text_data)
         # print(request)
-        if 'errors' in request:
+        if "errors" in request:
             await self.send(text_data=json.dumps(request))
         else:
-            if request['method'] == 'U':
-                response: Dict[str, Any] = await self.upsert_room(
-                    request['values']
-                )
+            if request["method"] == "U":
+                response: Dict[str, Any] = await self.upsert_room(request["values"])
                 # print(response)
-                if 'errors' in response:
-                    await self.send(
-                        text_data=json.dumps(response)
-                    )
-                else:
-                    await self.channel_layer.group_send(
-                        self.room_group_name,
-                        {
-                            'type': 'room_event',
-                            'method': request['method'],
-                            'data': response,
-                        }
-                    )
-            elif request['method'] == 'D':
-                response: Dict[str, Any] = await self.delete_room(
-                    request['values']
-                )
-                if 'errors' in response:
+                if "errors" in response:
                     await self.send(text_data=json.dumps(response))
                 else:
                     await self.channel_layer.group_send(
                         self.room_group_name,
                         {
-                            'type': 'room_event',
-                            'method': request['method'],
-                            'data': response,
-                        }
+                            "type": "room_event",
+                            "method": request["method"],
+                            "data": response,
+                        },
+                    )
+            elif request["method"] == "D":
+                response: Dict[str, Any] = await self.delete_room(request["values"])
+                if "errors" in response:
+                    await self.send(text_data=json.dumps(response))
+                else:
+                    await self.channel_layer.group_send(
+                        self.room_group_name,
+                        {
+                            "type": "room_event",
+                            "method": request["method"],
+                            "data": response,
+                        },
                     )
             else:
                 response: List_or_Dict = await self.list_room()
-                if 'errors' in response:
+                if "errors" in response:
                     await self.send(text_data=json.dumps(response))
                 else:
-                    await self.send(text_data=json.dumps({
-                        'method': request['method'],
-                        'data': response,
-                    }))
+                    await self.send(
+                        text_data=json.dumps(
+                            {"method": request["method"], "data": response,}
+                        )
+                    )
 
     @user_active
     async def room_event(self, event: Dict[str, Any]):
@@ -112,10 +103,9 @@ class RoomConsumer(AsyncWebsocketConsumer):
         print(event)
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'method': event['method'],
-            'data': event['data'],
-        }))
+        await self.send(
+            text_data=json.dumps({"method": event["method"], "data": event["data"],})
+        )
 
     @database_sync_to_async
     def list_room(self) -> List_or_Dict:
@@ -124,12 +114,11 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         try:
             serializer = RoomHeavySerializer(
-                Room.objects.all().order_by('id'),
-                many=True,
+                Room.objects.all().order_by("id"), many=True,
             )
             return serializer.data
         except Exception as e:
-            return {'errors': {'exception': str(e)}}
+            return {"errors": {"exception": str(e)}}
 
     @database_sync_to_async
     def upsert_room(self, values: Dict[str, Any]) -> Dict[str, str]:
@@ -139,18 +128,17 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         try:
             room, _ = Room.objects.update_or_create(
-                name=values['name'],
-                defaults={'updated': timezone.now()},
+                name=values["name"], defaults={"updated": timezone.now()},
             )
             serializer = RoomHeavySerializer(room)
             return serializer.data
         except IntegrityError:
-            room = Room.objects.get(name=values['name'])
+            room = Room.objects.get(name=values["name"])
             room.updated = timezone.now()
             room.save()
             return RoomHeavySerializer(room).data
         except Exception as e:
-            return {'errors': {'exception': str(e)}}
+            return {"errors": {"exception": str(e)}}
 
     @database_sync_to_async
     def delete_room(self, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -159,15 +147,13 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         try:
             # retorna (numero eliminados, dict tipos eliminados)
-            count, _ = Room.objects.filter(
-                pk__in=values['pk_list'],
-            ).delete()
+            count, _ = Room.objects.filter(pk__in=values["pk_list"],).delete()
             return {
-                'count': count,
-                'pk_list': values['pk_list'],
+                "count": count,
+                "pk_list": values["pk_list"],
             }
         except Exception as e:
-            return {'errors': {'exception': str(e)}}
+            return {"errors": {"exception": str(e)}}
 
     def validate_request(self, text_data: str) -> Dict[str, Any]:
         """
@@ -175,13 +161,13 @@ class RoomConsumer(AsyncWebsocketConsumer):
         """
         # try:
 
-        text_data_json: Dict['str', Any] = json.loads(text_data)
+        text_data_json: Dict["str", Any] = json.loads(text_data)
         # print(text_data_json)
         serializer = RequestSerializer(data=text_data_json)
         if serializer.is_valid():
             return serializer.data
 
-        return {'errors': serializer.errors}
+        return {"errors": serializer.errors}
 
         # except Exception as e:
         #     return {'errors': str(e)}

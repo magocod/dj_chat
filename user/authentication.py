@@ -5,10 +5,7 @@
 # third-party
 import jwt
 from rest_framework import exceptions
-from rest_framework.authentication import (
-    BaseAuthentication,
-    get_authorization_header
-)
+from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
 # Django
 from django.conf import settings
@@ -27,13 +24,14 @@ class TokenAuthentication(BaseAuthentication):
         Authorization: Token 401f7ac837da42b97f613d789819ff93537bee6a
     """
 
-    keyword = 'Token'
+    keyword = "Token"
     model = None
 
     def get_model(self):
         if self.model is not None:
             return self.model
         from rest_framework.authtoken.models import Token
+
         return Token
 
     """
@@ -50,13 +48,10 @@ class TokenAuthentication(BaseAuthentication):
             return None
 
         if len(auth) == 1:
-            msg = _('Invalid token header. No credentials provided.')
+            msg = _("Invalid token header. No credentials provided.")
             raise exceptions.AuthenticationFailed(msg)
         elif len(auth) > 2:
-            msg = _(
-                'Invalid token header. Token string' +
-                'should not contain spaces.'
-            )
+            msg = _("Invalid token header. Token string" + "should not contain spaces.")
             raise exceptions.AuthenticationFailed(msg)
 
         try:
@@ -64,44 +59,34 @@ class TokenAuthentication(BaseAuthentication):
             # auth[1].decode()
         except UnicodeError:
             msg = _(
-                'Invalid token header. Token string should' +
-                'not contain invalid characters.'
+                "Invalid token header. Token string should"
+                + "not contain invalid characters."
             )
             raise exceptions.AuthenticationFailed(msg)
 
         decoded: jwt_decoded = {}
         try:
-            decoded = jwt.decode(
-                token,
-                settings.KEY_HS256,
-                algorithms='HS256'
-            )
+            decoded = jwt.decode(token, settings.KEY_HS256, algorithms="HS256")
         except Exception as e:
             raise exceptions.AuthenticationFailed(str(e))
 
-        if 'token' not in decoded:
-            raise exceptions.AuthenticationFailed(
-                'token not provided'
-            )
+        if "token" not in decoded:
+            raise exceptions.AuthenticationFailed("token not provided")
 
-        if 'user' not in decoded:
-            raise exceptions.AuthenticationFailed(
-                'invalid decoded token'
-            )
+        if "user" not in decoded:
+            raise exceptions.AuthenticationFailed("invalid decoded token")
 
-        return self.authenticate_credentials(decoded['token'])
+        return self.authenticate_credentials(decoded["token"])
 
     def authenticate_credentials(self, key: str):
         model = self.get_model()
         try:
-            token = model.objects.select_related('user').get(key=key)
+            token = model.objects.select_related("user").get(key=key)
         except model.DoesNotExist:
-            raise exceptions.AuthenticationFailed(_('Invalid token.'))
+            raise exceptions.AuthenticationFailed(_("Invalid token."))
 
         if not token.user.is_active:
-            raise exceptions.AuthenticationFailed(
-                _('User inactive or deleted.')
-            )
+            raise exceptions.AuthenticationFailed(_("User inactive or deleted."))
 
         return (token.user, token)
 

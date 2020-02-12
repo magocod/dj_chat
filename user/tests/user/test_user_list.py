@@ -19,11 +19,8 @@ def test_get_all_user(admin_client):
     """
     ...
     """
-    response = admin_client.get('/api/users/')
-    serializer = UserHeavySerializer(
-        User.objects.all(),
-        many=True
-    )
+    response = admin_client.get("/api/users/")
+    serializer = UserHeavySerializer(User.objects.all(), many=True)
     assert response.status_code == 200
     assert serializer.data == response.data
 
@@ -33,5 +30,5 @@ def test_list_users_only_for_super_users(staff_client):
     """
     ...
     """
-    response = staff_client.get('/api/users/')
+    response = staff_client.get("/api/users/")
     assert response.status_code == 403

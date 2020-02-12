@@ -9,7 +9,8 @@ class ChatConfig(AppConfig):
     """
     ...
     """
-    name: str = 'chat'
+
+    name: str = "chat"
 
     def ready(self):
         pass
