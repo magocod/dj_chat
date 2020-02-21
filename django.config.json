@@ -1,6 +1,5 @@
 {
     "APP": {
-        "VERSION": "1.0.0",
         "SECRET_KEY": "-cqx)mhb3nbe0^jr-_+9!jrz!8564rlk6^f(31jk@q3i$i)=0k",
         "JWT": {
             "HS256": "secret"
