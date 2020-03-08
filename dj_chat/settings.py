@@ -17,8 +17,8 @@ import json
 import os
 import sys
 
-import django_heroku
 import dj_database_url
+import django_heroku
 
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy(),)

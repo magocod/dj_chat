@@ -2,20 +2,20 @@
 Edicion de usuarios (perfil)
 """
 
+# Django
+from django.contrib.auth import authenticate
+
 # third-party
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# Django
-from django.contrib.auth import authenticate
-
 # local Django
 from user.serializers import (
+    PasswordResetSerializer,
     UserHeavySerializer,
     UserSerializer,
-    PasswordResetSerializer,
 )
 
 

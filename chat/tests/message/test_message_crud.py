@@ -14,8 +14,7 @@ from chat.consumers.cmessage import MessageConsumer
 from chat.models import Message
 from chat.serializers import MessageHeavySerializer
 from tests.db import (
-    # async_create_model,
-    async_count_db,
+    async_count_db,  # async_create_model,
     async_count_filter_db,
     async_delete_models,
 )

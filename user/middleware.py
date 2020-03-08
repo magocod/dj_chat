@@ -5,12 +5,12 @@
 # third-party
 import jwt
 from channels.generic.websocket import AsyncWebsocketConsumer
-from rest_framework.authtoken.models import Token
 
 # Django
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser, User
 from django.db import close_old_connections
+from rest_framework.authtoken.models import Token
 
 
 class WebsocketDenier(AsyncWebsocketConsumer):

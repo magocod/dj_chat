@@ -16,10 +16,13 @@
 ## third-party
 
 * Django-rest-framework -> https://www.django-rest-framework.org/
+* black -> https://black.readthedocs.io/en/stable/
+* isort -> https://timothycrosley.github.io/isort/
 
 ## Tests (99% coverage)
 
 * Pytest -> https://docs.pytest.org/en/latest/
+* coverage -> https://coverage.readthedocs.io/en/coverage-5.0.3/
 
 ## Instructions
 

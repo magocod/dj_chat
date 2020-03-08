@@ -15,10 +15,7 @@ from chat.consumers.croom import RoomConsumer
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
-from tests.db import (
-    async_create_model,
-    async_count_db,
-)
+from tests.db import async_count_db, async_create_model
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]

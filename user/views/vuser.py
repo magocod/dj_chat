@@ -20,10 +20,10 @@ from rest_framework.views import APIView
 # local Django
 from user.permissions import IsSuperUser
 from user.serializers import (
+    PasswordSerializer,
     UserHeavySerializer,
     UserRegisterSerializer,
     UserSerializer,
-    PasswordSerializer,
 )
 
 

@@ -2,16 +2,18 @@
 Rutas websockets
 """
 
-# Django
+
 # from channels.auth import AuthMiddlewareStack
 # from django.conf import settings
 from channels.routing import ProtocolTypeRouter, URLRouter
+
+# Django
 from channels.security.websocket import OriginValidator
 
 # local Django
 from chat.routing import websocket_urlpatterns as wschat
-from user.routing import websocket_urlpatterns as wsauth
 from user.middleware import AnonymousAuthMiddleware, JWTAuthMiddleware
+from user.routing import websocket_urlpatterns as wsauth
 
 # JWTAuthMiddlewareStack = lambda inner: JWTAuthMiddleware(
 # AnonymousAuthMiddleware(inner))

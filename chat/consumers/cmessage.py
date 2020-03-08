@@ -11,15 +11,16 @@ from typing import Any, Dict, Union
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-# Django
-# from django.utils import timezone
-
 from chat.consumers.utils import get_room_or_error
 
 # local Django
 from chat.models import Message, Room
-from chat.serializers import RequestMessageSerializer, MessageHeavySerializer
+from chat.serializers import MessageHeavySerializer, RequestMessageSerializer
 from user.decorators import token_required, user_active
+
+# Django
+# from django.utils import timezone
+
 
 # from django.contrib.auth.models import AnonymousUser, User
 

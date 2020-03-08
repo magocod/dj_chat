@@ -10,11 +10,11 @@ from typing import Dict
 # third-party
 import jwt
 import pytest
-from rest_framework.authtoken.models import Token
 
 # Django
 from django.conf import settings
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 # local Django
 from user.serializers import UserHeavySerializer

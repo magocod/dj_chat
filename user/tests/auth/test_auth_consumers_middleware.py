@@ -14,10 +14,11 @@ from channels.testing import WebsocketCommunicator
 # Django
 from django.conf import settings
 
-# from django.contrib.auth.models import User
-
 # local Django
 from user.consumers.cauth import AuthConsumer
+
+# from django.contrib.auth.models import User
+
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db

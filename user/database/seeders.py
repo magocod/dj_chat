@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 # third-party
 from rest_framework.authtoken.models import Token
 
-
 USERS: Tuple[Dict[str, Any]] = (
     {
         "username": "generic_admin",

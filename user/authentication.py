@@ -2,16 +2,16 @@
 ...
 """
 
+from typing import Any, Dict
+
 # third-party
 import jwt
-from rest_framework import exceptions
-from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
 # Django
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-
-from typing import Any, Dict
+from rest_framework import exceptions
+from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
 jwt_decoded = Dict[str, Any]
 
