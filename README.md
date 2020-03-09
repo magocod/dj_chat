@@ -1,4 +1,8 @@
-# Django Chat
+Django Chat
+===========
+![Alt text](https://github.com/magocod/dj_chat/blob/master/repository_images/tags/code_style_black.svg "code_style")
+
+basic chat application, using websockets
 
 * Demo url: https://djchat.herokuapp.com/
 
