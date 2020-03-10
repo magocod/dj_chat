@@ -1,0 +1,12 @@
+{
+    "APP": {
+        "SECRET_KEY": "secret_key",
+        "DEBUG": true,
+        "ALLOWED_HOSTS": [
+            "localhost",
+        ],
+        "CORS_ORIGIN_WHITELIST": [
+            "http://localhost",
+        ]
+    },
+}
