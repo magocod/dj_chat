@@ -1,5 +1,6 @@
 Django Chat
 ===========
+![Alt text](https://firebasestorage.googleapis.com/v0/b/django-237201.appspot.com/o/repo_tags%2Ftag_py_36_37.png?alt=media&token=54c1a277-f100-4e47-b5a7-09afe86c3550 "python_versions")
 ![Alt text](https://github.com/magocod/dj_chat/blob/master/repository_images/tags/code_style_black.svg "code_style")
 
 basic chat application, using websockets
