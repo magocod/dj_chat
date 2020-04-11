@@ -2,9 +2,6 @@
 Vistas autenticacion de usuarios
 """
 
-# third-party
-import jwt
-
 # Django
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -42,31 +39,6 @@ class CustomAuthToken(ObtainAuthToken):
             {"token": token.key, "user": user_serializer.data},
             status=status.HTTP_200_OK,
         )
-
-
-class AuthJwtHS256Token(ObtainAuthToken):
-    """
-    ...
-    """
-
-    serializer_class = AuthTokenSerializer
-
-    def post(self, request, *args, **kwargs):
-        """
-        ...
-        """
-        serializer = self.serializer_class(
-            data=request.data, context={"request": request},
-        )
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data["user"]
-        user_serializer = UserHeavySerializer(user)
-        token, _ = Token.objects.get_or_create(user=user)
-        key = settings.KEY_HS256
-        encoded_jwt = jwt.encode(
-            {"token": token.key, "user": user_serializer.data}, key, algorithm="HS256"
-        )
-        return Response(encoded_jwt, status=status.HTTP_200_OK)
 
 
 class EmailView(APIView):

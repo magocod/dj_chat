@@ -24,7 +24,7 @@ class TokenAuthentication(BaseAuthentication):
         Authorization: Token 401f7ac837da42b97f613d789819ff93537bee6a
     """
 
-    keyword = "Token"
+    keyword = "Bearer"
     model = None
 
     def get_model(self):
@@ -42,6 +42,7 @@ class TokenAuthentication(BaseAuthentication):
     """
 
     def authenticate(self, request):
+        # [keyword, token]
         auth = get_authorization_header(request).split()
 
         if not auth or auth[0].lower() != self.keyword.lower().encode():
@@ -51,10 +52,12 @@ class TokenAuthentication(BaseAuthentication):
             msg = _("Invalid token header. No credentials provided.")
             raise exceptions.AuthenticationFailed(msg)
         elif len(auth) > 2:
-            msg = _("Invalid token header. Token string" + "should not contain spaces.")
+            msg = _("Invalid token header. Token string" + " should not contain spaces.")
             raise exceptions.AuthenticationFailed(msg)
 
         try:
+            # token = auth[1]
+            # print(token)
             token = auth[1].decode()
             # auth[1].decode()
         except UnicodeError:
@@ -70,6 +73,7 @@ class TokenAuthentication(BaseAuthentication):
         except Exception as e:
             raise exceptions.AuthenticationFailed(str(e))
 
+        # print('jwt', decoded)
         if "token" not in decoded:
             raise exceptions.AuthenticationFailed("token not provided")
 

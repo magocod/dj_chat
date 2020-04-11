@@ -3,11 +3,18 @@ Ajustes pruebas
 """
 
 # third-party
+import jwt
 import pytest
+from rest_framework.authtoken.models import Token
 
 # Django
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework.test import APIClient
+
+# local Django
+from user.serializers import UserHeavySerializer
 
 
 @pytest.fixture(scope="session")
@@ -72,4 +79,25 @@ def public_client():
     user not authenticated
     """
     client = APIClient()
+    return client
+
+
+@pytest.fixture
+def admin_client_jwt():
+    """
+    user jwt authenticated
+    """
+    user = User.objects.get(id=1)
+    user_serializer = UserHeavySerializer(user)
+    # print(user_serializer.data)
+    token, _ = Token.objects.get_or_create(user=user)
+    # print(token)
+    key = settings.KEY_HS256
+    encoded_jwt = jwt.encode(
+        {"token": token.key, "user": user_serializer.data}, key, algorithm="HS256"
+    )
+    # print(type(encoded_jwt))
+    # print(encoded_jwt.decode('UTF-8'))
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + encoded_jwt.decode('UTF-8'),)
     return client

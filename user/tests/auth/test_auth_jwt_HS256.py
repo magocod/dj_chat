@@ -24,7 +24,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.auth_jwt_hs256
-def test_success_request_jwt(public_client):
+def test_success_login_jwt(public_client):
     """
     ...
     """
@@ -45,7 +45,7 @@ def test_success_request_jwt(public_client):
 
 
 @pytest.mark.auth_jwt_hs256
-def test_failed_request_jwt(public_client):
+def test_failed_login_jwt(public_client):
     """
     ...
     """
