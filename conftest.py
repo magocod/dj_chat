@@ -99,5 +99,5 @@ def admin_client_jwt():
     # print(type(encoded_jwt))
     # print(encoded_jwt.decode('UTF-8'))
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION="Bearer " + encoded_jwt.decode('UTF-8'),)
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + encoded_jwt.decode("UTF-8"),)
     return client

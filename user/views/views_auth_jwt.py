@@ -7,6 +7,7 @@ import jwt
 
 # Django
 from django.conf import settings
+
 # from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -42,13 +43,14 @@ class AuthJwtHS256Token(ObtainAuthToken):
         encoded_jwt = jwt.encode(
             {"token": token.key, "user": user_serializer.data}, key, algorithm="HS256"
         )
-        return Response(encoded_jwt.decode('UTF-8'), status=status.HTTP_200_OK)
+        return Response(encoded_jwt.decode("UTF-8"), status=status.HTTP_200_OK)
 
 
 class CurrentUserJwtView(APIView):
     """
     ...
     """
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = AuthTokenSerializer
@@ -58,7 +60,4 @@ class CurrentUserJwtView(APIView):
         ...
         """
         user_serializer = UserHeavySerializer(request.user)
-        return Response(
-            user_serializer.data,
-            status=status.HTTP_200_OK,
-        )
+        return Response(user_serializer.data, status=status.HTTP_200_OK,)

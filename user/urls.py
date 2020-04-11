@@ -15,13 +15,14 @@ urlpatterns = [
     path("user/logout/", vauth.LogoutView.as_view(), name="users_logout"),
     # auth jwt
     path(
-        "jwt-auth/", views_auth_jwt.AuthJwtHS256Token.as_view(),
+        "jwt-auth/",
+        views_auth_jwt.AuthJwtHS256Token.as_view(),
         name="user_jwt_hs_token_auth",
     ),
     path(
         "current_user_jwt/",
         views_auth_jwt.CurrentUserJwtView.as_view(),
-        name="current_user_jwt"
+        name="current_user_jwt",
     ),
     # user
     path("users/", vuser.UserListView.as_view(), name="list_users"),
