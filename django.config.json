@@ -4,7 +4,7 @@
         "JWT": {
             "HS256": "secret"
         },
-        "DEBUG": true,
+        "DEBUG": false,
         "ALLOWED_HOSTS": [
             "localhost",
             "localhost:8000",
