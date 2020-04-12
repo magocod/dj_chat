@@ -1,2 +1,4 @@
 [run]
-omit = *.tox*
+omit =
+	*.tox*
+	*rsa_auth*
