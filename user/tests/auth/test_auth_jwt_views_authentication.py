@@ -16,6 +16,7 @@ import pytest
 # Django
 from django.conf import settings
 from django.contrib.auth.models import User
+
 # from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
@@ -25,8 +26,23 @@ from user.serializers import UserHeavySerializer
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
 
-ENCODED = jwt.encode({"some": "payload"}, settings.KEY_HS256, algorithm="HS256")
-TEST_JWT_TOKEN = ENCODED.decode("UTF-8")
+ENCODED_VALID = jwt.encode(
+    {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120", "user": {}},
+    settings.KEY_HS256,
+    algorithm="HS256",
+)
+ENCODED_KEY = jwt.encode({"some": "payload"}, "invalid", algorithm="HS256")
+ENCODED_CONTENT_TOKEN = jwt.encode(
+    {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120"},
+    settings.KEY_HS256,
+    algorithm="HS256",
+)
+ENCODED_CONTENT_USER = jwt.encode({"user": {}}, settings.KEY_HS256, algorithm="HS256")
+
+JWT = ENCODED_VALID.decode("UTF-8")
+JWT_INVALID_KEY = ENCODED_KEY.decode("UTF-8")
+JWT_INVALID_TOKEN = ENCODED_CONTENT_USER.decode("UTF-8")
+JWT_INVALID_USER = ENCODED_CONTENT_TOKEN.decode("UTF-8")
 
 
 @pytest.mark.auth_jwt_views_authentication
@@ -48,11 +64,25 @@ def test_authentiaction_request_failure_keyword():
     ...
     """
 
-    keywordclient = APIClient()
-    keywordclient.credentials(HTTP_AUTHORIZATION="Token " + TEST_JWT_TOKEN,)
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Token " + JWT,)
 
-    response = keywordclient.post("/api/current_user_jwt/")
+    response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "Authentication credentials were not provided."
+    assert response.status_code == 401
+
+
+@pytest.mark.auth_jwt_views_authentication
+def test_authentiaction_jwt_key_invalidates():
+    """
+    ...
+    """
+
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {JWT_INVALID_KEY}")
+
+    response = client.post("/api/current_user_jwt/")
+    assert response.data["detail"] == "Signature verification failed"
     assert response.status_code == 401
 
 
@@ -62,10 +92,10 @@ def test_authentiaction_token_is_not_in_the_header():
     ...
     """
 
-    keywordclient = APIClient()
-    keywordclient.credentials(HTTP_AUTHORIZATION="Bearer ")
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Bearer ")
 
-    response = keywordclient.post("/api/current_user_jwt/")
+    response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "Invalid token header. No credentials provided."
     assert response.status_code == 401
 
@@ -76,10 +106,10 @@ def test_authentiaction_the_token_in_the_header_contains_spaces():
     ...
     """
 
-    keywordclient = APIClient()
-    keywordclient.credentials(HTTP_AUTHORIZATION="Bearer " + TEST_JWT_TOKEN + " 12")
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + JWT + " 12")
 
-    response = keywordclient.post("/api/current_user_jwt/")
+    response = client.post("/api/current_user_jwt/")
     assert (
         response.data["detail"]
         == "Invalid token header. Token string should not contain spaces."
@@ -87,19 +117,44 @@ def test_authentiaction_the_token_in_the_header_contains_spaces():
     assert response.status_code == 401
 
 
-# @pytest.mark.auth_jwt_views_authentication
-# def test_get_current_user_jwt(admin_client_jwt):
-#     """
-#     ...
-#     """
-#     user = User.objects.get(id=1)
-#     user_serializer = UserHeavySerializer(user)
-#     # print(user_serializer.data)
-#     token, _ = Token.objects.get_or_create(user=user)
-#     # print(token)
-#     key = settings.KEY_HS256
-#     encoded_jwt = jwt.encode(
-#         {"token": token.key, "user": user_serializer.data}, key, algorithm="HS256"
-#     )
-#     client = APIClient()
-#     client.credentials(HTTP_AUTHORIZATION="Bearer " + encoded_jwt.decode('UTF-8'),)
+@pytest.mark.auth_jwt_views_authentication
+def test_authentiaction_no_user_token_after_jwt_decoding():
+    """
+    ...
+    """
+
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + JWT_INVALID_TOKEN)
+
+    response = client.post("/api/current_user_jwt/")
+    assert response.data["detail"] == "invalid decoded token (token)"
+    assert response.status_code == 401
+
+
+@pytest.mark.auth_jwt_views_authentication
+def test_authentiaction_no_user_after_jwt_decoding():
+    """
+    ...
+    """
+
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + JWT_INVALID_USER)
+
+    response = client.post("/api/current_user_jwt/")
+    assert response.data["detail"] == "invalid decoded token (user)"
+    assert response.status_code == 401
+
+
+@pytest.mark.auth_jwt_views_authentication
+def test_authentiaction_the_user_in_jwt_is_disabled():
+    """
+    ...
+    """
+
+    User.objects.filter(id=1).update(is_active=False)
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {JWT}")
+
+    response = client.post("/api/current_user_jwt/")
+    assert response.data["detail"] == "User inactive or deleted."
+    assert response.status_code == 401

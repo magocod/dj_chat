@@ -77,10 +77,10 @@ class TokenAuthentication(BaseAuthentication):
 
         # print('jwt', decoded)
         if "token" not in decoded:
-            raise exceptions.AuthenticationFailed("token not provided")
+            raise exceptions.AuthenticationFailed("invalid decoded token (token)")
 
         if "user" not in decoded:
-            raise exceptions.AuthenticationFailed("invalid decoded token")
+            raise exceptions.AuthenticationFailed("invalid decoded token (user)")
 
         return self.authenticate_credentials(decoded["token"])
 

@@ -39,12 +39,9 @@ class UserListView(APIView):
         """
         ...
         """
-        try:
-            user = User.objects.get(pk=pk)
-            res = self.serializer(user)
-            return res.data
-        except User.DoesNotExist:
-            raise Http404
+        user = User.objects.get(pk=pk)
+        serializer = self.serializer(user)
+        return serializer.data
 
     def get(self, request, format=None):
         """
