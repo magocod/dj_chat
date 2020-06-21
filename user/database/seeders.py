@@ -6,15 +6,17 @@ Importador usuarios
 from typing import Any, Dict, Tuple
 
 # Django
+from django.contrib.auth import get_user_model
 # from django.contrib.auth.models import User
-from ..models import CUser as User
 
 # third-party
 from rest_framework.authtoken.models import Token
 
+User = get_user_model()
+
 USERS: Tuple[Dict[str, Any]] = (
     {
-        "username": "generic_admin",
+        "username": "super_user_admin",
         "email": "admin@django.com",
         "password": "123",
         "first_name": "admin",
@@ -24,7 +26,7 @@ USERS: Tuple[Dict[str, Any]] = (
         "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
     },
     {
-        "username": "generic_user",
+        "username": "basic_user",
         "email": "user@django.com",
         "password": "123",
         "first_name": "user",
@@ -34,7 +36,7 @@ USERS: Tuple[Dict[str, Any]] = (
         "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
     },
     {
-        "username": "generic_superuser",
+        "username": "super_user",
         "email": "superuser@django.com",
         "password": "123",
         "first_name": "super",
@@ -44,7 +46,7 @@ USERS: Tuple[Dict[str, Any]] = (
         "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6140",
     },
     {
-        "username": "generic_userstaff",
+        "username": "user_staff",
         "email": "userstaff@django.com",
         "password": "123",
         "first_name": "staff",
@@ -54,7 +56,7 @@ USERS: Tuple[Dict[str, Any]] = (
         "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6150",
     },
     {
-        "username": "user_staff",
+        "username": "user_staff_2",
         "email": "userstaff2@django.com",
         "password": "123",
         "first_name": "staff",
@@ -64,7 +66,6 @@ USERS: Tuple[Dict[str, Any]] = (
         "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6160",
     },
 )
-
 
 def user_list():
     """
@@ -79,6 +80,11 @@ def user_list():
         user.is_staff = values["staff"]
         user.is_superuser = values["super"]
         user.save()
-        Token.objects.create(key=values["token"], user_id=user.id)
+        user = User._default_manager.get_by_natural_key(values["username"])
+
+        tk, _ = Token.objects.get_or_create(user=user)
+        # print(token.key)
+        # tk.key = values["token"];
+        # tk.save()
 
     print("users created")

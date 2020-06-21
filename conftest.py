@@ -5,17 +5,20 @@ Ajustes pruebas
 # third-party
 import jwt
 import pytest
-from rest_framework.authtoken.models import Token
 
 # Django
 from django.conf import settings
-from django.contrib.auth.models import User
-
 from django.core.management import call_command
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
+
+from django.contrib.auth import get_user_model
+# from django.contrib.auth.models import User
 
 # local Django
 from user.serializers import UserHeavySerializer
+
+User = get_user_model()
 
 
 @pytest.fixture(scope="session")
@@ -34,8 +37,9 @@ def admin_client():
     super user
     """
     client = APIClient()
+    token, _ = Token.objects.get_or_create(user__username='super_user_admin')
     client.credentials(
-        HTTP_AUTHORIZATION="Token " + "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        HTTP_AUTHORIZATION="Token " + token.key,
     )
     return client
 
@@ -46,8 +50,9 @@ def user_client():
     basic user
     """
     client = APIClient()
+    token, _ = Token.objects.get_or_create(user__username='basic_user')
     client.credentials(
-        HTTP_AUTHORIZATION="Token " + "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
+        HTTP_AUTHORIZATION="Token " + token.key,
     )
     return client
 
@@ -58,8 +63,9 @@ def staff_client():
     basic admin user
     """
     client = APIClient()
+    token, _ = Token.objects.get_or_create(user__username='user_staff')
     client.credentials(
-        HTTP_AUTHORIZATION="Token " + "20fd382ed9407b31e1d5f928b5574bb4bffe6150",
+        HTTP_AUTHORIZATION="Token " + token.key,
     )
     return client
 

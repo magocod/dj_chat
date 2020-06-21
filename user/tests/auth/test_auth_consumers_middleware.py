@@ -10,15 +10,18 @@ authenticacion jwt HS256
 import jwt
 import pytest
 from channels.testing import WebsocketCommunicator
+# from rest_framework.authtoken.models import Token
 
 # Django
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 # local Django
 from user.consumers.cauth import AuthConsumer
 
 # from django.contrib.auth.models import User
 
+User = get_user_model()
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db

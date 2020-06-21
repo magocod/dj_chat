@@ -2,7 +2,6 @@
 Permisos
 """
 
-# third-party
 from rest_framework.permissions import BasePermission
 
 

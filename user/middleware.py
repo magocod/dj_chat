@@ -2,15 +2,16 @@
 ...
 """
 
-# third-party
 import jwt
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-# Django
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.db import close_old_connections
 from rest_framework.authtoken.models import Token
+
+User = get_user_model()
 
 
 class WebsocketDenier(AsyncWebsocketConsumer):

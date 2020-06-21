@@ -13,7 +13,9 @@ import pytest
 
 # Django
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+# from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
 # local Django
@@ -21,6 +23,9 @@ from user.serializers import UserHeavySerializer
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
+
+
+User = get_user_model()
 
 
 @pytest.mark.auth_jwt_hs256

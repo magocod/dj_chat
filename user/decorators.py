@@ -2,20 +2,20 @@
 Decoradores verificacion de usuarios en consumidores
 """
 
-# standard library
 import asyncio
 import functools
 import json
 from typing import Any, Dict, Union
 
-# third-party
 from channels.db import database_sync_to_async
 
 # from channels.layers import get_channel_layer
-# Django
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from rest_framework.authtoken.models import Token
 
+
+User = get_user_model()
 
 @database_sync_to_async
 def user_token(token_key: str):

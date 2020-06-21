@@ -5,10 +5,10 @@ Edicion de usuarios
 # standard library
 from typing import Union
 
-from django.contrib.auth.models import User
-
 # Django
+# from django.contrib.auth.models import User
 from django.http import Http404
+from django.contrib.auth import get_user_model
 
 # third-party
 from rest_framework import status
@@ -25,6 +25,8 @@ from user.serializers import (
     UserRegisterSerializer,
     UserSerializer,
 )
+
+User = get_user_model()
 
 
 class UserListView(APIView):

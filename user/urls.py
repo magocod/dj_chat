@@ -2,11 +2,9 @@
 Rutas User
 """
 
-# Django
 from django.urls import path
 
-# local Django
-from user.views import vauth, vuser, vuserprofile, views_auth_jwt
+from user.views import vauth, views_auth_jwt, vuser, vuserprofile
 
 urlpatterns = [
     # auth

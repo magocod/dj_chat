@@ -10,7 +10,11 @@ from typing import Dict
 import pytest
 
 # Django
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+
+
+User = get_user_model()
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_credentials]
@@ -18,7 +22,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.users_credentials]
 
 SUPER_USER: Dict[str, str] = {
     "id": 1,
-    "username": "generic_admin",
+    "username": "super_user_admin",
     "password": "123",
 }
 

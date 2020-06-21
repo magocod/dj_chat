@@ -9,10 +9,14 @@ from typing import Any, Dict
 # third-party
 import pytest
 
-# local Django
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from user.serializers import UserHeavySerializer
+
+# from django.contrib.auth.models import User
+
+User = get_user_model()
+
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_views]
@@ -138,9 +142,11 @@ def test_update_user(admin_client):
         "username": "NEW",
         "first_name": "new name",
         "last_name": "new name2",
+        "email": "update_email@django.com"
     }
     response = admin_client.put("/api/user/" + str(1) + "/", newdata)
     newvalues = UserHeavySerializer(User.objects.get(id=1))
+    # assert response.data == 'yeah'
     assert response.status_code == 200
     assert newvalues.data != oldvalues.data
     assert newvalues.data == response.data
@@ -217,7 +223,7 @@ def test_delete_admin_user(admin_client, staff_client):
 
 
 @pytest.mark.users_crud
-def test_create_user(admin_client):
+def test_create_user_unique_email(admin_client):
     """
     ...
     """
@@ -233,8 +239,7 @@ def test_create_user(admin_client):
         "is_staff": False,
     }
     response = admin_client.post("/api/users/", data)
-    serializer = UserHeavySerializer(User.objects.get(id=response.data["id"]),)
 
-    assert User.objects.filter(email=repeat_email).count() == 1
-    assert response.status_code == 201
-    assert serializer.data == response.data
+    # assert response.data == 'yeah'
+    assert User.objects.filter(email__exact=repeat_email).count() == 1
+    assert response.status_code == 400

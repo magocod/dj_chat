@@ -9,10 +9,14 @@ from typing import Any, Dict
 # third-party
 import pytest
 
-# local Django
-from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
 from user.serializers import UserHeavySerializer
+
+# local Django
+# from django.contrib.auth.models import User
+
+User = get_user_model()
+
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_views]
@@ -29,6 +33,7 @@ def test_user_update_profile(admin_client):
         "username": "NEW",
         "first_name": "new name",
         "last_name": "new name2",
+        "email": "newemail@django.com"
     }
     response = admin_client.post("/api/user/profile/", newdata)
     newvalues = UserHeavySerializer(User.objects.get(id=user_id))

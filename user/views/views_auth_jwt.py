@@ -2,10 +2,8 @@
 Vistas autenticacion de usuarios
 """
 
-# third-party
 import jwt
 
-# Django
 from django.conf import settings
 
 # from django.contrib.auth.models import User
@@ -16,7 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# local Django
 from user.authentication import TokenAuthentication
 from user.serializers import AuthTokenSerializer, UserHeavySerializer
 

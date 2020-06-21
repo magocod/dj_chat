@@ -17,19 +17,19 @@ pytestmark = [pytest.mark.django_db, pytest.mark.users_credentials]
 
 BASIC_USER: Dict[str, str] = {
     "id": 2,
-    "username": "generic_user",
+    "username": "basic_user",
     "password": "123",
 }
 
 STAFF_USER: Dict[str, str] = {
     "id": 4,
-    "username": "generic_superuser",
+    "username": "user_staff",
     "password": "123",
 }
 
 SUPER_USER: Dict[str, str] = {
     "id": 3,
-    "username": "generic_superuser",
+    "username": "super_user",
     "password": "123",
 }
 

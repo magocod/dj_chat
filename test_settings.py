@@ -53,12 +53,16 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # third-party
     "channels",
-    "rest_framework",
-    "rest_framework.authtoken",
+    "corsheaders",
     # local Django
     "chat",
     "user",
+    # third-party
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
+
+AUTH_USER_MODEL = "user.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

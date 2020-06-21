@@ -6,22 +6,25 @@ authenticacion jwt HS256
 # standard library
 import jwt
 
-# import json
-# from typing import Dict
-
 # third-party
 # import jwt
 import pytest
 
 # Django
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
+# from django.contrib.auth.models import User
 # from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
 # local Django
 from user.serializers import UserHeavySerializer
+
+# import json
+# from typing import Dict
+
+User = get_user_model()
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
