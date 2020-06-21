@@ -214,3 +214,27 @@ def test_delete_admin_user(admin_client, staff_client):
     # assert response.data == 'user cannot delete administrators'
     response = admin_client.delete("/api/user/" + str(5) + "/")
     assert response.status_code == 204
+
+
+@pytest.mark.users_crud
+def test_create_user(admin_client):
+    """
+    ...
+    """
+
+    repeat_email = "admin@django.com"
+
+    data: Dict[str, Any] = {
+        "username": "NEW",
+        "email": repeat_email,
+        "password": "123",
+        "first_name": "name",
+        "last_name": "name2",
+        "is_staff": False,
+    }
+    response = admin_client.post("/api/users/", data)
+    serializer = UserHeavySerializer(User.objects.get(id=response.data["id"]),)
+
+    assert User.objects.filter(email=repeat_email).count() == 1
+    assert response.status_code == 201
+    assert serializer.data == response.data

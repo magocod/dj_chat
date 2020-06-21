@@ -6,7 +6,8 @@ Importador usuarios
 from typing import Any, Dict, Tuple
 
 # Django
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from ..models import CUser as User
 
 # third-party
 from rest_framework.authtoken.models import Token

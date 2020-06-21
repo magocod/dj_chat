@@ -60,12 +60,15 @@ INSTALLED_APPS = [
     # third-party
     "channels",
     "corsheaders",
-    "rest_framework",
-    "rest_framework.authtoken",
     # local Django
     "chat",
     "user",
+    # third-party
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
+
+# AUTH_USER_MODEL = "user.CUser"
 
 MIDDLEWARE = [
     # third-party
