@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
 from django.contrib.auth import get_user_model
+
 # from django.contrib.auth.models import User
 
 # local Django
@@ -38,10 +39,8 @@ def admin_client():
     super user
     """
     client = APIClient()
-    token, _ = Token.objects.get_or_create(user__username='super_user_admin')
-    client.credentials(
-        HTTP_AUTHORIZATION="Token " + token.key,
-    )
+    token, _ = Token.objects.get_or_create(user__username="super_user_admin")
+    client.credentials(HTTP_AUTHORIZATION="Token " + token.key,)
     return client
 
 
@@ -51,10 +50,8 @@ def user_client():
     basic user
     """
     client = APIClient()
-    token, _ = Token.objects.get_or_create(user__username='basic_user')
-    client.credentials(
-        HTTP_AUTHORIZATION="Token " + token.key,
-    )
+    token, _ = Token.objects.get_or_create(user__username="basic_user")
+    client.credentials(HTTP_AUTHORIZATION="Token " + token.key,)
     return client
 
 
@@ -64,10 +61,8 @@ def staff_client():
     basic admin user
     """
     client = APIClient()
-    token, _ = Token.objects.get_or_create(user__username='user_staff')
-    client.credentials(
-        HTTP_AUTHORIZATION="Token " + token.key,
-    )
+    token, _ = Token.objects.get_or_create(user__username="user_staff")
+    client.credentials(HTTP_AUTHORIZATION="Token " + token.key,)
     return client
 
 
@@ -117,61 +112,61 @@ def jwt_token():
     jwt tokens
     """
 
-    token, _ = Token.objects.get_or_create(user__username='super_user_admin')
+    token, _ = Token.objects.get_or_create(user__username="super_user_admin")
 
     ENCODED_VALID = jwt.encode(
-        {"token": token.key, "user": {}},
-        settings.KEY_HS256,
-        algorithm="HS256",
+        {"token": token.key, "user": {}}, settings.KEY_HS256, algorithm="HS256",
     )
     ENCODED_KEY = jwt.encode({"some": "payload"}, "invalid", algorithm="HS256")
-    ENCODED_CONTENT_USER = jwt.encode({"user": {}}, settings.KEY_HS256, algorithm="HS256")
+    ENCODED_CONTENT_USER = jwt.encode(
+        {"user": {}}, settings.KEY_HS256, algorithm="HS256"
+    )
     ENCODED_CONTENT_TOKEN = jwt.encode(
-        {"token": token.key},
-        settings.KEY_HS256,
-        algorithm="HS256",
+        {"token": token.key}, settings.KEY_HS256, algorithm="HS256",
     )
     INVALID_ENCODED = jwt.encode(
         {"token": "123", "user": None}, settings.KEY_HS256, algorithm="HS256"
     )
 
     return {
-        'VALID': ENCODED_VALID.decode("UTF-8"),
-        'INVALID_KEY': ENCODED_KEY.decode("UTF-8"),
-        'INVALID_TOKEN': ENCODED_CONTENT_USER.decode("UTF-8"),
-        'INVALID_USER': ENCODED_CONTENT_TOKEN.decode("UTF-8"),
-        'INVALID_ENCODED': INVALID_ENCODED.decode("UTF-8")
+        "VALID": ENCODED_VALID.decode("UTF-8"),
+        "INVALID_KEY": ENCODED_KEY.decode("UTF-8"),
+        "INVALID_TOKEN": ENCODED_CONTENT_USER.decode("UTF-8"),
+        "INVALID_USER": ENCODED_CONTENT_TOKEN.decode("UTF-8"),
+        "INVALID_ENCODED": INVALID_ENCODED.decode("UTF-8"),
     }
 
 
 @pytest.fixture
 def auth_token():
     """[summary]
-    
+
     [description]
-    
+
     Decorators:
         pytest.fixture
-    
+
     Returns:
         [Any] -- [description]
     """
 
     def generate_token(username: str) -> Tuple[str]:
         """[summary]
-        
+
         [description]
-        
+
         Arguments:
             username {str} -- [description]
-        
+
         Returns:
             Tuple[str] -- [description]
         """
-        token, _ = Token.objects.get_or_create(user__username='super_user_admin')
+        token, _ = Token.objects.get_or_create(user__username="super_user_admin")
         return token.key
 
-    usernames = ['super_user_admin', 'basic_user', 'user_staff']
-    tokens: Dict[str, str] = { username: generate_token(username) for username in usernames }
+    usernames = ["super_user_admin", "basic_user", "user_staff"]
+    tokens: Dict[str, str] = {
+        username: generate_token(username) for username in usernames
+    }
     # print(tokens)
     return tokens

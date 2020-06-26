@@ -10,6 +10,7 @@ authenticacion jwt HS256
 import jwt
 import pytest
 from channels.testing import WebsocketCommunicator
+
 # from rest_framework.authtoken.models import Token
 
 # Django

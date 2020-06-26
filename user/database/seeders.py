@@ -7,6 +7,7 @@ from typing import Any, Dict, Tuple
 
 # Django
 from django.contrib.auth import get_user_model
+
 # from django.contrib.auth.models import User
 
 # third-party
@@ -66,6 +67,7 @@ USERS: Tuple[Dict[str, Any]] = (
         "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6160",
     },
 )
+
 
 def user_list():
     """

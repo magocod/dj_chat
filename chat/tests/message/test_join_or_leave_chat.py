@@ -45,7 +45,10 @@ async def test_consumer_join_room(auth_token):
     response_group = await communicator_1.receive_json_from()
     assert response_group == {
         "method": "J",
-        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
+        "data": {
+            "room": 1,
+            "username": "super_user_admin",
+        },  # nombre usuario del token
     }
 
     # Close
@@ -118,11 +121,7 @@ async def test_notify_users_of_new_members_entering_the_room(auth_token):
     await communicator_in_room.receive_json_from()
 
     await communicator_entering.send_json_to(
-        {
-            "method": "J",
-            "values": {"room_id": 1},
-            "token": auth_token["user_staff"],
-        }
+        {"method": "J", "values": {"room_id": 1}, "token": auth_token["user_staff"],}
     )
     # notify user
     await communicator_entering.receive_json_from()
@@ -132,7 +131,10 @@ async def test_notify_users_of_new_members_entering_the_room(auth_token):
     response = await communicator_in_room.receive_json_from()
     assert response == {
         "method": "J",
-        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
+        "data": {
+            "room": 1,
+            "username": "super_user_admin",
+        },  # nombre usuario del token
     }
 
     # Close
@@ -167,11 +169,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room(auth_
     await communicator_in_room.receive_json_from()
 
     await communicator_coming_out.send_json_to(
-        {
-            "method": "J",
-            "values": {"room_id": 1},
-            "token": auth_token["user_staff"],
-        }
+        {"method": "J", "values": {"room_id": 1}, "token": auth_token["user_staff"],}
     )
     # notify user
     await communicator_coming_out.receive_json_from()
@@ -181,11 +179,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room(auth_
     await communicator_in_room.receive_json_from()
 
     await communicator_coming_out.send_json_to(
-        {
-            "method": "E",
-            "values": {"room_id": 1},
-            "token": auth_token["user_staff"],
-        }
+        {"method": "E", "values": {"room_id": 1}, "token": auth_token["user_staff"],}
     )
     # notify user
     await communicator_coming_out.receive_json_from()
@@ -193,7 +187,10 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room(auth_
     response = await communicator_in_room.receive_json_from()
     assert response == {
         "method": "E",
-        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
+        "data": {
+            "room": 1,
+            "username": "super_user_admin",
+        },  # nombre usuario del token
     }
 
     # Close
@@ -228,11 +225,7 @@ async def test_notify_users_of_users_disconnected_by_force(auth_token):
     await communicator_in_room.receive_json_from()
 
     await communicator_force_exit.send_json_to(
-        {
-            "method": "J",
-            "values": {"room_id": 1},
-            "token": auth_token["user_staff"],
-        }
+        {"method": "J", "values": {"room_id": 1}, "token": auth_token["user_staff"],}
     )
     # notify user
     await communicator_force_exit.receive_json_from()
@@ -247,7 +240,10 @@ async def test_notify_users_of_users_disconnected_by_force(auth_token):
     response = await communicator_in_room.receive_json_from()
     assert response == {
         "method": "E",
-        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
+        "data": {
+            "room": 1,
+            "username": "super_user_admin",
+        },  # nombre usuario del token
     }
 
     # Close

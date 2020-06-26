@@ -33,7 +33,7 @@ def test_user_update_profile(admin_client):
         "username": "NEW",
         "first_name": "new name",
         "last_name": "new name2",
-        "email": "newemail@django.com"
+        "email": "newemail@django.com",
     }
     response = admin_client.post("/api/user/profile/", newdata)
     newvalues = UserHeavySerializer(User.objects.get(id=user_id))

@@ -17,6 +17,7 @@ from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
+
 @database_sync_to_async
 def user_token(token_key: str):
     """

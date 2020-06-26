@@ -24,7 +24,7 @@ async def test_consumer_error_request_data(auth_token):
     connected, subprotocol = await communicator.connect()
     assert connected
     # Test sending text
-    request = {"token": auth_token['super_user_admin']}
+    request = {"token": auth_token["super_user_admin"]}
     # await communicator.send_to(text_data='')
     await communicator.send_json_to(request)
     # response = await communicator.receive_from()

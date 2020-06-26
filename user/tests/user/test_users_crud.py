@@ -142,7 +142,7 @@ def test_update_user(admin_client):
         "username": "NEW",
         "first_name": "new name",
         "last_name": "new name2",
-        "email": "update_email@django.com"
+        "email": "update_email@django.com",
     }
     response = admin_client.put("/api/user/" + str(1) + "/", newdata)
     newvalues = UserHeavySerializer(User.objects.get(id=1))
