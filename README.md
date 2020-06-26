@@ -5,7 +5,8 @@ Django Chat
 
 basic chat application, using websockets
 
-* Demo url: https://djchat.herokuapp.com/
+* web consumer url: https://ngchat-cbfe2.firebaseapp.com/
+* demo url server: https://djchat.herokuapp.com/
 
 ## Tox env
 
