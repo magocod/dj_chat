@@ -62,13 +62,13 @@ def test_get_current_user_jwt(admin_client_jwt):
 
 
 @pytest.mark.auth_jwt_views_authentication
-def test_authentiaction_request_failure_keyword():
+def test_authentiaction_request_failure_keyword(jwt_token):
     """
     ...
     """
 
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION="Token " + JWT,)
+    client.credentials(HTTP_AUTHORIZATION="Token " + jwt_token['VALID'],)
 
     response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "Authentication credentials were not provided."
@@ -76,13 +76,13 @@ def test_authentiaction_request_failure_keyword():
 
 
 @pytest.mark.auth_jwt_views_authentication
-def test_authentiaction_jwt_key_invalidates():
+def test_authentiaction_jwt_key_invalidates(jwt_token):
     """
     ...
     """
 
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {JWT_INVALID_KEY}")
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {jwt_token['INVALID_KEY']}")
 
     response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "Signature verification failed"
@@ -104,13 +104,13 @@ def test_authentiaction_token_is_not_in_the_header():
 
 
 @pytest.mark.auth_jwt_views_authentication
-def test_authentiaction_the_token_in_the_header_contains_spaces():
+def test_authentiaction_the_token_in_the_header_contains_spaces(jwt_token):
     """
     ...
     """
 
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION="Bearer " + JWT + " 12")
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + jwt_token['VALID'] + " 12")
 
     response = client.post("/api/current_user_jwt/")
     assert (
@@ -121,13 +121,13 @@ def test_authentiaction_the_token_in_the_header_contains_spaces():
 
 
 @pytest.mark.auth_jwt_views_authentication
-def test_authentiaction_no_user_token_after_jwt_decoding():
+def test_authentiaction_no_user_token_after_jwt_decoding(jwt_token):
     """
     ...
     """
 
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION="Bearer " + JWT_INVALID_TOKEN)
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + jwt_token['INVALID_TOKEN'])
 
     response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "invalid decoded token (token)"
@@ -135,13 +135,13 @@ def test_authentiaction_no_user_token_after_jwt_decoding():
 
 
 @pytest.mark.auth_jwt_views_authentication
-def test_authentiaction_no_user_after_jwt_decoding():
+def test_authentiaction_no_user_after_jwt_decoding(jwt_token):
     """
     ...
     """
 
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION="Bearer " + JWT_INVALID_USER)
+    client.credentials(HTTP_AUTHORIZATION="Bearer " + jwt_token['INVALID_USER'])
 
     response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "invalid decoded token (user)"
@@ -149,14 +149,14 @@ def test_authentiaction_no_user_after_jwt_decoding():
 
 
 @pytest.mark.auth_jwt_views_authentication
-def test_authentiaction_the_user_in_jwt_is_disabled():
+def test_authentiaction_the_user_in_jwt_is_disabled(jwt_token):
     """
     ...
     """
 
     User.objects.filter(id=1).update(is_active=False)
     client = APIClient()
-    client.credentials(HTTP_AUTHORIZATION=f"Bearer {JWT}")
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {jwt_token['VALID']}")
 
     response = client.post("/api/current_user_jwt/")
     assert response.data["detail"] == "User inactive or deleted."

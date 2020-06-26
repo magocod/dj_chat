@@ -108,3 +108,32 @@ def admin_client_jwt():
     client = APIClient()
     client.credentials(HTTP_AUTHORIZATION="Bearer " + encoded_jwt.decode("UTF-8"),)
     return client
+
+
+@pytest.fixture
+def jwt_token():
+    """
+    jwt tokens
+    """
+
+    token, _ = Token.objects.get_or_create(user__username='super_user_admin')
+
+    ENCODED_VALID = jwt.encode(
+        {"token": token.key, "user": {}},
+        settings.KEY_HS256,
+        algorithm="HS256",
+    )
+    ENCODED_KEY = jwt.encode({"some": "payload"}, "invalid", algorithm="HS256")
+    ENCODED_CONTENT_USER = jwt.encode({"user": {}}, settings.KEY_HS256, algorithm="HS256")
+    ENCODED_CONTENT_TOKEN = jwt.encode(
+        {"token": token.key},
+        settings.KEY_HS256,
+        algorithm="HS256",
+    )
+
+    return {
+        'VALID': ENCODED_VALID.decode("UTF-8"),
+        'INVALID_KEY': ENCODED_KEY.decode("UTF-8"),
+        'INVALID_TOKEN': ENCODED_CONTENT_USER.decode("UTF-8"),
+        'INVALID_USER': ENCODED_CONTENT_TOKEN.decode("UTF-8")
+    }
