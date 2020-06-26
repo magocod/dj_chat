@@ -37,7 +37,7 @@ def create_event_message(id: int, operation: str) -> Dict[str, Any]:
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_crud
-async def test_consumer_create_room():
+async def test_consumer_create_room(auth_token):
     """
     ...
     """
@@ -51,7 +51,7 @@ async def test_consumer_create_room():
     request = {
         "method": "U",
         "values": {"name": "YSON"},
-        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        "token": auth_token["super_user_admin"],
     }
     await communicator.send_json_to(request)
 
@@ -69,7 +69,7 @@ async def test_consumer_create_room():
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_crud
-async def test_consumer_update_room():
+async def test_consumer_update_room(auth_token):
     """
     ...
     """
@@ -85,7 +85,7 @@ async def test_consumer_update_room():
     request = {
         "method": "U",
         "values": {"name": "YSONS"},
-        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        "token": auth_token["super_user_admin"],
     }
     await communicator.send_json_to(request)
 
@@ -102,7 +102,7 @@ async def test_consumer_update_room():
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_crud
-async def test_consumer_create_room_error_params():
+async def test_consumer_create_room_error_params(auth_token):
     """
     ...
     """
@@ -116,7 +116,7 @@ async def test_consumer_create_room_error_params():
     request = {
         "method": "U",
         "values": {"names": "YSON"},
-        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        "token": auth_token["super_user_admin"],
     }
     await communicator.send_json_to(request)
 
@@ -130,7 +130,7 @@ async def test_consumer_create_room_error_params():
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_crud
-async def test_consumer_delete_room():
+async def test_consumer_delete_room(auth_token):
     """
     each elimination triggers signal
     that is sent to all active consumers
@@ -145,7 +145,7 @@ async def test_consumer_delete_room():
     request = {
         "method": "D",
         "values": {"pk_list": [3, 4]},
-        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        "token": auth_token["super_user_admin"],
     }
 
     # deleted_signal_1 = await create_event_message(

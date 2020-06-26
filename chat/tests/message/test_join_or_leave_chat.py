@@ -22,7 +22,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.chats_rooms
-async def test_consumer_join_room():
+async def test_consumer_join_room(auth_token):
     """
     ...
     """
@@ -35,7 +35,7 @@ async def test_consumer_join_room():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -45,7 +45,7 @@ async def test_consumer_join_room():
     response_group = await communicator_1.receive_json_from()
     assert response_group == {
         "method": "J",
-        "data": {"room": 1, "username": "generic_admin",},  # nombre usuario del token
+        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
     }
 
     # Close
@@ -54,7 +54,7 @@ async def test_consumer_join_room():
 
 @pytest.mark.asyncio
 @pytest.mark.chats_rooms
-async def test_consumer_leave_room():
+async def test_consumer_leave_room(auth_token):
     """
     ...
     """
@@ -67,7 +67,7 @@ async def test_consumer_leave_room():
         {
             "method": "E",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
     response_user = await communicator_1.receive_json_from()
@@ -79,7 +79,7 @@ async def test_consumer_leave_room():
 
 @pytest.mark.asyncio
 @pytest.mark.chats_rooms
-async def test_notify_users_of_new_members_entering_the_room():
+async def test_notify_users_of_new_members_entering_the_room(auth_token):
     """
     ...
     """
@@ -109,7 +109,7 @@ async def test_notify_users_of_new_members_entering_the_room():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
     # notify user
@@ -121,7 +121,7 @@ async def test_notify_users_of_new_members_entering_the_room():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
+            "token": auth_token["user_staff"],
         }
     )
     # notify user
@@ -132,7 +132,7 @@ async def test_notify_users_of_new_members_entering_the_room():
     response = await communicator_in_room.receive_json_from()
     assert response == {
         "method": "J",
-        "data": {"room": 1, "username": "generic_user",},  # nombre usuario del token
+        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
     }
 
     # Close
@@ -142,7 +142,7 @@ async def test_notify_users_of_new_members_entering_the_room():
 
 @pytest.mark.asyncio
 @pytest.mark.chats_rooms
-async def test_notify_users_of_the_departure_of_another_user_from_the_room():
+async def test_notify_users_of_the_departure_of_another_user_from_the_room(auth_token):
     """
     ...
     """
@@ -158,7 +158,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
     # notify user
@@ -170,7 +170,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
+            "token": auth_token["user_staff"],
         }
     )
     # notify user
@@ -184,7 +184,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
         {
             "method": "E",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
+            "token": auth_token["user_staff"],
         }
     )
     # notify user
@@ -193,7 +193,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
     response = await communicator_in_room.receive_json_from()
     assert response == {
         "method": "E",
-        "data": {"room": 1, "username": "generic_user",},  # nombre usuario del token
+        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
     }
 
     # Close
@@ -203,7 +203,7 @@ async def test_notify_users_of_the_departure_of_another_user_from_the_room():
 
 @pytest.mark.asyncio
 @pytest.mark.chats_rooms
-async def test_notify_users_of_users_disconnected_by_force():
+async def test_notify_users_of_users_disconnected_by_force(auth_token):
     """
     ...
     """
@@ -219,7 +219,7 @@ async def test_notify_users_of_users_disconnected_by_force():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
     # notify user
@@ -231,7 +231,7 @@ async def test_notify_users_of_users_disconnected_by_force():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6130",
+            "token": auth_token["user_staff"],
         }
     )
     # notify user
@@ -247,7 +247,7 @@ async def test_notify_users_of_users_disconnected_by_force():
     response = await communicator_in_room.receive_json_from()
     assert response == {
         "method": "E",
-        "data": {"room": 1, "username": "generic_user",},  # nombre usuario del token
+        "data": {"room": 1, "username": "super_user_admin",},  # nombre usuario del token
     }
 
     # Close

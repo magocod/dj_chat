@@ -19,10 +19,11 @@ pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_list
-async def test_consumer_room_list():
+async def test_consumer_room_list(auth_token):
     """
     ...
     """
+
     communicator = WebsocketCommunicator(RoomConsumer, "/ws/rooms/")
     connected, _ = await communicator.connect()
     assert connected
@@ -32,7 +33,7 @@ async def test_consumer_room_list():
         {
             "method": "R",
             "values": {"name": "YSON"},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -48,7 +49,7 @@ async def test_consumer_room_list():
 
 @pytest.mark.asyncio
 @pytest.mark.rooms_list
-async def test_consumer_room_invalid_operation():
+async def test_consumer_room_invalid_operation(auth_token):
     """
     ...
     """
@@ -60,7 +61,7 @@ async def test_consumer_room_invalid_operation():
     request = {
         "method": "H",
         "values": {"name": "YSON"},
-        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        "token": auth_token["super_user_admin"],
     }
     await communicator.send_json_to(request)
 

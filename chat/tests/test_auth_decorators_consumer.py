@@ -15,7 +15,7 @@ pytestmark = pytest.mark.django_db
 
 @pytest.mark.asyncio
 @pytest.mark.auth_decorator
-async def test_consumer_valid_token():
+async def test_consumer_error_request_data(auth_token):
     """
     Conexion de cliente con token de autenticacion valida
     """
@@ -24,12 +24,12 @@ async def test_consumer_valid_token():
     connected, subprotocol = await communicator.connect()
     assert connected
     # Test sending text
-    request = {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120"}
+    request = {"token": auth_token['super_user_admin']}
     # await communicator.send_to(text_data='')
     await communicator.send_json_to(request)
     # response = await communicator.receive_from()
-    # response = await communicator.receive_json_from()
-    # assert response == request
+    response = await communicator.receive_json_from()
+    assert "errors" in response
     # Close
     await communicator.disconnect()
 

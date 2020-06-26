@@ -5,6 +5,7 @@ Ajustes pruebas
 # third-party
 import jwt
 import pytest
+from typing import Tuple, Dict
 
 # Django
 from django.conf import settings
@@ -130,10 +131,47 @@ def jwt_token():
         settings.KEY_HS256,
         algorithm="HS256",
     )
+    INVALID_ENCODED = jwt.encode(
+        {"token": "123", "user": None}, settings.KEY_HS256, algorithm="HS256"
+    )
 
     return {
         'VALID': ENCODED_VALID.decode("UTF-8"),
         'INVALID_KEY': ENCODED_KEY.decode("UTF-8"),
         'INVALID_TOKEN': ENCODED_CONTENT_USER.decode("UTF-8"),
-        'INVALID_USER': ENCODED_CONTENT_TOKEN.decode("UTF-8")
+        'INVALID_USER': ENCODED_CONTENT_TOKEN.decode("UTF-8"),
+        'INVALID_ENCODED': INVALID_ENCODED.decode("UTF-8")
     }
+
+
+@pytest.fixture
+def auth_token():
+    """[summary]
+    
+    [description]
+    
+    Decorators:
+        pytest.fixture
+    
+    Returns:
+        [Any] -- [description]
+    """
+
+    def generate_token(username: str) -> Tuple[str]:
+        """[summary]
+        
+        [description]
+        
+        Arguments:
+            username {str} -- [description]
+        
+        Returns:
+            Tuple[str] -- [description]
+        """
+        token, _ = Token.objects.get_or_create(user__username='super_user_admin')
+        return token.key
+
+    usernames = ['super_user_admin', 'basic_user', 'user_staff']
+    tokens: Dict[str, str] = { username: generate_token(username) for username in usernames }
+    # print(tokens)
+    return tokens

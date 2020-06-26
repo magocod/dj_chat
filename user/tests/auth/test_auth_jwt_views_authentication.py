@@ -2,12 +2,6 @@
 authenticacion jwt HS256
 """
 
-
-# standard library
-import jwt
-
-# third-party
-# import jwt
 import pytest
 
 # Django
@@ -28,24 +22,6 @@ User = get_user_model()
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
-
-ENCODED_VALID = jwt.encode(
-    {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120", "user": {}},
-    settings.KEY_HS256,
-    algorithm="HS256",
-)
-ENCODED_KEY = jwt.encode({"some": "payload"}, "invalid", algorithm="HS256")
-ENCODED_CONTENT_TOKEN = jwt.encode(
-    {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120"},
-    settings.KEY_HS256,
-    algorithm="HS256",
-)
-ENCODED_CONTENT_USER = jwt.encode({"user": {}}, settings.KEY_HS256, algorithm="HS256")
-
-JWT = ENCODED_VALID.decode("UTF-8")
-JWT_INVALID_KEY = ENCODED_KEY.decode("UTF-8")
-JWT_INVALID_TOKEN = ENCODED_CONTENT_USER.decode("UTF-8")
-JWT_INVALID_USER = ENCODED_CONTENT_TOKEN.decode("UTF-8")
 
 
 @pytest.mark.auth_jwt_views_authentication

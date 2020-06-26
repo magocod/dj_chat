@@ -15,7 +15,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.chats_exists
-async def test_join_a_room_that_does_not_exist():
+async def test_join_a_room_that_does_not_exist(auth_token):
     """
     ...
     """
@@ -28,7 +28,7 @@ async def test_join_a_room_that_does_not_exist():
         {
             "method": "J",
             "values": {"room_id": 100},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -41,7 +41,7 @@ async def test_join_a_room_that_does_not_exist():
 
 @pytest.mark.asyncio
 @pytest.mark.chats_exists
-async def test_leave_a_room_that_does_not_exist():
+async def test_leave_a_room_that_does_not_exist(auth_token):
     """
     ...
     """
@@ -54,7 +54,7 @@ async def test_leave_a_room_that_does_not_exist():
         {
             "method": "E",
             "values": {"room_id": 100},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 

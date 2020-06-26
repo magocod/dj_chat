@@ -18,7 +18,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.messages_list
-async def test_consumer_messages_room_list():
+async def test_consumer_messages_room_list(auth_token):
     """
     ...
     """
@@ -31,7 +31,7 @@ async def test_consumer_messages_room_list():
         {
             "method": "R",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -47,7 +47,7 @@ async def test_consumer_messages_room_list():
 
 @pytest.mark.asyncio
 @pytest.mark.messages_list
-async def test_consumer_empty_message_room_list():
+async def test_consumer_empty_message_room_list(auth_token):
     """
     ...
     """
@@ -60,7 +60,7 @@ async def test_consumer_empty_message_room_list():
         {
             "method": "R",
             "values": {"room_id": 4},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -76,7 +76,7 @@ async def test_consumer_empty_message_room_list():
 
 @pytest.mark.asyncio
 @pytest.mark.messages_list
-async def test_request_room_messages_that_do_not_exist():
+async def test_request_room_messages_that_do_not_exist(auth_token):
     """
     ...
     """
@@ -89,7 +89,7 @@ async def test_request_room_messages_that_do_not_exist():
         {
             "method": "R",
             "values": {"room_id": 100},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -103,7 +103,7 @@ async def test_request_room_messages_that_do_not_exist():
 
 @pytest.mark.asyncio
 @pytest.mark.messages_list
-async def test_consumer_message_invalid_operation():
+async def test_consumer_message_invalid_operation(auth_token):
     """
     ...
     """
@@ -115,7 +115,7 @@ async def test_consumer_message_invalid_operation():
     request = {
         "method": "H",
         "values": {"name": ""},
-        "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+        "token": auth_token["super_user_admin"],
     }
     await communicator.send_json_to(request)
 

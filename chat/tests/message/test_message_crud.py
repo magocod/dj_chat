@@ -23,7 +23,7 @@ pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 @pytest.mark.asyncio
 @pytest.mark.messages_crud
-async def test_consumer_create_message_in_room():
+async def test_consumer_create_message_in_room(auth_token):
     """
     ...
     """
@@ -41,7 +41,7 @@ async def test_consumer_create_message_in_room():
         {
             "method": "J",
             "values": {"room_id": 3},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -49,7 +49,7 @@ async def test_consumer_create_message_in_room():
         {
             "method": "C",
             "values": {"text": "hello", "room_id": 3,},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -80,7 +80,7 @@ async def test_consumer_create_message_in_room():
 
 @pytest.mark.asyncio
 @pytest.mark.messages_crud
-async def test_consumer_create_message_in_non_existent_room():
+async def test_consumer_create_message_in_non_existent_room(auth_token):
     """
     ...
     """
@@ -94,7 +94,7 @@ async def test_consumer_create_message_in_non_existent_room():
         {
             "method": "C",
             "values": {"text": "hello", "room_id": 100,},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
     # await communicator_n.receive_json_from()
@@ -110,7 +110,7 @@ async def test_consumer_create_message_in_non_existent_room():
 
 @pytest.mark.asyncio
 @pytest.mark.messages_crud
-async def test_consumer_delete_message_in_room():
+async def test_consumer_delete_message_in_room(auth_token):
     """
     ...
     """
@@ -131,7 +131,7 @@ async def test_consumer_delete_message_in_room():
         {
             "method": "J",
             "values": {"room_id": 1},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -139,7 +139,7 @@ async def test_consumer_delete_message_in_room():
         {
             "method": "D",
             "values": {"message_id": 1,},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
 
@@ -160,7 +160,7 @@ async def test_consumer_delete_message_in_room():
 
 @pytest.mark.asyncio
 @pytest.mark.messages_crud
-async def test_consumer_delete_message_that_does_not_exist():
+async def test_consumer_delete_message_that_does_not_exist(auth_token):
     """
     ...
     """
@@ -174,7 +174,7 @@ async def test_consumer_delete_message_that_does_not_exist():
         {
             "method": "D",
             "values": {"message_id": 100,},
-            "token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120",
+            "token": auth_token["super_user_admin"],
         }
     )
     # await communicator_n.receive_json_from()
