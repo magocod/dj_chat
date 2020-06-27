@@ -57,3 +57,42 @@ def test_user_update_profile_invalid_params(admin_client):
     newvalues = UserHeavySerializer(User.objects.get(id=user_id))
     assert response.status_code == 400
     assert newvalues.data == oldvalues.data
+
+
+@pytest.mark.users_profile
+def test_get_current_auth_user(admin_client):
+    """[summary]
+
+    [description]
+
+    Decorators:
+        pytest.mark.users_profile
+
+    Arguments:
+        admin_client {[type]} -- [description]
+    """
+    user_serializer = UserHeavySerializer(User.objects.get(id=1))
+
+    response = admin_client.get("/api/user/profile/")
+    # assert response.data == 'si'
+    assert response.status_code == 200
+    assert response.data == user_serializer.data
+
+
+@pytest.mark.users_profile
+def test_get_current_auth_user_failed(public_client):
+    """[summary]
+
+    [description]
+
+    Decorators:
+        pytest.mark.users_profile
+
+    Arguments:
+        public_client {[type]} -- [description]
+    """
+
+    response = public_client.get("/api/user/profile/")
+    # assert response.data == 'si'
+    assert response.status_code == 401
+    assert response.data['detail'] == 'Authentication credentials were not provided.'

@@ -28,6 +28,13 @@ class UserProfileView(APIView):
     serializer = UserSerializer
     response_serializer = UserHeavySerializer
 
+    def get(self, request, *args, **kwargs):
+        """
+        ...
+        """
+        user_serializer = UserHeavySerializer(request.user)
+        return Response(user_serializer.data, status=status.HTTP_200_OK,)
+
     def post(self, request, format=None):
         """
         ...
