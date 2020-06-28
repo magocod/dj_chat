@@ -8,7 +8,7 @@ from typing import Any, Dict, Tuple
 # Django
 from django.contrib.auth import get_user_model
 
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 # third-party
 from rest_framework.authtoken.models import Token
@@ -68,11 +68,23 @@ USERS: Tuple[Dict[str, Any]] = (
     },
 )
 
+GROUPS = (
+    {"name": "super_user", "description": "...",},
+    {"name": "admin", "description": "...",},
+    {"name": "user", "description": "...",},
+)
+
 
 def user_list():
     """
     migrar en db usuarios con un token
     """
+
+    for values in GROUPS:
+        Group.objects.get_or_create(
+            name=values["name"], description=values["description"]
+        )
+
     for values in USERS:
         user = User.objects.create_user(
             values["username"], values["email"], values["password"]
