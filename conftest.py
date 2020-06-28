@@ -124,16 +124,13 @@ def jwt_token():
     ENCODED_CONTENT_TOKEN = jwt.encode(
         {"token": token.key}, settings.KEY_HS256, algorithm="HS256",
     )
-    INVALID_ENCODED = jwt.encode(
-        {"token": "123", "user": None}, settings.KEY_HS256, algorithm="HS256"
-    )
 
     return {
         "VALID": ENCODED_VALID.decode("UTF-8"),
         "INVALID_KEY": ENCODED_KEY.decode("UTF-8"),
         "INVALID_TOKEN": ENCODED_CONTENT_USER.decode("UTF-8"),
         "INVALID_USER": ENCODED_CONTENT_TOKEN.decode("UTF-8"),
-        "INVALID_ENCODED": INVALID_ENCODED.decode("UTF-8"),
+        "INVALID_FORMAT": ENCODED_VALID.decode("UTF-8")[1:],
     }
 
 

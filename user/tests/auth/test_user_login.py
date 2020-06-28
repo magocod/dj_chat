@@ -54,7 +54,7 @@ def test_invalid_search_email_params(public_client):
         "emails": "novalid@django.com",
     }
     response = public_client.post("/api/email/", data)
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 
 @pytest.mark.users_authentication
@@ -80,7 +80,7 @@ def test_error_credentials(public_client):
         "pass": "123",
     }
     response = public_client.post("/api/token-auth/", data)
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 
 @pytest.mark.users_authentication
@@ -94,7 +94,7 @@ def test_error_user_account_is_disabled(public_client):
         "password": "123",
     }
     response = public_client.post("/api/token-auth/", data)
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.data["non_field_errors"][0] == "User account is disabled."
 
 
@@ -108,7 +108,7 @@ def test_error_user_not_exist(public_client):
         "password": "123",
     }
     response = public_client.post("/api/token-auth/", data)
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.data["non_field_errors"][0] == "User no exist."
 
 
@@ -122,7 +122,7 @@ def test_error_invalid_password(public_client):
         "password": "novalid",
     }
     response = public_client.post("/api/token-auth/", data)
-    assert response.status_code == 400
+    assert response.status_code == 422
     # print(response.data)
     assert (
         response.data["non_field_errors"][0]

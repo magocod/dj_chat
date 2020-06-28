@@ -2,22 +2,11 @@
 authenticacion jwt HS256
 """
 
-# standard library
-# import json
-# from typing import Dict
-
-# third-party
-import jwt
 import pytest
 from channels.testing import WebsocketCommunicator
 
-# from rest_framework.authtoken.models import Token
-
-# Django
-from django.conf import settings
 from django.contrib.auth import get_user_model
 
-# local Django
 from user.consumers.cauth import AuthConsumer
 
 # from django.contrib.auth.models import User
@@ -27,24 +16,16 @@ User = get_user_model()
 # permitir acceso a db
 pytestmark = pytest.mark.django_db
 
-VALID_ENCODED = jwt.encode(
-    {"token": "20fd382ed9407b31e1d5f928b5574bb4bffe6120", "user": None},
-    settings.KEY_HS256,
-    algorithm="HS256",
-)
-
-INVALID_ENCODED = jwt.encode(
-    {"token": "123", "user": None}, settings.KEY_HS256, algorithm="HS256"
-)
-
 
 @pytest.mark.asyncio
 @pytest.mark.auth_consumer_middleware
-async def test_request_auth_token_url():
+async def test_request_auth_token_url(jwt_token):
     """
     ...
     """
-    communicator = WebsocketCommunicator(AuthConsumer, f"/ws/auth/jwt/{VALID_ENCODED}/")
+    communicator = WebsocketCommunicator(
+        AuthConsumer, f"/ws/auth/jwt/{jwt_token['VALID']}/"
+    )
     connected, _ = await communicator.connect()
     assert connected
 
@@ -52,24 +33,29 @@ async def test_request_auth_token_url():
     await communicator.send_json_to(
         {"data": "data",}
     )
-    await communicator.receive_json_from()
+    response = await communicator.receive_json_from()
+    assert response == {"data": "data"}
+    # assert response == "res"
 
     # Close
     await communicator.disconnect()
 
 
-@pytest.mark.asyncio
-@pytest.mark.auth_consumer_middleware
-async def test_reject_token_request_invalid_url():
-    """
-    ...
-    """
-    communicator = WebsocketCommunicator(
-        AuthConsumer, f"/ws/auth/jwt/{INVALID_ENCODED}/"
-    )
-    connected, _ = await communicator.connect()
+# @pytest.mark.asyncio
+# @pytest.mark.auth_consumer_middleware
+# async def test_reject_token_request_invalid_url(jwt_token):
+#     """
+#     ...
+#     """
+#     communicator = WebsocketCommunicator(
+#         AuthConsumer, f"/ws/auth/jwt/{jwt_token['INVALID_FORMAT']}/"
+#     )
+#     connected, _ = await communicator.connect()
 
-    assert connected
+#     assert connected
+#     print(communicator.scope)
+#     response = await communicator.receive_json_from()
+#     response = {"data": "data" }
 
-    # Close
-    await communicator.disconnect()
+#     # Close
+#     await communicator.disconnect()

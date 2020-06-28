@@ -2,6 +2,9 @@
 ...
 """
 
+import asyncio
+import json
+
 import jwt
 from channels.generic.websocket import AsyncWebsocketConsumer
 
@@ -20,6 +23,10 @@ class WebsocketDenier(AsyncWebsocketConsumer):
     """
 
     async def connect(self):
+        # print('scope', self.scope)
+        await self.accept()
+        await self.send(text_data=json.dumps(self.scope["exception"]))
+        await asyncio.sleep(1)
         await self.close()
 
 
@@ -38,7 +45,7 @@ class AnonymousAuthMiddleware:
         # prevent usage of timed out connections
         close_old_connections()
 
-        print(scope)
+        # print(scope)
         if "user" in scope:
             # print('user jwt')
             return self.inner(scope)
@@ -68,21 +75,30 @@ class JWTAuthMiddleware:
         # print(pathlist)
         if "jwt" in pathlist:
             # print('auth jwt')
-            return self.decode_jwt(scope, pathlist[len(pathlist) - 2])  # jwt token
+            # result (dict or User)
+            result = self.decode_jwt(pathlist[len(pathlist) - 2])  # jwt token
+
+            if isinstance(result, dict):
+                # print('result', result)
+                scope["exception"] = result
+                return WebsocketDenier(scope)
+
+            return self.inner(dict(scope, user=result))
 
         # print('auth anonymous')
         return self.inner(scope)
 
-    def decode_jwt(self, scope, urltoken: str):
+    def decode_jwt(self, urltoken: str):
         # print(urltoken)
         try:
             decoded = jwt.decode(urltoken, settings.KEY_HS256, algorithms="HS256")
             tk = Token.objects.get(key=decoded["token"])
             # print(tk.user)
             user = User.objects.get(id=tk.user_id)
-            return self.inner(dict(scope, user=user))
+            return user
+
         except Exception as e:
-            print(e)
-            # return self.inner(scope)
+            # print('Exception', e)
+            # print('name', e.__class__.__name__)
             # Deny the connection
-            return WebsocketDenier(scope)
+            return {"message": "authentication failed", "exception": str(e)}

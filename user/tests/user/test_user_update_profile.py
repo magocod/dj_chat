@@ -95,4 +95,4 @@ def test_get_current_auth_user_failed(public_client):
     response = public_client.get("/api/user/profile/")
     # assert response.data == 'si'
     assert response.status_code == 401
-    assert response.data['detail'] == 'Authentication credentials were not provided.'
+    assert response.data["detail"] == "Authentication credentials were not provided."

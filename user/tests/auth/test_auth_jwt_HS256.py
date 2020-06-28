@@ -59,4 +59,4 @@ def test_failed_login_jwt(public_client):
         "password": "123",
     }
     response = public_client.post("/api/jwt-auth/", data)
-    assert response.status_code == 400
+    assert response.status_code == 422
