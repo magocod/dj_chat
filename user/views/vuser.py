@@ -13,6 +13,8 @@ from django.contrib.auth import get_user_model
 # third-party
 from rest_framework import status
 
+# from rest_framework.pagination import PageNumberPagination
+
 # from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,11 +27,12 @@ from user.serializers import (
     UserRegisterSerializer,
     UserSerializer,
 )
+from dj_chat.views import CustomPagination
 
 User = get_user_model()
 
 
-class UserListView(APIView):
+class UserListView(APIView, CustomPagination):
     """
     ...
     """
@@ -49,8 +52,10 @@ class UserListView(APIView):
         """
         ...
         """
-        response = self.serializer(User.objects.all().order_by("id"), many=True,)
-        return Response(response.data, status=status.HTTP_200_OK)
+        queryset = User.objects.all().order_by("id")
+        results = self.paginate_queryset(queryset, request)
+        serializer = self.serializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request, format=None):
         """

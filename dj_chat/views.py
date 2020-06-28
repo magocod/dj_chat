@@ -2,7 +2,10 @@
 Provides an APIView class that is the base of all views in REST framework.
 """
 
-from rest_framework import exceptions, status
+# from django.conf import settings
+
+from rest_framework import exceptions, status, pagination
+from rest_framework.response import Response
 from rest_framework.views import exception_handler
 
 
@@ -28,3 +31,27 @@ def custom_exception_handler(exc, context):
     # print(response.status_code)
 
     return response
+
+
+class CustomPagination(pagination.PageNumberPagination):
+    def get_paginated_response(self, data):
+        """[summary]
+
+        [description]
+
+        Arguments:
+            data {[type]} -- [description]
+
+        Returns:
+            [type] -- [description]
+        """
+        return Response(
+            {
+                "total": self.page.paginator.count,
+                "per_page": self.page_size,
+                "current_page": self.page.number,
+                "next": self.get_next_link(),
+                "previous": self.get_previous_link(),
+                "data": data,
+            }
+        )

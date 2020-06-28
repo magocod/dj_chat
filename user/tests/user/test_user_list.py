@@ -2,14 +2,12 @@
 test list users
 """
 
-# third-party
 import pytest
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from user.serializers import UserHeavySerializer
-
-# from django.contrib.auth.models import User
 
 
 User = get_user_model()
@@ -24,10 +22,13 @@ def test_get_all_user(admin_client):
     """
     ...
     """
-    response = admin_client.get("/api/users/")
-    serializer = UserHeavySerializer(User.objects.all(), many=True)
+    response = admin_client.get("/api/users/?page=1")
+    serializer = UserHeavySerializer(
+        User.objects.all()[: settings.REST_FRAMEWORK["PAGE_SIZE"]], many=True
+    )
     assert response.status_code == 200
-    assert serializer.data == response.data
+    assert response.data["data"] == serializer.data
+    assert response.data["total"] == User.objects.count()
 
 
 @pytest.mark.users_list

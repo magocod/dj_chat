@@ -154,7 +154,7 @@ CORS_ALLOW_HEADERS = (
 )
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "dj_chat.views.CustomPagination",
     "PAGE_SIZE": 2,
     "DEFAULT_METADATA_CLASS": "rest_framework.metadata.SimpleMetadata",
     "DEFAULT_AUTHENTICATION_CLASSES": [
