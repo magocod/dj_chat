@@ -12,7 +12,6 @@ from channels.testing import WebsocketCommunicator
 from apps.chat.consumers.cmessage import MessageConsumer
 from apps.chat.models import Message
 from apps.chat.serializers import MessageHeavySerializer
-
 from tests.db import async_count_db  # async_create_model,
 from tests.db import async_count_filter_db, async_delete_models
 from tests.response import create_event_message

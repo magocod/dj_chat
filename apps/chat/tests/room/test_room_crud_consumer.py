@@ -7,11 +7,10 @@ from typing import Any, Dict
 import pytest
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
-from apps.chat.consumers.croom import RoomConsumer
 
+from apps.chat.consumers.croom import RoomConsumer
 from apps.chat.models import Room
 from apps.chat.serializers import RoomHeavySerializer
-
 from tests.db import async_count_db, async_create_model
 
 # permitir acceso a db

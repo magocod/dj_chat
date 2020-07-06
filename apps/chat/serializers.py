@@ -3,11 +3,10 @@
 """
 
 
-from apps.chat.models import Message, Room
-
 from django.utils import timezone
-
 from rest_framework import serializers
+
+from apps.chat.models import Message, Room
 
 
 class RequestSerializer(serializers.Serializer):

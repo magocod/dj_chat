@@ -7,13 +7,12 @@ from typing import Any, Dict, List, Union
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.db import IntegrityError
+from django.utils import timezone
 
 from apps.chat.models import Room
 from apps.chat.serializers import RequestSerializer, RoomHeavySerializer
 from apps.user.decorators import token_required, user_active
-
-from django.db import IntegrityError
-from django.utils import timezone
 
 # from django.contrib.auth.models import AnonymousUser, User
 

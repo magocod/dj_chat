@@ -3,14 +3,12 @@ Señales eventos base de datos
 """
 
 from asgiref.sync import async_to_sync
-
 from channels.layers import get_channel_layer
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
 
 from apps.chat.models import Room
 from apps.chat.serializers import RoomHeavySerializer
-
-from django.db.models.signals import post_delete, post_save
-from django.dispatch import receiver
 
 
 @receiver(post_save, sender=Room)

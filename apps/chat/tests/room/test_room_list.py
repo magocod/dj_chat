@@ -8,7 +8,6 @@ from channels.testing import WebsocketCommunicator
 from apps.chat.consumers.croom import RoomConsumer
 from apps.chat.models import Room
 from apps.chat.serializers import RoomHeavySerializer
-
 from tests.response import create_event_list_message
 
 # permitir acceso a db

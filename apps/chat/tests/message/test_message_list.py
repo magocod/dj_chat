@@ -9,7 +9,6 @@ from channels.testing import WebsocketCommunicator
 from apps.chat.consumers.cmessage import MessageConsumer
 from apps.chat.models import Message
 from apps.chat.serializers import MessageHeavySerializer
-
 from tests.response import create_event_filter_list_message
 
 # permitir acceso a db
