@@ -10,14 +10,12 @@ from typing import Any, Dict, List, Union
 # from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-
-# Django
-from django.db import IntegrityError
-from django.utils import timezone
-
 # local Django
 from chat.models import Room
 from chat.serializers import RequestSerializer, RoomHeavySerializer
+# Django
+from django.db import IntegrityError
+from django.utils import timezone
 from user.decorators import token_required, user_active
 
 # from django.contrib.auth.models import AnonymousUser, User

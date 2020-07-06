@@ -7,7 +7,6 @@ from typing import Any, Awaitable, Dict, Union
 
 # third-party
 from channels.db import database_sync_to_async
-
 # local Django
 from chat.models import Room
 

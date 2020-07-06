@@ -8,7 +8,6 @@ from typing import Dict
 
 # third-party
 import pytest
-
 # Django
 from django.contrib.auth import authenticate
 

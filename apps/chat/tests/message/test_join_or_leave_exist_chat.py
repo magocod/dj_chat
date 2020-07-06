@@ -5,7 +5,6 @@
 # third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-
 # Django
 from chat.consumers.cmessage import MessageConsumer
 

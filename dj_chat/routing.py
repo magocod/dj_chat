@@ -6,7 +6,6 @@ Rutas websockets
 # from channels.auth import AuthMiddlewareStack
 # from django.conf import settings
 from channels.routing import ProtocolTypeRouter, URLRouter
-
 # Django
 from channels.security.websocket import OriginValidator
 

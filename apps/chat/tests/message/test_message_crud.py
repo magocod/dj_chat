@@ -8,11 +8,11 @@
 # third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-
 # local Django
 from chat.consumers.cmessage import MessageConsumer
 from chat.models import Message
 from chat.serializers import MessageHeavySerializer
+
 from tests.db import async_count_db  # async_create_model,
 from tests.db import async_count_filter_db, async_delete_models
 from tests.response import create_event_message

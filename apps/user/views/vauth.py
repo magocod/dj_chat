@@ -2,9 +2,8 @@
 Vistas autenticacion de usuarios
 """
 
-from django.http import Http404
 from django.contrib.auth import get_user_model
-
+from django.http import Http404
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -12,7 +11,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.user.serializers import AuthTokenSerializer, EmailSerializer, UserHeavySerializer
+from apps.user.serializers import (AuthTokenSerializer, EmailSerializer,
+                                   UserHeavySerializer)
 
 User = get_user_model()
 

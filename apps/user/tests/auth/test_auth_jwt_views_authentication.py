@@ -3,11 +3,9 @@ authenticacion jwt HS256
 """
 
 import pytest
-
 # Django
 # from django.conf import settings
 from django.contrib.auth import get_user_model
-
 # from django.contrib.auth.models import User
 # from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient

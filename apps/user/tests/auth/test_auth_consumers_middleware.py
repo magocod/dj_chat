@@ -4,7 +4,6 @@ authenticacion jwt HS256
 
 import pytest
 from channels.testing import WebsocketCommunicator
-
 from django.contrib.auth import get_user_model
 
 from apps.user.consumers.cauth import AuthConsumer

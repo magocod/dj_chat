@@ -5,12 +5,11 @@
 # third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-
 from chat.consumers.croom import RoomConsumer
-
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
+
 from tests.response import create_event_list_message
 
 # permitir acceso a db

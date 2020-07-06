@@ -2,14 +2,12 @@
 ...
 """
 
-# Django
-from django.utils import timezone
-
-# third-party
-from rest_framework import serializers
-
 # local Django
 from chat.models import Message, Room
+# Django
+from django.utils import timezone
+# third-party
+from rest_framework import serializers
 
 
 class RequestSerializer(serializers.Serializer):

@@ -10,9 +10,7 @@ from typing import Any, Dict, Union
 # from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-
 from chat.consumers.utils import get_room_or_error
-
 # local Django
 from chat.models import Message, Room
 from chat.serializers import MessageHeavySerializer, RequestMessageSerializer

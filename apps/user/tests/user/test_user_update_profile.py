@@ -8,8 +8,8 @@ from typing import Any, Dict
 
 # third-party
 import pytest
-
 from django.contrib.auth import get_user_model
+
 from apps.user.serializers import UserHeavySerializer
 
 # local Django

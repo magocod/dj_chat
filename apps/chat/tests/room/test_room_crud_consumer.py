@@ -9,12 +9,11 @@ from typing import Any, Dict
 import pytest
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
-
 from chat.consumers.croom import RoomConsumer
-
 # local Django
 from chat.models import Room
 from chat.serializers import RoomHeavySerializer
+
 from tests.db import async_count_db, async_create_model
 
 # permitir acceso a db

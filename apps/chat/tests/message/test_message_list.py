@@ -5,11 +5,11 @@
 # third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-
 # local Django
 from chat.consumers.cmessage import MessageConsumer
 from chat.models import Message
 from chat.serializers import MessageHeavySerializer
+
 from tests.response import create_event_filter_list_message
 
 # permitir acceso a db

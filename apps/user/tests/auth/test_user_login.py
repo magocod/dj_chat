@@ -8,7 +8,6 @@ from typing import Dict
 
 # third-party
 import pytest
-
 from django.contrib.auth import get_user_model
 
 # from django.contrib.auth.models import User
