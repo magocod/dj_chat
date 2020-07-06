@@ -2,10 +2,10 @@
 ...
 """
 
-# local Django
-from chat.consumers.cmessage import MessageConsumer
-from chat.consumers.croom import RoomConsumer
-# Django
+
+from apps.chat.consumers.cmessage import MessageConsumer
+from apps.chat.consumers.croom import RoomConsumer
+
 from django.urls import path
 
 websocket_urlpatterns = [

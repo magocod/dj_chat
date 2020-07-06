@@ -2,11 +2,10 @@
 ...
 """
 
-# third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-# local Django
-from chat.consumers.croom import RoomConsumer
+
+from apps.chat.consumers.croom import RoomConsumer
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db

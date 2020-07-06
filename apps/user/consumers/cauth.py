@@ -2,7 +2,6 @@
 ...
 """
 
-# third-party
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 

@@ -2,9 +2,8 @@
 ejecutar comando creacion de usuarios por defecto
 """
 
-# local Django
-from chat.models import Message, Room
-# Django
+from apps.chat.models import Message, Room
+
 from django.core.management.base import BaseCommand
 
 

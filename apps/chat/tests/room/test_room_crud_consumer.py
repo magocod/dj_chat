@@ -2,17 +2,15 @@
 ...
 """
 
-# standard library
 from typing import Any, Dict
 
-# third-party
 import pytest
 from channels.db import database_sync_to_async
 from channels.testing import WebsocketCommunicator
-from chat.consumers.croom import RoomConsumer
-# local Django
-from chat.models import Room
-from chat.serializers import RoomHeavySerializer
+from apps.chat.consumers.croom import RoomConsumer
+
+from apps.chat.models import Room
+from apps.chat.serializers import RoomHeavySerializer
 
 from tests.db import async_count_db, async_create_model
 

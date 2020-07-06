@@ -2,21 +2,18 @@
 ...
 """
 
-# standard library
 import json
 from typing import Any, Dict, List, Union
 
-# third-party
-# from channels.auth import get_user, login
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-# local Django
-from chat.models import Room
-from chat.serializers import RequestSerializer, RoomHeavySerializer
-# Django
+
+from apps.chat.models import Room
+from apps.chat.serializers import RequestSerializer, RoomHeavySerializer
+from apps.user.decorators import token_required, user_active
+
 from django.db import IntegrityError
 from django.utils import timezone
-from user.decorators import token_required, user_active
 
 # from django.contrib.auth.models import AnonymousUser, User
 

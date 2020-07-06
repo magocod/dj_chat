@@ -2,9 +2,8 @@
 ...
 """
 
-# local Django
-from chat.models import Message, Room
-# Django
+from apps.chat.models import Message, Room
+
 from django.contrib import admin
 
 admin.site.register(Message)

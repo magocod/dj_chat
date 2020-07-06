@@ -6,9 +6,10 @@ from django.db import models
 # from .managers import CustomUserManager
 
 
-Group.add_to_class(
-    "description", models.CharField(max_length=180, null=True, blank=True)
-)
+# añade la propiedad en migracion codigo fuente django
+# Group.add_to_class(
+#     "description", models.CharField(max_length=180, null=True, blank=True)
+# )
 
 
 class User(AbstractUser):

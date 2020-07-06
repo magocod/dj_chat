@@ -2,13 +2,12 @@
 ...
 """
 
-# third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-from chat.consumers.croom import RoomConsumer
-# local Django
-from chat.models import Room
-from chat.serializers import RoomHeavySerializer
+
+from apps.chat.consumers.croom import RoomConsumer
+from apps.chat.models import Room
+from apps.chat.serializers import RoomHeavySerializer
 
 from tests.response import create_event_list_message
 

@@ -2,13 +2,11 @@
 Importador usuarios
 """
 
-# standard library
 from typing import Any, Dict, Tuple
 
-# Django
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-# third-party
+
 from rest_framework.authtoken.models import Token
 
 User = get_user_model()
@@ -80,7 +78,8 @@ def user_list():
 
     for values in GROUPS:
         Group.objects.get_or_create(
-            name=values["name"], description=values["description"]
+            name=values["name"],
+            # description=values["description"]
         )
 
     for values in USERS:

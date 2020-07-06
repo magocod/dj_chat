@@ -2,11 +2,11 @@
 ...
 """
 
-# local Django
-from chat.models import Message, Room
-# Django
+
+from apps.chat.models import Message, Room
+
 from django.utils import timezone
-# third-party
+
 from rest_framework import serializers
 
 

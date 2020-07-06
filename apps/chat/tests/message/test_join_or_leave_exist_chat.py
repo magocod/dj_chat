@@ -2,11 +2,10 @@
 ...
 """
 
-# third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-# Django
-from chat.consumers.cmessage import MessageConsumer
+
+from apps.chat.consumers.cmessage import MessageConsumer
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]

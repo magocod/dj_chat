@@ -2,18 +2,16 @@
 ...
 """
 
-# standard library
 # import asyncio
 
-# third-party
 import pytest
 from channels.testing import WebsocketCommunicator
-# local Django
+
 # from tests.comunicators import (
 #     TOKENS,
 #     generate_ws_comunicators,
 # )
-from chat.consumers.cmessage import MessageConsumer
+from apps.chat.consumers.cmessage import MessageConsumer
 
 # permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
