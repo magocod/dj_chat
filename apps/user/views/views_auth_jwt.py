@@ -14,8 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from user.authentication import TokenAuthentication
-from user.serializers import AuthTokenSerializer, UserHeavySerializer
+from apps.user.authentication import TokenAuthentication
+from apps.user.serializers import AuthTokenSerializer, UserHeavySerializer
 
 
 class AuthJwtHS256Token(ObtainAuthToken):

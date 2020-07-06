@@ -19,7 +19,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
 # local Django
-from user.serializers import UserHeavySerializer
+from apps.user.serializers import UserHeavySerializer
 
 # permitir acceso a db
 pytestmark = pytest.mark.django_db

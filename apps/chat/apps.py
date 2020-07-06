@@ -10,7 +10,7 @@ class ChatConfig(AppConfig):
     ...
     """
 
-    name: str = "chat"
+    name: str = "apps.chat"
 
     def ready(self):
         pass

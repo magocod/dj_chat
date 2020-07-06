@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # local Django
-from user.serializers import (
+from apps.user.serializers import (
     PasswordResetSerializer,
     UserHeavySerializer,
     UserSerializer,

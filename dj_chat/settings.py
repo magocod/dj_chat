@@ -61,8 +61,8 @@ INSTALLED_APPS = [
     "channels",
     "corsheaders",
     # local Django
-    "chat",
-    "user",
+    "apps.chat",
+    "apps.user",
     # third-party
     "rest_framework",
     "rest_framework.authtoken",

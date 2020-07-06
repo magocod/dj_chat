@@ -2,12 +2,10 @@
 Ajustes pruebas
 """
 
-# third-party
 import jwt
 import pytest
 from typing import Tuple, Dict
 
-# Django
 from django.conf import settings
 from django.core.management import call_command
 from rest_framework.authtoken.models import Token
@@ -17,8 +15,7 @@ from django.contrib.auth import get_user_model
 
 # from django.contrib.auth.models import User
 
-# local Django
-from user.serializers import UserHeavySerializer
+from apps.user.serializers import UserHeavySerializer
 
 User = get_user_model()
 

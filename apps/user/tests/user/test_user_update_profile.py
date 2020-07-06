@@ -10,7 +10,7 @@ from typing import Any, Dict
 import pytest
 
 from django.contrib.auth import get_user_model
-from user.serializers import UserHeavySerializer
+from apps.user.serializers import UserHeavySerializer
 
 # local Django
 # from django.contrib.auth.models import User

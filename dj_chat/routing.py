@@ -11,9 +11,9 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import OriginValidator
 
 # local Django
-from chat.routing import websocket_urlpatterns as wschat
-from user.middleware import AnonymousAuthMiddleware, JWTAuthMiddleware
-from user.routing import websocket_urlpatterns as wsauth
+from apps.chat.routing import websocket_urlpatterns as wschat
+from apps.user.middleware import AnonymousAuthMiddleware, JWTAuthMiddleware
+from apps.user.routing import websocket_urlpatterns as wsauth
 
 # JWTAuthMiddlewareStack = lambda inner: JWTAuthMiddleware(
 # AnonymousAuthMiddleware(inner))

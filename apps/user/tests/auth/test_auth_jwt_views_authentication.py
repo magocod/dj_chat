@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 # local Django
-from user.serializers import UserHeavySerializer
+from apps.user.serializers import UserHeavySerializer
 
 # import json
 # from typing import Dict

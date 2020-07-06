@@ -18,7 +18,7 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 
 # urls api
-from user.urls import urlpatterns as user_urls
+from apps.user.urls import urlpatterns as user_urls
 
 # concatenar rutas
 API_URLS = user_urls

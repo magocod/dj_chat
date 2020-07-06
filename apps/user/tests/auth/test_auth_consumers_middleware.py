@@ -7,7 +7,7 @@ from channels.testing import WebsocketCommunicator
 
 from django.contrib.auth import get_user_model
 
-from user.consumers.cauth import AuthConsumer
+from apps.user.consumers.cauth import AuthConsumer
 
 # from django.contrib.auth.models import User
 
