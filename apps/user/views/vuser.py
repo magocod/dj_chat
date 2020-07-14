@@ -65,8 +65,8 @@ class UserListView(APIView, CustomPagination):
         """
         response = UserRegisterSerializer(data=request.data)
         if response.is_valid():
-            iduser: int = response.save()
-            res = self.serialize_user(pk=iduser)
+            user_id: int = response.save()
+            res = self.serialize_user(pk=user_id)
             return Response(res, status=status.HTTP_201_CREATED)
 
         return Response(response.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -80,12 +80,13 @@ class UserDetailView(APIView):
     permission_classes = (IsSuperUser,)
     serializer = UserSerializer
 
-    def get_object(self, pk_user: Union[int, str]):
+    @staticmethod
+    def get_object(user_pk):
         """
-        ...
+        hello
         """
         try:
-            return User.objects.get(pk=pk_user)
+            return User.objects.get(pk=user_pk)
         except User.DoesNotExist:
             raise Http404
 
@@ -143,7 +144,8 @@ class UserModifyPasswordView(APIView):
     permission_classes = (IsSuperUser,)
     serializer = PasswordSerializer
 
-    def get_object(self, pk):
+    @staticmethod
+    def get_object(pk):
         """
         ...
         """
