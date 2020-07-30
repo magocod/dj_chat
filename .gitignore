@@ -4,5 +4,6 @@
 *.idea
 .coverage
 htmlcov
+media/users
 db.sqlite3
 */_build/

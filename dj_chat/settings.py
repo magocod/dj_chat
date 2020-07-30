@@ -213,13 +213,11 @@ STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-# # Media files (JPG, PNG, PDF, ...)
-# # ...
+# Media files (JPG, PNG, PDF, ...)
+# ...
 
-# # ruta
-# MEDIA_URL = '/media/'
-# # ruta base directorio de archivos
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 """
 HEROKU APP

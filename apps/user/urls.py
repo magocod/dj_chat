@@ -4,7 +4,7 @@ Rutas User
 
 from django.urls import path
 
-from apps.user.views import vauth, views_auth_jwt, vuser, vuserprofile
+from apps.user.views import vauth, views_auth_jwt, vuser, vuserprofile, user_photo_views
 
 urlpatterns = [
     # auth
@@ -33,6 +33,11 @@ urlpatterns = [
     path(
         "user/profile/",
         vuserprofile.UserProfileView.as_view(),
+        name="user_update_profile",
+    ),
+    path(
+        "user/update_photo/",
+        user_photo_views.UserUpdatePhotoView.as_view(),
         name="user_update_profile",
     ),
     path(

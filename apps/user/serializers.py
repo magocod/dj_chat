@@ -173,3 +173,41 @@ class AuthTokenSerializer(serializers.Serializer):
 
         data["user"] = user
         return data
+
+
+class UserPhotoSerializer(serializers.ModelSerializer):
+    """
+    update user photo
+    """
+
+    photo = serializers.ImageField()
+
+    class Meta:
+        model = User
+        fields = ("photo",)
+
+
+class PictureSerializer(serializers.ModelSerializer):
+    """[summary]
+
+    [description]
+
+    Extends:
+        serializers.ModelSerializer
+
+    Variables:
+        photo_url {[type]} -- [description]
+    """
+
+    photo_url = serializers.SerializerMethodField('get_photo_url')
+
+    class Meta:
+        model = User
+        fields = (
+            'photo',
+            'photo_url'
+        )
+
+    def get_photo_url(self, obj):
+        request = self.context.get("request")
+        return obj.photo.url
