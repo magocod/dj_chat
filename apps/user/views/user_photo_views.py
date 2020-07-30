@@ -3,9 +3,9 @@ Edicion de usuarios (perfil)
 """
 
 # Django
-from django.contrib.auth import authenticate
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
+# from django.contrib.auth import authenticate
+# from django.core.files.base import ContentFile
+# from django.core.files.storage import default_storage
 
 # third-party
 from rest_framework import status
@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from apps.user.serializers import (
     UserPhotoSerializer,
     PictureSerializer,
-    UserHeavySerializer
+    UserHeavySerializer,
 )
 
 

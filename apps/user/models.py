@@ -18,6 +18,6 @@ class User(AbstractUser):
     """
 
     email = models.EmailField(unique=True)
-    photo = models.ImageField(upload_to='users', null=True)
+    photo = models.ImageField(upload_to="users", null=True)
 
     # objects = CustomUserManager()

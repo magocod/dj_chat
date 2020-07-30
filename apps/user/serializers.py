@@ -199,15 +199,12 @@ class PictureSerializer(serializers.ModelSerializer):
         photo_url {[type]} -- [description]
     """
 
-    photo_url = serializers.SerializerMethodField('get_photo_url')
+    photo_url = serializers.SerializerMethodField("get_photo_url")
 
     class Meta:
         model = User
-        fields = (
-            'photo',
-            'photo_url'
-        )
+        fields = ("photo", "photo_url")
 
     def get_photo_url(self, obj):
-        request = self.context.get("request")
+        # request = self.context.get("request")
         return obj.photo.url
