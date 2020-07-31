@@ -3,9 +3,9 @@ user tests edit profile photo
 """
 
 import os
-from typing import Any, Dict
 
 import pytest
+
 # from PIL import Image
 
 from django.contrib.auth import get_user_model
@@ -31,14 +31,14 @@ def test_user_update_photo(admin_client):
 
     file_path = (os.path.dirname(__file__)) + "/images/data_lab_480.png"
     # im = Image.open(file_path);
-    im = open(file_path, 'rb');
+    im = open(file_path, "rb")
     # print(im)
 
     request = {
         "photo": im,
     }
 
-    response = admin_client.post("/api/user/update_photo/", request, format='multipart')
+    response = admin_client.post("/api/user/update_photo/", request, format="multipart")
     updated_user = UserHeavySerializer(User.objects.get(id=user_id)).data
 
     print(response.data)
@@ -61,7 +61,7 @@ def test_user_validate_update_photo(admin_client):
         "photo": False,
     }
 
-    response = admin_client.post("/api/user/update_photo/", request, format='multipart')
+    response = admin_client.post("/api/user/update_photo/", request, format="multipart")
     not_updated_user = UserHeavySerializer(User.objects.get(id=user_id)).data
 
     # print(response.data)
