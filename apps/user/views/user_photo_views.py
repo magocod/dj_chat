@@ -45,10 +45,10 @@ class UserUpdatePhotoView(APIView):
         response = self.serializer(request.user, data=request.data)
         if response.is_valid():
             # print(response.validated_data);
-            result = response.save()
-            print(result)
-            # res = UserHeavySerializer(result)
-            # return Response(res.data, status=status.HTTP_200_OK)
-            return Response(status=status.HTTP_200_OK)
+            user = response.save()
+            # print(user)
+            serializer_user = UserHeavySerializer(user)
+            return Response(serializer_user.data, status=status.HTTP_200_OK)
+            # return Response(status=status.HTTP_200_OK)
 
         return Response(response.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)

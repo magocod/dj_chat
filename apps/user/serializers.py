@@ -67,6 +67,7 @@ class UserHeavySerializer(serializers.ModelSerializer):
             "date_joined",
             "user_permissions",
             "is_superuser",
+            "photo"
         )
 
 
