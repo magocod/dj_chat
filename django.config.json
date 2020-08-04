@@ -1,16 +1,17 @@
 {
     "APP": {
         "SECRET_KEY": "-cqx)mhb3nbe0^jr-_+9!jrz!8564rlk6^f(31jk@q3i$i)=0k",
-        "JWT": {
-            "HS256": "secret"
-        },
-        "DEBUG": true,
+        "DEBUG": true
+    },
+    "HOST": {
         "ALLOWED_HOSTS": [
             "localhost",
             "localhost:8000",
             "https://djchat.herokuapp.com"
-        ],
-        "CORS_ORIGIN_WHITELIST": [
+        ]
+    },
+    "CORS": {
+        "ORIGIN_WHITELIST": [
             "http://localhost",
             "http://localhost:4200",
             "http://localhost:8000",
@@ -20,5 +21,8 @@
             "https://ngchat-cbfe2.web.app",
             "https://ngchat-cbfe2.firebaseapp.com"
         ]
+    },
+    "JWT": {
+        "HS256": "secret"
     }
 }

@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import asyncio
+
+# import configparser
 import json
 import os
 import sys
 from pathlib import Path
+
 
 import dj_database_url
 import django_heroku
@@ -33,16 +36,20 @@ ENV = None
 with open(os.path.join(BASE_DIR, "django.config.json")) as json_file:
     ENV = json.load(json_file)
 
+# config = configparser.ConfigParser()
+# config.read(os.path.join(BASE_DIR, "django.config.ini"))
+# print(config["APP"].getboolean("DEBUG"))
+# print(config["CORS"]["ORIGIN_WHITELIST"].split())
 
 # SECURITY WARNING keep the secret key used in production secret
 SECRET_KEY = ENV["APP"]["SECRET_KEY"]
 
-KEY_HS256 = ENV["APP"]["JWT"]["HS256"]
+KEY_HS256 = ENV["JWT"]["HS256"]
 
 # SECURITY WARNING don't run with debug turned on in production
 DEBUG = ENV["APP"]["DEBUG"]
 
-ALLOWED_HOSTS = ENV["APP"]["ALLOWED_HOSTS"]
+ALLOWED_HOSTS = ENV["HOST"]["ALLOWED_HOSTS"]
 
 # DJANGO_ALLOW_ASYNC_UNSAFE = True
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -140,7 +147,7 @@ API REST CONFIG
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = ENV["APP"]["CORS_ORIGIN_WHITELIST"]
+CORS_ORIGIN_WHITELIST = ENV["CORS"]["ORIGIN_WHITELIST"]
 
 CORS_ALLOW_METHODS = (
     "DELETE",

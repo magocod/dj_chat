@@ -1,12 +1,19 @@
 {
     "APP": {
         "SECRET_KEY": "secret_key",
-        "DEBUG": true,
+        "DEBUG": true
+    },
+    "HOST": {
         "ALLOWED_HOSTS": [
             "localhost"
-        ],
-        "CORS_ORIGIN_WHITELIST": [
+        ]
+    },
+    "CORS": {
+        "ORIGIN_WHITELIST": [
             "http://localhost"
         ]
     },
+    "JWT": {
+        "HS256": "secret"
+    }
 }
