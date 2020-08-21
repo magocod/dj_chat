@@ -1,10 +1,9 @@
 """
-authenticacion jwt HS256
+Authentication jwt HS256
 """
 
 import pytest
 
-# Django
 # from django.conf import settings
 from django.contrib.auth import get_user_model
 
@@ -12,7 +11,6 @@ from django.contrib.auth import get_user_model
 # from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
-# local Django
 from apps.user.serializers import UserHeavySerializer
 
 # import json
@@ -20,7 +18,6 @@ from apps.user.serializers import UserHeavySerializer
 
 User = get_user_model()
 
-# permitir acceso a db
 pytestmark = pytest.mark.django_db
 
 

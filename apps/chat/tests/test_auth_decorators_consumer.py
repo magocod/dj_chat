@@ -7,7 +7,6 @@ from channels.testing import WebsocketCommunicator
 
 from apps.chat.consumers.croom import RoomConsumer
 
-# permitir acceso a db
 pytestmark = pytest.mark.django_db
 
 

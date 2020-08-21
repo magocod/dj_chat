@@ -11,7 +11,6 @@ from apps.chat.models import Message
 from apps.chat.serializers import MessageHeavySerializer
 from tests.response import create_event_filter_list_message
 
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 

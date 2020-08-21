@@ -3,7 +3,6 @@ in process
 note: canceled exception
 """
 
-# third-party
 from channels.testing import WebsocketCommunicator
 
 TOKENS = (

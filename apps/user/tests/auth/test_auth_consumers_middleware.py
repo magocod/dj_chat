@@ -1,5 +1,5 @@
 """
-authenticacion jwt HS256
+Authentication jwt HS256
 """
 
 import pytest
@@ -12,7 +12,6 @@ from apps.user.consumers.cauth import AuthConsumer
 
 User = get_user_model()
 
-# permitir acceso a db
 pytestmark = pytest.mark.django_db
 
 

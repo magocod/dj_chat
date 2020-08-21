@@ -1,5 +1,5 @@
 """
-Rutas User
+Routes User
 """
 
 from django.urls import path

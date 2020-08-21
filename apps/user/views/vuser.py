@@ -2,23 +2,18 @@
 Edicion de usuarios
 """
 
-# standard library
 from typing import Union
 
 from django.contrib.auth import get_user_model
 
-# Django
 # from django.contrib.auth.models import User
 from django.http import Http404
-
-# third-party
 from rest_framework import status
 
 # from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# local Django
 from apps.user.permissions import IsSuperUser
 from apps.user.serializers import (
     PasswordSerializer,

@@ -1,5 +1,5 @@
 """
-ejecutar comando creacion de usuarios por defecto
+run the default user creation command
 """
 
 from django.core.management.base import BaseCommand

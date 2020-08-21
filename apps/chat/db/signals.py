@@ -1,5 +1,5 @@
 """
-Señales eventos base de datos
+Database event signals
 """
 
 from asgiref.sync import async_to_sync

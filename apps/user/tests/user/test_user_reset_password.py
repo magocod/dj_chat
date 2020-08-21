@@ -1,20 +1,15 @@
 """
-Prueba autenticacion
+...
 """
 
-# standard library
 # import json
 from typing import Dict
 
-# third-party
 import pytest
-
-# Django
 from django.contrib.auth import authenticate, get_user_model
 
 User = get_user_model()
 
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_credentials]
 
 

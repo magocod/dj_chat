@@ -1,5 +1,5 @@
 """
-Permisos
+Permission
 """
 
 from rest_framework.permissions import BasePermission
@@ -7,7 +7,7 @@ from rest_framework.permissions import BasePermission
 
 class IsSuperUser(BasePermission):
     """
-    Superusuario
+    Superuser
     """
 
     def has_permission(self, request, view):

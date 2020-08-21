@@ -10,7 +10,6 @@ from apps.chat.models import Room
 from apps.chat.serializers import RoomHeavySerializer
 from tests.response import create_event_list_message
 
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
 
 

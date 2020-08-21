@@ -2,23 +2,18 @@
 user tests edit profile
 """
 
-# standard library
 # import json
 from typing import Any, Dict
 
-# third-party
 import pytest
 from django.contrib.auth import get_user_model
 
 from apps.user.serializers import UserHeavySerializer
 
-# local Django
 # from django.contrib.auth.models import User
 
 User = get_user_model()
 
-
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_views]
 
 

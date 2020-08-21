@@ -10,8 +10,6 @@ from apps.user.serializers import UserHeavySerializer
 
 User = get_user_model()
 
-
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_views]
 
 

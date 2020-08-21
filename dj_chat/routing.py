@@ -15,15 +15,14 @@ from apps.user.routing import websocket_urlpatterns as wsauth
 # JWTAuthMiddlewareStack = lambda inner: JWTAuthMiddleware(
 # AnonymousAuthMiddleware(inner))
 
-# concatenar rutas
+# concat routes
 WS_URLS = wschat + wsauth
 
 application = ProtocolTypeRouter(
     {
         "websocket": OriginValidator(
-            # rutas y autenticion
+            # routes and authentication
             JWTAuthMiddleware(AnonymousAuthMiddleware(URLRouter(WS_URLS,),)),
-            # origenes permitidos
             # settings.CORS_ORIGIN_WHITELIST,
             ["*"],
         ),

@@ -2,9 +2,7 @@
 ...
 """
 
-# standard library
 # from typing import Any, Dict
-
 
 import pytest
 from channels.testing import WebsocketCommunicator
@@ -16,7 +14,6 @@ from tests.db import async_count_db  # async_create_model,
 from tests.db import async_count_filter_db, async_delete_models
 from tests.response import create_event_message
 
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.messages_consumers]
 
 

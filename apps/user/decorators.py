@@ -1,5 +1,5 @@
 """
-Decoradores verificacion de usuarios en consumidores
+Decorators verification of users in consumers
 """
 
 import asyncio
@@ -20,7 +20,7 @@ User = get_user_model()
 @database_sync_to_async
 def user_token(token_key: str):
     """
-    buscar usuario
+    search user
     """
     try:
         tk = Token.objects.get(key=token_key)
@@ -31,7 +31,7 @@ def user_token(token_key: str):
 
 def user_active(func):
     """
-    Verificar existencia de usuario
+    Verify user existence
     """
 
     @functools.wraps(func)
@@ -52,10 +52,7 @@ def user_active(func):
 
 def token_required(func):
     """
-    buscar usuario y asignar (notificar error)
-    notas:
-    - solo para metodo receive asyncwebsocketconsumer
-    - token en solicitud
+    [x] - deprecated
     """
 
     @functools.wraps(func)

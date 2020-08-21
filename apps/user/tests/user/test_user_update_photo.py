@@ -15,8 +15,6 @@ from apps.user.serializers import UserHeavySerializer
 User = get_user_model()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.users_views]
 
 

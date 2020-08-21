@@ -13,7 +13,6 @@ from apps.chat.models import Room
 from apps.chat.serializers import RoomHeavySerializer
 from tests.db import async_count_db, async_create_model
 
-# permitir acceso a db
 pytestmark = [pytest.mark.django_db, pytest.mark.rooms_consumers]
 
 
