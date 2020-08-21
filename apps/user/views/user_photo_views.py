@@ -15,9 +15,9 @@ from rest_framework.views import APIView
 
 # local Django
 from apps.user.serializers import (
-    UserPhotoSerializer,
     PictureSerializer,
     UserHeavySerializer,
+    UserPhotoSerializer,
 )
 
 

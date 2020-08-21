@@ -23,7 +23,7 @@ from django.views.generic import TemplateView
 # urls api
 from apps.user.urls import urlpatterns as user_urls
 
-# concatenar rutas
+# concat routes
 API_URLS = user_urls
 
 urlpatterns = [

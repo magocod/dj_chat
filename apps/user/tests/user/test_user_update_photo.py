@@ -5,12 +5,12 @@ user tests edit profile photo
 import os
 
 import pytest
-
-# from PIL import Image
-
 from django.contrib.auth import get_user_model
 
 from apps.user.serializers import UserHeavySerializer
+
+# from PIL import Image
+
 
 User = get_user_model()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

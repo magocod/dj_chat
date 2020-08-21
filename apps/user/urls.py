@@ -4,7 +4,7 @@ Rutas User
 
 from django.urls import path
 
-from apps.user.views import vauth, views_auth_jwt, vuser, vuserprofile, user_photo_views
+from apps.user.views import user_photo_views, vauth, views_auth_jwt, vuser, vuserprofile
 
 urlpatterns = [
     # auth
