@@ -8,7 +8,8 @@ import jwt
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from rest_framework import exceptions
-from rest_framework.authentication import BaseAuthentication, get_authorization_header
+from rest_framework.authentication import (BaseAuthentication,
+                                           get_authorization_header)
 
 jwt_decoded = Dict[str, Any]
 

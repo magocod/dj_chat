@@ -5,22 +5,16 @@ Edicion de usuarios
 from typing import Union
 
 from django.contrib.auth import get_user_model
-
 # from django.contrib.auth.models import User
 from django.http import Http404
 from rest_framework import status
-
 # from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.user.permissions import IsSuperUser
-from apps.user.serializers import (
-    PasswordSerializer,
-    UserHeavySerializer,
-    UserRegisterSerializer,
-    UserSerializer,
-)
+from apps.user.serializers import (PasswordSerializer, UserHeavySerializer,
+                                   UserRegisterSerializer, UserSerializer)
 from dj_chat.views import CustomPagination
 
 # from rest_framework.pagination import PageNumberPagination

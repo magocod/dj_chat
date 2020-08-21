@@ -10,7 +10,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from apps.chat.consumers.utils import get_room_or_error
 from apps.chat.models import Message, Room
-from apps.chat.serializers import MessageHeavySerializer, RequestMessageSerializer
+from apps.chat.serializers import (MessageHeavySerializer,
+                                   RequestMessageSerializer)
 from apps.user.decorators import token_required, user_active
 
 # from django.utils import timezone
