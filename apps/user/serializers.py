@@ -4,9 +4,10 @@ Serilizers Users
 
 from typing import Any, Dict, Tuple
 
+from rest_framework import serializers
+
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import Permission
-from rest_framework import serializers
 
 # from rest_framework.exceptions import APIException
 

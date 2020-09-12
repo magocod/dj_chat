@@ -6,6 +6,7 @@ Authentication tests
 from typing import Dict
 
 import pytest
+
 from django.contrib.auth import authenticate
 
 pytestmark = [pytest.mark.django_db, pytest.mark.users_credentials]

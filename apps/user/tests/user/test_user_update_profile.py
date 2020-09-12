@@ -6,6 +6,7 @@ user tests edit profile
 from typing import Any, Dict
 
 import pytest
+
 from django.contrib.auth import get_user_model
 
 from apps.user.serializers import UserHeavySerializer

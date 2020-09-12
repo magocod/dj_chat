@@ -5,6 +5,7 @@ user tests edit profile photo
 import os
 
 import pytest
+
 from django.contrib.auth import get_user_model
 
 from apps.user.serializers import UserHeavySerializer

@@ -4,9 +4,10 @@ Importer users
 
 from typing import Any, Dict, Tuple
 
+from rest_framework.authtoken.models import Token
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 

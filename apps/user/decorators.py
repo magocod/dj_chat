@@ -8,11 +8,11 @@ import json
 from typing import Any, Dict, Union
 
 from channels.db import database_sync_to_async
+from rest_framework.authtoken.models import Token
 
 # from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
-from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 

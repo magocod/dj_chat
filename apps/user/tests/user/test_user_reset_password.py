@@ -6,6 +6,7 @@
 from typing import Dict
 
 import pytest
+
 from django.contrib.auth import authenticate, get_user_model
 
 User = get_user_model()

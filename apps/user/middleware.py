@@ -7,11 +7,12 @@ import json
 
 import jwt
 from channels.generic.websocket import AsyncWebsocketConsumer
+from rest_framework.authtoken.models import Token
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.db import close_old_connections
-from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 

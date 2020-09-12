@@ -6,11 +6,12 @@ from typing import Dict, Tuple
 
 import jwt
 import pytest
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
-from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient
 
 from apps.user.serializers import UserHeavySerializer
 
