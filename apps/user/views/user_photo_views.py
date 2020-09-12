@@ -11,8 +11,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.user.serializers import (PictureSerializer, UserHeavySerializer,
-                                   UserPhotoSerializer)
+from apps.user.serializers import (
+    PictureSerializer,
+    UserHeavySerializer,
+    UserPhotoSerializer,
+)
 
 
 class UserUpdatePhotoView(APIView):
