@@ -8,3 +8,6 @@ install:
 
 script:
   - tox -e py38
+
+notifications:
+  email: false
