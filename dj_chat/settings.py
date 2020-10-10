@@ -68,12 +68,11 @@ INSTALLED_APPS = [
     # third-party
     "channels",
     "corsheaders",
+    "rest_framework",
+    "rest_framework.authtoken",
     # local Django
     "apps.chat",
     "apps.user",
-    # third-party
-    "rest_framework",
-    "rest_framework.authtoken",
 ]
 
 AUTH_USER_MODEL = "user.User"
