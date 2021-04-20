@@ -2,7 +2,7 @@ appdirs==1.4.4
 asgiref==3.2.10
 atomicwrites==1.4.0
 attrs==19.3.0
-autobahn==20.6.1
+autobahn==20.12.3
 Automat==20.2.0
 black==19.10b0
 cffi==1.14.0
